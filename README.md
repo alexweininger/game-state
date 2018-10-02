@@ -1,21 +1,21 @@
 # game-state
 
-## instance variables
+### instance variables
 
-## instance variables that need classes
+### instance variables that need classes
 
 Alex
 
-## constructor
+### constructor
 
-## deep copy constructor for giving information to the player
+### deep copy constructor for giving information to the player
 
-## toString methods
+### toString methods
 
-## action methods
+### action methods
 
-## click listener for the run test
+### click listener for the run test
 
-## style/comment manager
+### style/comment manager
 
-## integration manager
+### integration manager
