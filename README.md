@@ -1,37 +1,51 @@
 # game-state
 
-### instance variables
+### instance variables Andrew
 
 Andrew
 
-### instance variables that need classes
+### instance variables that need classes Alex
 
-Alex
+- board
 
-### constructor
+ - robber
 
-Andrew
+  - location
 
-### deep copy constructor for giving information to the player
+- dice
 
-Niraj
+- building
 
-### toString methods
+  - city
+  
+  - settlement
+  
+- road
 
-Daniel
+- player
 
-### action methods
+  variables
+  
+  - victoy points
+  
+  - resources
 
-Niraj
+  classes
+  
+  - development cards
+  
+### constructor Andrew
 
-### click listener for the run test
+### deep copy constructor for giving information to the player Niraj
 
-Daniel
+### toString methods Daniel
 
-### style/comment manager
+### action methods Niraj
 
-Niraj
+### click listener for the run test Daniel
 
-### integration manager
+### style/comment manager Niraj
 
-Alex
+### integration manager Alex
+
+
