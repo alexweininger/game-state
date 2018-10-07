@@ -13,5 +13,6 @@ public class City extends Building {
         this.validOre = ore;
         this.checkValidWheat = checkWheat;
         this.checkValidOre = checkOre;
+
     }
 }
