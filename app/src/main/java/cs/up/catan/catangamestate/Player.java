@@ -13,7 +13,15 @@ public class Player extends GameState {
     private int wheatCount;
     private int woolCount;
 
-    public Player(){
-
+    public Player(int settlementCount, int cityCount, int roadCount, boolean isTurn, int woodCount, int oreCount, int brickCount, int wheatCount, int woolCount) {
+        this.settlementCount = settlementCount;
+        this.cityCount = cityCount;
+        this.roadCount = roadCount;
+        this.isTurn = isTurn;
+        this.woodCount = woodCount;
+        this.oreCount = oreCount;
+        this.brickCount = brickCount;
+        this.wheatCount = wheatCount;
+        this.woolCount = woolCount;
     }
 }
