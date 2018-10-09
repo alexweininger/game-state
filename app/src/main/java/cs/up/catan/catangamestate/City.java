@@ -2,7 +2,6 @@ package cs.up.catan.catangamestate;
 
 public class City extends Building {
 
-    private boolean validResources;
     private int validWheat;
     private int validOre;
     private boolean checkValidWheat;
