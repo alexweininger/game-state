@@ -9,6 +9,7 @@ public class Building extends GameState {
     int victoryPoints;
 
     public Building(){
+
     }
 
     public Building(int vicPoints){
