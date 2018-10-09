@@ -26,7 +26,7 @@ Andrew
 
   variables
   
-  - victoy points
+  - victory points
   
   - resources
 
