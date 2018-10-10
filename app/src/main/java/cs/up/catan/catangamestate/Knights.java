@@ -1,6 +1,9 @@
 package cs.up.catan.catangamestate;
 
-public class GameState {
+public class Knights extends DevelopmentCards {
+    public Knights(){
+
+    }
 
     @Override
     public String toString() {
