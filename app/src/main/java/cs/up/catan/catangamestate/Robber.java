@@ -10,4 +10,9 @@ public class Robber extends GameState {
         this.current_position = current_position;
         this.position_moved_to = position_moved_to;
     }
+
+    @Override
+    public String toString() {
+        return "The robber is currently at: " + current_position;
+    }
 }

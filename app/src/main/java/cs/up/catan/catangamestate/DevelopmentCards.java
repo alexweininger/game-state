@@ -20,4 +20,10 @@ public class DevelopmentCards extends GameState {
     public DevelopmentCards(){
 
     }
+
+    @Override
+    public String toString() {
+        return "There are 5 types of Development Cards; Knight, Victory Points, Road Building, " +
+                "Monopoly, and Year Of Plenty";
+    }
 }

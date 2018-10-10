@@ -16,4 +16,8 @@ public class Dice extends GameState {
         int endVal = rollArr[0] + rollArr[1];
     }
 
+    @Override
+    public String toString() {
+        return "The dice roll was: " + roll_number;
+    }
 }
