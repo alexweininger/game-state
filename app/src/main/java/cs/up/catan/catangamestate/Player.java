@@ -58,4 +58,14 @@ public class Player extends GameState {
 	TODO
 	 */
 
+	/*rollDice();
+	    --Player will send action to gamestate to roll dice
+	TODO
+	 */
+
+	/*moveRobber();
+	    --Called dice value is a 7
+	TODO
+	 */
+
 }
