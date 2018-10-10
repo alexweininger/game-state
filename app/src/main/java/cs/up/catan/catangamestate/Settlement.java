@@ -7,4 +7,9 @@ public class Settlement extends Building {
     public Settlement(){
 
     }
+
+    @Override
+    public String toString() {
+        return "Is it vaild to build: " + validBuild;
+    }
 }

@@ -4,4 +4,9 @@ public class VictoryPoints extends DevelopmentCards {
     public VictoryPoints(){
 
     }
+
+    @Override
+    public String toString() {
+        return "";
+    }
 }

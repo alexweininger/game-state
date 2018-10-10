@@ -24,4 +24,12 @@ public class Player extends GameState {
         this.wheatCount = wheatCount;
         this.woolCount = woolCount;
     }
+
+    @Override
+    public String toString() {
+        return "The player has "+ settlementCount + " Settlements, " + cityCount + " Cities, " +
+                roadCount + " Roads." + "Is it their turn: " + isTurn + ". In their inventory" +
+                "they have:" + brickCount + " Brick, " + oreCount + " Ore, " + woolCount +
+                " Sheep, " + wheatCount + " Wheat, and " + woodCount + " wood.";
+    }
 }

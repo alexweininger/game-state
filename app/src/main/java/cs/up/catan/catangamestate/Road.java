@@ -4,4 +4,9 @@ public class Road extends GameState {
     public Road(){
 
     }
+
+    @Override
+    public String toString() {
+        return "";
+    }
 }
