@@ -1,4 +1,10 @@
-# game-state
+## game-state
+
+### onClick UNASSIGNED
+
+### layout Niraj
+
+-Edit Text(Textbox) and Run Test(Button)
 
 ### instance variables Andrew
 
