@@ -1,23 +1,34 @@
 package cs.up.catan.catangamestate;
 
+import java.util.Random;
+
 public class Dice extends GameState {
-    private int roll_number;
+    private int[] diceValues; // array of dice values
 
-    public Dice(int roll){
-        this.roll_number = roll;
-        int[] rollArr = new int[2];
+    public Dice() {
+        this.diceValues = new int[2];
+    }
 
-        int x = (int) (Math.random() * 6);
-        int y = (int) (Math.random() * 6);
+    /**
+     * roll() - sets both dice values to random int from 1 to 6 (inclusive)
+     */
+    public void roll() {
+        Random random = new Random();
+        this.diceValues[0] = random.nextInt(5) + 1;
+        this.diceValues[1] = random.nextInt(5) + 1;
+    }
 
-        rollArr[0] = x;
-        rollArr[1] = y;
-
-        int endVal = rollArr[0] + rollArr[1];
+    /**
+     * getSum
+     * @return the sum of the dice values
+     */
+    public int getSum() {
+        return diceValues[0] + diceValues[1];
     }
 
     @Override
     public String toString() {
-        return "The dice roll was: " + roll_number;
+        // TODO
+        return "";
     }
 }
