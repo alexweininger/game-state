@@ -1,35 +1,28 @@
 package cs.up.catan.catangamestate;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Player extends GameState {
 
-    //instance variables
-    private int settlementCount;
-    private int cityCount;
-    private int roadCount;
-    private boolean isTurn;
-    private int woodCount;
-    private int oreCount;
-    private int brickCount;
-    private int wheatCount;
-    private int woolCount;
+	//instance variables
 
-    public Player(int settlementCount, int cityCount, int roadCount, boolean isTurn, int woodCount, int oreCount, int brickCount, int wheatCount, int woolCount) {
-        this.settlementCount = settlementCount;
-        this.cityCount = cityCount;
-        this.roadCount = roadCount;
-        this.isTurn = isTurn;
-        this.woodCount = woodCount;
-        this.oreCount = oreCount;
-        this.brickCount = brickCount;
-        this.wheatCount = wheatCount;
-        this.woolCount = woolCount;
-    }
+	private int localScore; // score of player that accounts for the players dev cards, must greater or eqaul to global score
+	private HashMap<Integer, Integer> resources;
+	private ArrayList<DevelopmentCards> developmentCards;
 
-    @Override
-    public String toString() {
-        return "The player has "+ settlementCount + " Settlements, " + cityCount + " Cities, " +
-                roadCount + " Roads." + "Is it their turn: " + isTurn + ". In their inventory" +
-                "they have:" + brickCount + " Brick, " + oreCount + " Ore, " + woolCount +
-                " Sheep, " + wheatCount + " Wheat, and " + woodCount + " wood.";
-    }
+	public Player(int localScore, HashMap<Integer, Integer> resources, ArrayList<DevelopmentCards> developmentCards) {
+		this.localScore = localScore;
+		this.resources = resources;
+		this.developmentCards = developmentCards;
+	}
+
+	@Override
+	public String toString() {
+		return "Player{" +
+				"localScore=" + localScore +
+				", resources=" + resources +
+				", developmentCards=" + developmentCards +
+				'}';
+	}
 }
