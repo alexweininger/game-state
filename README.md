@@ -1,4 +1,5 @@
 # game-state
+-Edit Text(Textbox) and Run Test(Button)
 
 ### instance variables Andrew
 
