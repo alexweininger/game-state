@@ -1,27 +1,17 @@
 package cs.up.catan.catangamestate;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Player extends GameState {
 
     //instance variables
-    private int settlementCount;
-    private int cityCount;
-    private int roadCount;
-    private boolean isTurn;
-    private int woodCount;
-    private int oreCount;
-    private int brickCount;
-    private int wheatCount;
-    private int woolCount;
+
+	int localScore; // score of player that accounts for the players dev cards, must greater or eqaul to global score
+	HashMap<Integer, Integer> resources = new HashMap<Integer, Integer>();
+	ArrayList<DevelopmentCards> developmentCards = new ArrayList<DevelopmentCards>();
 
     public Player(int settlementCount, int cityCount, int roadCount, boolean isTurn, int woodCount, int oreCount, int brickCount, int wheatCount, int woolCount) {
-        this.settlementCount = settlementCount;
-        this.cityCount = cityCount;
-        this.roadCount = roadCount;
-        this.isTurn = isTurn;
-        this.woodCount = woodCount;
-        this.oreCount = oreCount;
-        this.brickCount = brickCount;
-        this.wheatCount = wheatCount;
-        this.woolCount = woolCount;
+
     }
 }
