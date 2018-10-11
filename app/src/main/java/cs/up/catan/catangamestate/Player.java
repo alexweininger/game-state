@@ -29,4 +29,7 @@ public class Player extends GameState {
 				", developmentCards=" + developmentCards +
 				'}';
 	}
+
+
+
 }
