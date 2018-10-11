@@ -6,6 +6,10 @@
 
 -Edit Text(Textbox) and Run Test(Button)
 
+### implementing layout objects Niraj
+-EditText
+-Run Test button
+
 ### instance variables Andrew
 
 Andrew
