@@ -84,7 +84,7 @@ public class GameState {
 
     /*buildRoad() method
     *
-    * Player requests to build road and Gamestate processes requests and returns true
+    * Player requests to build road ands Gamestate processes requests and returns true
     * if build was successful
     *
     * */
