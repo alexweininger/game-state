@@ -10,19 +10,26 @@ public class GameState {
     ArrayList<Player> playerList;
 
   
-  public GameState () {
-    
-  }
+    public GameState () {
+
+    }
 
     public GameState(GameState gameState)
     {
 
     }
 
-    }
     @Override
     public String toString() {
-        return "";
+        String playerListString = "";
+
+        for (int i = 0; i < playerList.size(); i++)
+        {
+            playerListString = playerList.get(i) + " ";
+        }
+        return "Current Player List: " + currentPlayer + "\n" +
+                "Current Player:" + currentPlayer + "\n" +
+                "Current Dide Sum: " + currentDiceSum;
     }
 
     public int rollDice(){
