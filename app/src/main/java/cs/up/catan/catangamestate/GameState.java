@@ -6,18 +6,20 @@ import java.util.ArrayList;
 
 public class GameState {
 
-    Dice dice = new Dice();
-    int currentPlayer;
-    int currentDiceSum;
-    ArrayList<Player> playerList;
+    private Dice dice;
+    private int currentPlayer;
+    private int currentDiceSum;
+    private ArrayList<Player> playerList;
 
-  
-    public GameState () {
-
+    public GameState() {
+        this.dice = new Dice();
+        this.currentPlayer = -1;
+        this.currentDiceSum = -1;
+        this.playerList = null; // TODO what do we set this
     }
 
-    public GameState(GameState gameState)
-    {
+    // TODO wait til all implemented
+    public GameState(GameState gameState) {
 
     }
 

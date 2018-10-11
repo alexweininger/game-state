@@ -19,8 +19,6 @@ public class Player extends GameState {
 		this.buildings = buildings;
 	}
 
-
-
 	@Override
 	public String toString() {
 		return "Player[" + "localScore:" + localScore + ", resources:" + resources +
