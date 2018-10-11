@@ -9,8 +9,15 @@ public class GameState {
     int currentDiceSum;
     ArrayList<Player> playerList;
 
+  
+  public GameState () {
+    
+  }
 
-    public GameState() {
+    public GameState(GameState gameState)
+    {
+
+    }
 
     }
     @Override
