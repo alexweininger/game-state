@@ -1,35 +1,48 @@
 package cs.up.catan.catangamestate;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+// https://www.academia.edu/9699475/Settlers_of_Catan_Developing_an_Implementation_of_an_Emerging_Classic_Board_Game_in_Java
 
 public class Board extends GameState {
 
-    private ArrayList<ArrayList<Integer>> intersectionRings = new ArrayList<ArrayList<Integer>>();
-    private ArrayList<ArrayList<Integer>> hexagonRings = new ArrayList<ArrayList<Integer>>();
+    private ArrayList<ArrayList<Integer>> intersectionIdRings = new ArrayList<ArrayList<Integer>>();
+    private ArrayList<ArrayList<Integer>> hexagonIdRings = new ArrayList<ArrayList<Integer>>();
 
     public Board() {
-        ArrayList<Integer> temp = new ArrayList<>();
-        temp.add(6);
-        this.intersectionRings.add(temp);
-        this.intersectionRings.add(temp);
+        int hexagonRingSize, intersectionRingSize;
+        for (int i = 0; i < 3; i++) {
+            hexagonRingSize = i * 6;
+            intersectionRingSize = ((i * 2) + 1) * 6;
+            this.hexagonIdRings.add(new ArrayList<Integer>(hexagonRingSize));
+            this.hexagonIdRings.add(new ArrayList<Integer>(intersectionRingSize));
+        }
     }
 
     @Override
     public String toString() {
-        String intersectionRingsString = "";
-        String hexagonRingString = "";
+        StringBuilder str = new StringBuilder();
 
-        for (int i = 0; i < intersectionRings.size(); i++) {
-            intersectionRingsString = intersectionRings.get(i) + " ";
+        str.append("Intersection rings:\n");
+        for (ArrayList ring : intersectionIdRings) {
+            str.append("Ring: ");
+            str.append(this.intersectionIdRings.indexOf(ring));
+            for (Object i: ring) {
+                str.append(i);
+                str.append(" ");
+            }
+            str.append("\n");
+        }
+        str.append("Hexagon rings:\n");
+        for (ArrayList ring : hexagonIdRings) {
+            str.append("Ring: ");
+            str.append(this.hexagonIdRings.indexOf(ring));
+            for (Object i: ring) {
+                str.append(i);
+                str.append(" ");
+            }
+            str.append("\n");
         }
 
-        for (int i = 0; i < hexagonRings.size(); i++) {
-            hexagonRingString = hexagonRings.get(i) + " ";
-        }
-
-
-        return "Intersection Rings: " + intersectionRingsString + "\n" +
-                "Hexagon Rings: " + hexagonRingString + "\n";
+        return str.toString();
     }
 }
