@@ -5,9 +5,11 @@ import java.util.HashMap;
 public class Building extends GameState {
 
     //ensures the player has enough resources to build the requested building
-    public String buildingName;
+    public String buildingName = "";
     private HashMap<String, Integer> checkResources = new HashMap<>();
     private int victoryPoints;
+
+    private int intersectionId = 0;
 
     //default constructor for subclasses
     public Building(){
@@ -20,14 +22,13 @@ public class Building extends GameState {
         this.victoryPoints = victoryPoints;
     }
 
-
-
-    public Building(int vicPoints){
-        this.victoryPoints = vicPoints;
-    }
-
     @Override
     public String toString() {
-        return "The " + buildingName + " gives " + victoryPoints + " Victory Points.\n";
+        return "Building{" +
+                "buildingName='" + buildingName + '\'' +
+                ", checkResources=" + checkResources +
+                ", victoryPoints=" + victoryPoints +
+                ", intersectionId=" + intersectionId +
+                '}';
     }
 }
