@@ -34,7 +34,7 @@ public class GameState {
         }
         return "Current Player List: " + currentPlayer + "\n" +
                 "Current Player:" + currentPlayer + "\n" +
-                "Current Dide Sum: " + currentDiceSum;
+                "Current Dice Sum: " + currentDiceSum;
     }
 
     /*rollDice() method
