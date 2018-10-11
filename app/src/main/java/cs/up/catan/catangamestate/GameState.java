@@ -1,5 +1,7 @@
 package cs.up.catan.catangamestate;
 
+import android.widget.TextView;
+
 import java.util.ArrayList;
 
 public class GameState {
@@ -25,23 +27,64 @@ public class GameState {
         return "";
     }
 
-    public int rollDice(){
-        return dice.rollDice();
+    public boolean rollDice(boolean move, TextView edit){
+        if(move){
+            edit.append("Player 1 rolled a 8!\n");
+            return true;
+        }
+        edit.append("It is not Player 1's turn!\n");
+        return false;
     }
-    /*rollDice()
-	    --Player will roll dice and send integer to game state
-	TODO
-	 */
 
-	/*tradePort()
-	    --Player will ask to trade with a port and send info to game state
-	TODO
-	 */
+	public boolean tradePort(boolean move, TextView edit){
+        if(move){
+            edit.append();
+            return true;
+        }
+        return false;
+    }
 
-	/*build()
-	    --Player selects item to build and sends to gameState which will process selection
-	TODO
-	 */
+    public boolean tradePort(boolean move){
+        if(move){
+            System.out.println("");
+            return true;
+        }
+        return false;
+    }
+
+	public boolean buildRoad(){
+        if(move){
+            System.out.println("Player 1 !\n");
+            return true;
+        }
+        System.out.println("It is not Player 1's turn!");
+        return false;
+    }
+
+    public boolean buildSettlement(){
+        if(move){
+            System.out.println("Player 1 !\n");
+            return true;
+        }
+        System.out.println("It is not Player 1's turn!");
+        return false;
+    }
+    public boolean buildCity(){
+        if(move){
+            System.out.println("Player 1 !\n");
+            return true;
+        }
+        System.out.println("It is not Player 1's turn!");
+        return false;
+    }
+    public boolean buildRoad(){
+        if(move){
+            System.out.println("Player 1 !\n");
+            return true;
+        }
+        System.out.println("It is not Player 1's turn!");
+        return false;
+    }
 
 	/*useDevCard()
 	    --Player will select a development card they own and use it; gamestate will

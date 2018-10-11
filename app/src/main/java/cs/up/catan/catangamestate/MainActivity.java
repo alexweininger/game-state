@@ -3,6 +3,7 @@ package cs.up.catan.catangamestate;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -10,6 +11,7 @@ public class MainActivity extends AppCompatActivity {
 	GameState secondInstance;
 	GameState thirdInstance;
 	GameState fourthInstance;
+	TextView editText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -17,16 +19,14 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_main);
 		Button runTest = (Button) findViewById(R.id.runTest);
 
-		firstInstance = new GameState();
-		secondInstance = new GameState(firstInstance);
-		thirdInstance = new GameState();
-		fourthInstance = new GameState(thirdInstance);
+		runTest.setOnClickListener();
+		editText = (TextView) findViewById(R.id.editText);
 
-		secondInstance.toString();
-		fourthInstance.toString();
 
 
 	}
+
+	
 
 	@Override
 	public String toString() {
