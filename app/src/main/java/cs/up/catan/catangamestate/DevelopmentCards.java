@@ -16,14 +16,29 @@ public class DevelopmentCards extends GameState {
     //sees the type of development card and the amount of that card available
     HashMap<String, Integer> typeOfDevelopment = new HashMap<>();
 
+    //The description given to each subclass on what the card does
+    //MAY CHANGE LATER TO ASSIGN VALUE TO EACH CARD INSTEAD OF STRING
+    HashMap<Integer, String> description = new HashMap<>();
 
+    public DevelopmentCards(int totalKnights, int totalVictoryPoints, int totalRoadBuilding, int totalMonopoly, int yearOfPlenty, HashMap<String, Boolean> isPlayable, HashMap<String, Integer> typeOfDevelopment, HashMap<Integer, String> description) {
+        this.totalKnights = totalKnights;
+        this.totalVictoryPoints = totalVictoryPoints;
+        this.totalRoadBuilding = totalRoadBuilding;
+        this.totalMonopoly = totalMonopoly;
+        this.yearOfPlenty = yearOfPlenty;
+        this.isPlayable = isPlayable;
+        this.typeOfDevelopment = typeOfDevelopment;
+        this.description = description;
+    }
+
+    //default constructor
     public DevelopmentCards(){
 
     }
 
     @Override
     public String toString() {
-        return "There are 5 types of Development Cards; Knight, Victory Points, Road Building, " +
+        return "There are 5 types of Development Cards: Knight, Victory Points, Road Building, " +
                 "Monopoly, and Year Of Plenty";
     }
 }

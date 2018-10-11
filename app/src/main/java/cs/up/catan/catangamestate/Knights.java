@@ -1,6 +1,7 @@
 package cs.up.catan.catangamestate;
 
-public class Knights extends DevelopmentCards {
+public abstract class Knights extends DevelopmentCards implements DevelopmentCardsInterface{
+
     public Knights(){
 
     }

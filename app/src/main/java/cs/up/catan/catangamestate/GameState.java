@@ -16,6 +16,10 @@ public class GameState {
         this.playerList = null; // TODO what do we set this
     }
 
+    public GameState () {
+
+    }
+
 
     // TODO wait til all implemented
     public GameState(GameState gameState) {
@@ -24,7 +28,15 @@ public class GameState {
 
     @Override
     public String toString() {
-        return "";
+        String playerListString = "";
+
+        for (int i = 0; i < playerList.size(); i++)
+        {
+            playerListString = playerList.get(i) + " ";
+        }
+        return "Current Player List: " + currentPlayer + "\n" +
+                "Current Player:" + currentPlayer + "\n" +
+                "Current Dide Sum: " + currentDiceSum;
     }
 
     public int rollDice(){

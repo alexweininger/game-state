@@ -13,6 +13,21 @@ public class Board extends GameState {
 
     @Override
     public String toString() {
-        return "";
+        String intsectionRingsString = "";
+        String hexagonRingString = "";
+
+        for (int i = 0; i < intersectionRings.size(); i++)
+        {
+            intsectionRingsString = intersectionRings.get(i) + " ";
+        }
+
+        for (int i = 0; i < hexagonRings.size(); i++)
+        {
+            hexagonRingString = hexagonRings.get(i) + " ";
+        }
+
+
+        return "Intersection Rings: " + intsectionRingsString + "\n" +
+                "Hexagon Rings: " + hexagonRingString + "\n";
     }
 }
