@@ -3,6 +3,8 @@ package cs.up.catan.catangamestate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+// https://www.academia.edu/9699475/Settlers_of_Catan_Developing_an_Implementation_of_an_Emerging_Classic_Board_Game_in_Java
+
 public class Board extends GameState {
 
     private ArrayList<ArrayList<Integer>> intersectionRings = new ArrayList<ArrayList<Integer>>();
@@ -17,19 +19,29 @@ public class Board extends GameState {
 
     @Override
     public String toString() {
-        String intersectionRingsString = "";
-        String hexagonRingString = "";
+        StringBuilder str = new StringBuilder();
 
-        for (int i = 0; i < intersectionRings.size(); i++) {
-            intersectionRingsString = intersectionRings.get(i) + " ";
+        str.append("Intersection rings:\n");
+        for (ArrayList ring : intersectionRings) {
+            str.append("Ring: ");
+            str.append(this.intersectionRings.indexOf(ring));
+            for (Object i: ring) {
+                str.append(i);
+                str.append(" ");
+            }
+            str.append("\n");
+        }
+        str.append("Hexagon rings:\n");
+        for (ArrayList ring : hexagonRings) {
+            str.append("Ring: ");
+            str.append(this.hexagonRings.indexOf(ring));
+            for (Object i: ring) {
+                str.append(i);
+                str.append(" ");
+            }
+            str.append("\n");
         }
 
-        for (int i = 0; i < hexagonRings.size(); i++) {
-            hexagonRingString = hexagonRings.get(i) + " ";
-        }
-
-
-        return "Intersection Rings: " + intersectionRingsString + "\n" +
-                "Hexagon Rings: " + hexagonRingString + "\n";
+        return str.toString();
     }
 }
