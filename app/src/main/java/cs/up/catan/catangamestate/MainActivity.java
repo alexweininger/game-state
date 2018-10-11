@@ -1,5 +1,6 @@
 package cs.up.catan.catangamestate;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 	GameState fourthInstance;
 	Button runTest;
 	EditText editText;
+	DevelopmentCards developmentCards;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -21,24 +23,29 @@ public class MainActivity extends AppCompatActivity {
 		setContentView(R.layout.activity_main);
 		runTest = (Button) findViewById(R.id.runTest);
 		editText = (EditText) findViewById(R.id.editText);
-	}
-
-	public void onClick(View view)
-	{
-		editText.setText("");
 
 		firstInstance = new GameState();
 		secondInstance = new GameState(firstInstance);
 		thirdInstance = new GameState();
 		fourthInstance = new GameState(thirdInstance);
 
-		secondInstance.toString();
-		fourthInstance.toString();
+		runTest.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				editText.setText("");
+
+				editText.append(secondInstance.toString());
+				editText.append(fourthInstance.toString());
+			}
+		});
+
+		developmentCards = new DevelopmentCards();
 	}
+
 
 	@Override
 	public String toString() {
-		editText.append("");
+		editText.append(developmentCards.toString());
 		return "";
 	}
 }

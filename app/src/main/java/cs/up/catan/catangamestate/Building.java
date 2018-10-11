@@ -7,7 +7,7 @@ public class Building extends GameState {
     //ensures the player has enough resources to build the requested building
     public String buildingName = "";
     private HashMap<String, Integer> checkResources = new HashMap<>();
-    private int victoryPoints;
+    private int victoryPoints = 0;
 
     private int intersectionId = 0;
 

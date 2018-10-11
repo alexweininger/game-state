@@ -1,6 +1,7 @@
 package cs.up.catan.catangamestate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Board extends GameState {
 
