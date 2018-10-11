@@ -5,11 +5,11 @@ import java.util.HashMap;
 
 public class DevelopmentCards extends GameState {
 
-    private int totalKnights;
-    private int totalVictoryPoints;
-    private int totalRoadBuilding;
-    private int totalMonopoly;
-    private int totalYearOfPlenty;
+    private int totalKnights = 0;
+    private int totalVictoryPoints = 0;
+    private int totalRoadBuilding = 0;
+    private int totalMonopoly = 0;
+    private int totalYearOfPlenty = 0;
 
     //default instance variable
     private String knightName = "Knight";

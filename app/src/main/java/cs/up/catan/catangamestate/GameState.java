@@ -8,15 +8,15 @@ import java.util.ArrayList;
 public class GameState {
 
     private Dice dice;
-    private int currentPlayer;
-    private int currentDiceSum;
-    private ArrayList<Player> playerList;
+    private int currentPlayer = -1;
+    private int currentDiceSum =  -1;
+    private ArrayList<Player> playerList = new ArrayList<>();
 
     public GameState() {
-        this.dice = new Dice();
+       // this.dice = new Dice();
         this.currentPlayer = -1;
         this.currentDiceSum = -1;
-        this.playerList = null; // TODO what do we set this
+//        this.playerList.add(new Player()); // TODO what do we set this
     }
 
     // TODO wait til all implemented

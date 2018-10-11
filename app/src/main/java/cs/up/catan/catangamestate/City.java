@@ -2,10 +2,10 @@ package cs.up.catan.catangamestate;
 
 public class City extends Building {
 
-    private int validWheat;
-    private int validOre;
-    private boolean checkValidWheat;
-    private boolean checkValidOre;
+    private int validWheat = 0;
+    private int validOre = 0;
+    private boolean checkValidWheat = false;
+    private boolean checkValidOre = false;
 
 
     public City(int wheat, int ore, boolean checkWheat, boolean checkOre){
