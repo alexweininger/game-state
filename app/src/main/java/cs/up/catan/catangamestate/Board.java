@@ -1,11 +1,12 @@
 package cs.up.catan.catangamestate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Board extends GameState {
 
-    private ArrayList<ArrayList<Integer>> intersectionRings;
-    private ArrayList<ArrayList<Integer>> hexagonRings;
+    private ArrayList<ArrayList<Integer>> intersectionRings = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> hexagonRings = new ArrayList<>();
 
     public Board(){
 

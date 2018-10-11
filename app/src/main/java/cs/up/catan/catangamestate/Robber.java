@@ -3,8 +3,8 @@ package cs.up.catan.catangamestate;
 public class Robber extends GameState {
 
     //number that the robber is placed on
-    private int currentPosition;
-    private int positionMovedTo;
+    private int currentPosition = 0;
+    private int positionMovedTo = 0 ;
 
     public Robber(int current_position, int position_moved_to) {
         this.currentPosition = current_position;

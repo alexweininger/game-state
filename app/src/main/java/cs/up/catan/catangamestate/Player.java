@@ -7,16 +7,16 @@ public class Player extends GameState {
 
 	//instance variables
 	private int localScore; // score of player that accounts for the players dev cards, must greater or equal to global score
-	private HashMap<Integer, Integer> resources; // k: resource id, v: resource count
-	private ArrayList<Integer> developmentCards; // ArrayList of the development card IDs the player owns
-	private ArrayList<Building> buildings;
+	private HashMap<Integer, Integer> resources = new HashMap<Integer, Integer>(); // k: resource id, v: resource count
+	private ArrayList<Integer> developmentCards = new ArrayList<Integer>(); // ArrayList of the development card IDs the player owns
+	private ArrayList<Building> buildings = new ArrayList<Building>();
 
 	// constructor
-	public Player(int localScore, HashMap<Integer, Integer> resources, ArrayList<Integer> developmentCards, ArrayList<Building> buildings) {
-		this.localScore = localScore;
-		this.resources = resources;
-		this.developmentCards = developmentCards;
-		this.buildings = buildings;
+	public Player() {
+	//	this.localScore = 0;
+	//	this.resources.put(22, 33);
+	//	this.developmentCards.add(10);
+	//	this.buildings.add(new Building());
 	}
 
 	@Override
