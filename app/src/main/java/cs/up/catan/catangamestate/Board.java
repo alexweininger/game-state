@@ -23,9 +23,9 @@ public class Board extends GameState {
         StringBuilder str = new StringBuilder();
 
         str.append("Intersection rings:\n");
-        for (ArrayList ring : intersectionRings) {
+        for (ArrayList ring : intersectionIdRings) {
             str.append("Ring: ");
-            str.append(this.intersectionRings.indexOf(ring));
+            str.append(this.intersectionIdRings.indexOf(ring));
             for (Object i: ring) {
                 str.append(i);
                 str.append(" ");
@@ -33,9 +33,9 @@ public class Board extends GameState {
             str.append("\n");
         }
         str.append("Hexagon rings:\n");
-        for (ArrayList ring : hexagonRings) {
+        for (ArrayList ring : hexagonIdRings) {
             str.append("Ring: ");
-            str.append(this.hexagonRings.indexOf(ring));
+            str.append(this.hexagonIdRings.indexOf(ring));
             for (Object i: ring) {
                 str.append(i);
                 str.append(" ");
