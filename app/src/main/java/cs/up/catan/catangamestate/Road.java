@@ -12,7 +12,6 @@ public class Road extends GameState {
     public String toString() {
         return "Road{" +
                 "startIntersectionID=" + startIntersectionID +
-                ", endIntersectionID=" + endIntersectionID +
-                '}';
+                ", endIntersectionID=" + endIntersectionID + '}';
     }
 }
