@@ -10,6 +10,6 @@ public class Settlement extends Building {
 
     @Override
     public String toString() {
-        return "Is it vaild to build: " + validBuild;
+        return "Is it valid to build: " + validBuild;
     }
 }

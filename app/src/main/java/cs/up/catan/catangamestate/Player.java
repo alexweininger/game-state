@@ -21,10 +21,11 @@ public class Player extends GameState {
 
 	@Override
 	public String toString() {
-		return "Player{" +
-				"localScore=" + localScore +
-				", resources=" + resources +
-				", developmentCards=" + developmentCards +
-				'}';
+		return "Player[" + "localScore:" + localScore + ", resources:" + resources +
+				", developmentCards:" + developmentCards +
+				"]\n";
 	}
+
+
+
 }

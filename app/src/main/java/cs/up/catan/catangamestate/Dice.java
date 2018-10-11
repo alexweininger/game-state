@@ -2,6 +2,10 @@ package cs.up.catan.catangamestate;
 
 import java.util.Random;
 
+
+/**
+ * dice class - done for now 10/10
+ */
 public class Dice extends GameState {
     private int[] diceValues; // array of dice values
 
@@ -29,6 +33,6 @@ public class Dice extends GameState {
     @Override
     public String toString() {
         // TODO
-        return "";
+        return "The dice roll was: [" + diceValues[1] + ", " + diceValues[2] + "\n";
     }
 }
