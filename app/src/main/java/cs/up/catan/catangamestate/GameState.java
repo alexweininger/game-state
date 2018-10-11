@@ -16,11 +16,6 @@ public class GameState {
         this.playerList = null; // TODO what do we set this
     }
 
-    public GameState () {
-
-    }
-
-
     // TODO wait til all implemented
     public GameState(GameState gameState) {
 
