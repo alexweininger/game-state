@@ -2,8 +2,9 @@ package cs.up.catan.catangamestate;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -11,25 +12,33 @@ public class MainActivity extends AppCompatActivity {
 	GameState secondInstance;
 	GameState thirdInstance;
 	GameState fourthInstance;
-	TextView editText;
+	Button runTest;
+	EditText editText;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		Button runTest = (Button) findViewById(R.id.runTest);
-
-		runTest.setOnClickListener();
-		editText = (TextView) findViewById(R.id.editText);
-
-
-
+		runTest = (Button) findViewById(R.id.runTest);
+		editText = (EditText) findViewById(R.id.editText);
 	}
 
+	public void onClick(View view)
+	{
+		editText.setText("");
 
+		firstInstance = new GameState();
+		secondInstance = new GameState(firstInstance);
+		thirdInstance = new GameState();
+		fourthInstance = new GameState(thirdInstance);
+
+		secondInstance.toString();
+		fourthInstance.toString();
+	}
 
 	@Override
 	public String toString() {
+		editText.append("");
 		return "";
 	}
 }

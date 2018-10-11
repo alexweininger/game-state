@@ -18,6 +18,6 @@ public class City extends Building {
 
     @Override
     public String toString() {
-        return name + " requires " + validWheat + " Wheat and  "+ validOre + " Ore.\n";
+        return buildingName + " requires " + validWheat + " Wheat and  "+ validOre + " Ore.\n";
     }
 }
