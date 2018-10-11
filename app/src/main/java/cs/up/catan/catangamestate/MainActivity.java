@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
 	}
 
-	
+
 
 	@Override
 	public String toString() {
