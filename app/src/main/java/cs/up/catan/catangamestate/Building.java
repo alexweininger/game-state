@@ -24,11 +24,7 @@ public class Building extends GameState {
 
     @Override
     public String toString() {
-        return "Building{" +
-                "buildingName='" + buildingName + '\'' +
-                ", checkResources=" + checkResources +
-                ", victoryPoints=" + victoryPoints +
-                ", intersectionId=" + intersectionId +
-                '}';
+        return "Building{" + "buildingName='" + buildingName + '\'' + ", checkResources=" + checkResources +
+                ", victoryPoints=" + victoryPoints + ", intersectionId=" + intersectionId + '}';
     }
 }

@@ -24,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
 		runTest = (Button) findViewById(R.id.runTest);
 		editText = (EditText) findViewById(R.id.editText);
 
+		editText.setSingleLine(false);
+
 		firstInstance = new GameState();
 		secondInstance = new GameState(firstInstance);
 		thirdInstance = new GameState();
@@ -34,7 +36,10 @@ public class MainActivity extends AppCompatActivity {
 			public void onClick(View view) {
 				editText.setText("");
 
+				editText.append("--- Second Instance --- \n");
 				editText.append(secondInstance.toString());
+				editText.append("\n********************** \n");
+                editText.append("--- Fourth Instance --- \n");
 				editText.append(fourthInstance.toString());
 			}
 		});
@@ -45,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
 	@Override
 	public String toString() {
-		editText.append(developmentCards.toString());
+		editText.append(developmentCards.toString()+"\n");
 		return "";
 	}
 }
