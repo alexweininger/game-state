@@ -3,7 +3,16 @@ package cs.up.catan.catangamestate;
 import android.util.Log;
 import java.util.ArrayList;
 
-// TODO https://www.academia.edu/9699475/Settlers_of_Catan_Developing_an_Implementation_of_an_Emerging_Classic_Board_Game_in_Java
+/**
+ External Citation
+ Date: 8 October 2018
+ Problem: Struggling to represent board and tiles.
+ Resource:
+ https://www.academia.edu/9699475/Settlers_of_Catan_Developing_an_Implementation_
+ of_an_Emerging_Classic_Board_Game_in_Java
+ Solution: We used the concepts and ideas from this research paper to help us represent the board
+ information and the hexagons.
+ */
 
 public class Board {
 

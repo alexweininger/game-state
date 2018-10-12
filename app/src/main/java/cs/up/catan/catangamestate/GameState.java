@@ -9,6 +9,7 @@ public class GameState {
     private int currentPlayer = -1;
     private int currentDiceSum = -1;
     private ArrayList<Player> playerList = new ArrayList<>();
+    private int robberLocation;
 
     public GameState() {
         this.dice = new Dice();
