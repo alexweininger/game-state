@@ -24,7 +24,6 @@ public class Board {
      *  To check if hexagon 2 and 7 are adjacent, we can get the value located at list.get(2).get(7); */
     private ArrayList<ArrayList<Boolean>> hexagonAdjacencyGraph = new ArrayList<ArrayList<Boolean>>(18);
 
-
     /**
      * Board constructor
      * defines hexagonIdRings, intersectionIdRings, and hexagonAdjacencyGraph.

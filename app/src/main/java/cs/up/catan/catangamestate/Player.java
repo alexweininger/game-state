@@ -17,6 +17,12 @@ public class Player {
 		this.developmentCards.add(10);
 	}
 
+	public Player(Player player) {
+        this.localScore = player.localScore;
+        this.developmentCards = player.developmentCards;
+        this.resources = player.resources;
+    }
+
 	@Override
 	public String toString(){
 		return "Player: \nLocal Score = " + localScore + "\nResources = " + resources + "\nDevelopment Cards = " + developmentCards;

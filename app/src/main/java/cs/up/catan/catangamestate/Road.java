@@ -1,6 +1,6 @@
 package cs.up.catan.catangamestate;
 
-public class Road extends GameState {
+public class Road {
 
     private int startIntersectionID, endIntersectionID;
     public Road(){
