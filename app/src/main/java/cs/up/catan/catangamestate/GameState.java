@@ -24,6 +24,10 @@ public class GameState {
 
 
     public GameState(GameState gameState) {
+        this.currentPlayer = gameState.currentPlayer;
+        this.currentDiceSum = gameState.currentDiceSum;
+
+
         // TODO wait til all implemented
     }
 
