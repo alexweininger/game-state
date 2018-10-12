@@ -44,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
 				firstInstance.robberMove(true, editText);
 				firstInstance.robberSteal(true, editText);
 
+                editText.append("\n********************** \n");
+
                 GameState thirdInstance = new GameState();
                 GameState fourthInstance = new GameState(thirdInstance);
 
