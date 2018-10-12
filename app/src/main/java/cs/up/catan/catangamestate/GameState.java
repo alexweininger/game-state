@@ -12,7 +12,6 @@ public class GameState {
     private int currentPlayer = -1;
     private int currentDiceSum =  -1;
     private ArrayList<Player> playerList = new ArrayList<>();
-    private Board board = new Board();
 
     public GameState() {
        this.dice = new Dice();
@@ -20,7 +19,6 @@ public class GameState {
         this.currentDiceSum = -1;
         this.playerList.add(new Player());
         this.playerList.add(new Player());
-        this.board = new Board();
     }
 
 
@@ -28,8 +26,10 @@ public class GameState {
         this.currentPlayer = gameState.currentPlayer;
         this.currentDiceSum = gameState.currentDiceSum;
 
+        for (int i = 0; i < gameState.playerList.size(); i++) {
+            this.playerList.add(new Player(gameState.playerList.get(i)));
+        }
 
-        // TODO wait til all implemented
     }
 
     @Override

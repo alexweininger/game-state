@@ -2,7 +2,7 @@ package cs.up.catan.catangamestate;
 
 import java.util.HashMap;
 
-public class Building extends GameState {
+public class Building {
 
     //ensures the player has enough resources to build the requested building
     public String buildingName = "";
