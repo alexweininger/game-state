@@ -1,6 +1,10 @@
 package cs.up.catan.catangamestate;
+/**
+ * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
+ * @version: October 10th, 2018
+ * https://github.com/alexweininger/game-state
+ **/
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DevelopmentCards {
@@ -43,10 +47,10 @@ public class DevelopmentCards {
     }
 
     //default constructor
-    public DevelopmentCards(){
+    public DevelopmentCards() {
     }
 
-    public int getRandomCard(){
+    public int getRandomCard() {
         //probabilities
         int countKnight = 14;
         int countVicPoints = 5;
@@ -57,7 +61,7 @@ public class DevelopmentCards {
         return 0;
     }
 
-    public String pickDescriptions(){
+    public String pickDescriptions() {
         description.put(1, this.knightName);
         description.put(2, this.victoryPointsName);
         description.put(3, this.roadBuildingName);

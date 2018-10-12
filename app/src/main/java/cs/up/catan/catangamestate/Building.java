@@ -1,4 +1,9 @@
 package cs.up.catan.catangamestate;
+/**
+ * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
+ * @version: October 10th, 2018
+ * https://github.com/alexweininger/game-state
+ **/
 
 import java.util.HashMap;
 
@@ -12,7 +17,7 @@ public class Building {
     private int intersectionId = 0;
 
     //default constructor for subclasses
-    public Building(){
+    public Building() {
 
     }
 

@@ -1,4 +1,9 @@
 package cs.up.catan.catangamestate;
+/**
+ * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
+ * @version: October 10th, 2018
+ * https://github.com/alexweininger/game-state
+ **/
 
 import android.widget.EditText;
 
@@ -10,20 +15,22 @@ public class GameState {
     private int currentPlayer = -1;
     private int currentDiceSum = -1;
     private ArrayList<Player> playerList = new ArrayList<>();
-    private int robberLocation;
+    private int robberLoc;
 
     public GameState() {
         this.dice = new Dice();
-        this.currentPlayer = -1;
-        this.currentDiceSum = -1;
+        this.currentPlayer = 1;
+        this.currentDiceSum = 3;
         this.playerList.add(new Player());
         this.playerList.add(new Player());
+        this.robberLoc = 4;
     }
 
     public GameState(GameState gameState) {
         this.dice = gameState.dice;
         this.currentPlayer = gameState.currentPlayer;
         this.currentDiceSum = gameState.currentDiceSum;
+        this.robberLoc = gameState.robberLoc;
 
         for (int i = 0; i < gameState.playerList.size(); i++) {
             this.playerList.add(new Player(gameState.playerList.get(i)));
@@ -35,10 +42,12 @@ public class GameState {
         String str = "";
 
         for (int i = 0; i < playerList.size(); i++) {
-            str = playerList.get(i).toString() + " "; // TODO
+            str += playerList.get(i).toString() + " "; // TODO
+            str += "\n\n";
         }
         str += "Current Player:" + currentPlayer + "\n";
         str += "Current Dice Sum: " + currentDiceSum + "\n";
+        str += "Robber Location: " + robberLoc + "\n";
         return str;
     }
 

@@ -1,17 +1,23 @@
 package cs.up.catan.catangamestate;
+/**
+ * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
+ * @version: October 10th, 2018
+ * https://github.com/alexweininger/game-state
+ **/
 
 import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
- External Citation
- Date: 8 October 2018
- Problem: Struggling to represent board and tiles.
- Resource:
- https://www.academia.edu/9699475/Settlers_of_Catan_Developing_an_Implementation_
- of_an_Emerging_Classic_Board_Game_in_Java
- Solution: We used the concepts and ideas from this research paper to help us represent the board
- information and the hexagons.
+ * External Citation
+ * Date: 8 October 2018
+ * Problem: Struggling to represent board and tiles.
+ * Resource:
+ * https://www.academia.edu/9699475/Settlers_of_Catan_Developing_an_Implementation_
+ * of_an_Emerging_Classic_Board_Game_in_Java
+ * Solution: We used the concepts and ideas from this research paper to help us represent the board
+ * information and the hexagons.
  */
 
 public class Board {
@@ -84,6 +90,7 @@ public class Board {
 
     /**
      * toString method
+     *
      * @return String
      */
     // TODO not working
@@ -101,8 +108,8 @@ public class Board {
 
     public String listToString(ArrayList<ArrayList<Integer>> list) {
         String result = "";
-        for(int i = 0; i < list.size(); i++){
-            for(int j = 0; j < list.get(i).size(); j++){
+        for (int i = 0; i < list.size(); i++) {
+            for (int j = 0; j < list.get(i).size(); j++) {
                 result += list.get(i).get(j);
             }
             // System.out.println();

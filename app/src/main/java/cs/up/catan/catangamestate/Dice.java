@@ -1,4 +1,9 @@
 package cs.up.catan.catangamestate;
+/**
+ * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
+ * @version: October 10th, 2018
+ * https://github.com/alexweininger/game-state
+ **/
 
 import java.util.Random;
 
@@ -23,6 +28,7 @@ public class Dice {
 
     /**
      * getSum
+     *
      * @return the sum of the dice values
      */
     public int getSum() {
