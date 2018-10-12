@@ -37,7 +37,8 @@ public class GameState {
         String str = "";
 
         for (int i = 0; i < playerList.size(); i++) {
-            str = playerList.get(i).toString() + ""; // TODO
+            str += playerList.get(i).toString() + " "; // TODO
+            str += "\n\n";
         }
         str += "Current Player:" + currentPlayer + "\n";
         str += "Current Dice Sum: " + currentDiceSum + "\n";
