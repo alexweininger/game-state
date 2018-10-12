@@ -8,15 +8,15 @@ import java.util.ArrayList;
 public class GameState {
 
     private Dice dice;
-    private int currentPlayer;
-    private int currentDiceSum;
-    private ArrayList<Player> playerList;
+    private int currentPlayer = -1;
+    private int currentDiceSum =  -1;
+    private ArrayList<Player> playerList = new ArrayList<>();
 
     public GameState() {
-        this.dice = new Dice();
+       // this.dice = new Dice();
         this.currentPlayer = -1;
         this.currentDiceSum = -1;
-        this.playerList = null; // TODO what do we set this
+//        this.playerList.add(new Player()); // TODO what do we set this
     }
 
     // TODO wait til all implemented
@@ -34,7 +34,7 @@ public class GameState {
         }
         return "Current Player List: " + currentPlayer + "\n" +
                 "Current Player:" + currentPlayer + "\n" +
-                "Current Dide Sum: " + currentDiceSum;
+                "Current Dice Sum: " + currentDiceSum;
     }
 
     /*rollDice() method
@@ -84,7 +84,7 @@ public class GameState {
 
     /*buildRoad() method
     *
-    * Player requests to build road and Gamestate processes requests and returns true
+    * Player requests to build road ands Gamestate processes requests and returns true
     * if build was successful
     *
     * */

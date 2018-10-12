@@ -2,14 +2,15 @@ package cs.up.catan.catangamestate;
 
 public class Settlement extends Building {
 
-    private boolean validBuild;
-
-    public Settlement(){
-
+    public Settlement() {
+        super();
     }
 
     @Override
     public String toString() {
-        return "Is it valid to build: " + validBuild;
+        String str = "";
+        str += "Settlement toString()\n";
+        str += super.toString();
+        return str;
     }
 }

@@ -1,23 +1,18 @@
 package cs.up.catan.catangamestate;
 
+import java.util.ArrayList;
+
 public class City extends Building {
 
-    private int validWheat;
-    private int validOre;
-    private boolean checkValidWheat;
-    private boolean checkValidOre;
-
-
-    public City(int wheat, int ore, boolean checkWheat, boolean checkOre){
-        this.validWheat = wheat;
-        this.validOre = ore;
-        this.checkValidWheat = checkWheat;
-        this.checkValidOre = checkOre;
-
+    public City() {
+        super();
     }
 
     @Override
     public String toString() {
-        return buildingName + " requires " + validWheat + " Wheat and  "+ validOre + " Ore.\n";
+        String str = "";
+        str.concat("City toString()\n");
+        str.concat(super.toString());
+        return str;
     }
 }
