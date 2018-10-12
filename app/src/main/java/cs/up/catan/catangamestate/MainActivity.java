@@ -9,10 +9,6 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
-	GameState firstInstance;
-	GameState secondInstance;
-	GameState thirdInstance;
-	GameState fourthInstance;
 	Button runTest;
 	EditText editText;
 	DevelopmentCards developmentCards;
@@ -26,15 +22,16 @@ public class MainActivity extends AppCompatActivity {
 
 		editText.setSingleLine(false);
 
-		firstInstance = new GameState();
-		secondInstance = new GameState(firstInstance);
-		thirdInstance = new GameState();
-		fourthInstance = new GameState(thirdInstance);
+
+
 
 		runTest.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				editText.setText("First Instance:\n");
+                GameState firstInstance = new GameState();
+                GameState secondInstance = new GameState(firstInstance);
+
+                editText.setText("--- First Instance --- \n");
 				firstInstance.rollDice(true, editText);
 				firstInstance.tradePort(true, editText);
 				firstInstance.tradeBank(true, editText);
@@ -46,6 +43,11 @@ public class MainActivity extends AppCompatActivity {
 				firstInstance.robberDiscard(true, editText);
 				firstInstance.robberMove(true, editText);
 				firstInstance.robberSteal(true, editText);
+
+                editText.append("\n********************** \n");
+
+                GameState thirdInstance = new GameState();
+                GameState fourthInstance = new GameState(thirdInstance);
 
 				editText.append("\n");
 				editText.append("--- Second Instance --- \n");

@@ -1,6 +1,7 @@
 package cs.up.catan.catangamestate;
 
 import android.widget.EditText;
+
 import java.util.ArrayList;
 
 public class GameState {
