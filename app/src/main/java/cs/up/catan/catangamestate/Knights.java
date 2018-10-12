@@ -1,8 +1,14 @@
 package cs.up.catan.catangamestate;
 
-public abstract class Knights extends DevelopmentCards implements DevelopmentCardsInterface{
+/**
+ * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
+ * @version: October 10th, 2018
+ * https://github.com/alexweininger/game-state
+ **/
 
-    public Knights(){
+public abstract class Knights extends DevelopmentCards implements DevelopmentCardsInterface {
+
+    public Knights() {
 
     }
 
