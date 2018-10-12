@@ -1,5 +1,6 @@
 package cs.up.catan.catangamestate;
 
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -11,17 +12,19 @@ public class GameState {
     private int currentPlayer = -1;
     private int currentDiceSum =  -1;
     private ArrayList<Player> playerList = new ArrayList<>();
+    private Board board = new Board();
 
     public GameState() {
-       // this.dice = new Dice();
+       this.dice = new Dice();
         this.currentPlayer = -1;
         this.currentDiceSum = -1;
 //        this.playerList.add(new Player()); // TODO what do we set this
+        this.board = new Board();
     }
 
-    // TODO wait til all implemented
-    public GameState(GameState gameState) {
 
+    public GameState(GameState gameState) {
+        // TODO wait til all implemented
     }
 
     @Override
@@ -30,7 +33,7 @@ public class GameState {
 
         for (int i = 0; i < playerList.size(); i++)
         {
-            playerListString = playerList.get(i) + " ";
+            playerListString = playerList.get(i) + " "; // TODO
         }
         return "Current Player List: " + currentPlayer + "\n" +
                 "Current Player:" + currentPlayer + "\n" +
