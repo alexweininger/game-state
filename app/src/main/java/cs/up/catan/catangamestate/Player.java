@@ -12,10 +12,9 @@ public class Player {
 
 	// constructor
 	public Player() {
-		this.localScore = 0;
+		this.localScore = 2;
 		this.resources.put(22, 33);
 		this.developmentCards.add(10);
-	//	this.buildings.add(new Building());
 	}
 
 	public Player(Player player) {
@@ -25,9 +24,8 @@ public class Player {
     }
 
 	@Override
-	public String toString() {
-		return "Player[" + "localScore:" + localScore + ", resources:" + resources +
-				", developmentCards:" + developmentCards + "]\n";
+	public String toString(){
+		return "Player: \nLocal Score = " + localScore + "\nResources = " + resources + "\nDevelopment Cards = " + developmentCards;
 	}
 
 
