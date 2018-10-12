@@ -16,7 +16,7 @@ public class Player extends GameState {
 		this.localScore = 0;
 		this.resources.put(22, 33);
 		this.developmentCards.add(10);
-		this.buildings.add(new Building());
+	//	this.buildings.add(new Building());
 	}
 
 	@Override

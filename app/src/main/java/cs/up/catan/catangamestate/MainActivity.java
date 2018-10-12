@@ -34,8 +34,20 @@ public class MainActivity extends AppCompatActivity {
 		runTest.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				editText.setText("");
+				editText.setText("First Instance:\n");
+				firstInstance.rollDice(true, editText);
+				firstInstance.tradePort(true, editText);
+				firstInstance.tradeBank(true, editText);
+				firstInstance.buildSettlement(true, editText);
+				firstInstance.buildCity(true, editText);
+				firstInstance.buildRoad(true, editText);
+				firstInstance.buyDevCard(true, editText);
+				firstInstance.useDevCard(true, editText);
+				firstInstance.robberDiscard(true, editText);
+				firstInstance.robberMove(true, editText);
+				firstInstance.robberSteal(true, editText);
 
+				editText.append("\n");
 				editText.append("--- Second Instance --- \n");
 				editText.append(secondInstance.toString());
 				editText.append("\n********************** \n");
