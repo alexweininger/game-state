@@ -1,7 +1,6 @@
 package cs.up.catan.catangamestate;
 
 import android.widget.EditText;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
