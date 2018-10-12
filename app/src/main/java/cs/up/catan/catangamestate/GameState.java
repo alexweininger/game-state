@@ -18,7 +18,8 @@ public class GameState {
        this.dice = new Dice();
         this.currentPlayer = -1;
         this.currentDiceSum = -1;
-//        this.playerList.add(new Player()); // TODO what do we set this
+        this.playerList.add(new Player());
+        this.playerList.add(new Player());
         this.board = new Board();
     }
 
