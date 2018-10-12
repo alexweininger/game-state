@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  * dice class - done for now 10/10
  */
-public class Dice extends GameState {
+public class Dice {
     private int[] diceValues; // array of dice values
 
     public Dice() {
