@@ -2,17 +2,15 @@ package cs.up.catan.catangamestate;
 
 import java.util.Random;
 
-
 /**
  * dice class - done for now 10/10
  */
-public class Dice extends GameState {
+public class Dice {
     private int[] diceValues; // array of dice values
 
     public Dice() {
         this.diceValues = new int[2];
     }
-
     /**
      * roll() - sets both dice values to random int from 1 to 6 (inclusive)
      */

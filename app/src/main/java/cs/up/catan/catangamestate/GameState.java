@@ -1,5 +1,6 @@
 package cs.up.catan.catangamestate;
 
+import android.util.Log;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -12,14 +13,21 @@ public class GameState {
     private ArrayList<Player> playerList = new ArrayList<>();
 
     public GameState() {
-       // this.dice = new Dice();
+       this.dice = new Dice();
         this.currentPlayer = -1;
         this.currentDiceSum = -1;
-//        this.playerList.add(new Player()); // TODO what do we set this
+        this.playerList.add(new Player());
+        this.playerList.add(new Player());
     }
 
-    // TODO wait til all implemented
+
     public GameState(GameState gameState) {
+        this.currentPlayer = gameState.currentPlayer;
+        this.currentDiceSum = gameState.currentDiceSum;
+
+        for (int i = 0; i < gameState.playerList.size(); i++) {
+            this.playerList.add(new Player(gameState.playerList.get(i)));
+        }
 
     }
 
@@ -29,7 +37,7 @@ public class GameState {
 
         for (int i = 0; i < playerList.size(); i++)
         {
-            playerListString = playerList.get(i) + " ";
+            playerListString = playerList.get(i) + " "; // TODO
         }
         return "Current Player List: " + currentPlayer + "\n" +
                 "Current Player:" + currentPlayer + "\n" +

@@ -1,6 +1,6 @@
 package cs.up.catan.catangamestate;
 
-public class Robber extends GameState {
+public class Robber {
 
     //number that the robber is placed on
     private int currentPosition = 0;

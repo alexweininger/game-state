@@ -3,7 +3,7 @@ package cs.up.catan.catangamestate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class DevelopmentCards extends GameState {
+public class DevelopmentCards {
 
     private int totalKnights = 0;
     private int totalVictoryPoints = 0;
