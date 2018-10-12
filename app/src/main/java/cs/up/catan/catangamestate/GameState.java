@@ -12,19 +12,24 @@ public class GameState {
     private int currentPlayer = -1;
     private int currentDiceSum =  -1;
     private ArrayList<Player> playerList = new ArrayList<>();
-    private Board board = new Board();
 
     public GameState() {
        this.dice = new Dice();
         this.currentPlayer = -1;
         this.currentDiceSum = -1;
-//        this.playerList.add(new Player()); // TODO what do we set this
-        this.board = new Board();
+        this.playerList.add(new Player());
+        this.playerList.add(new Player());
     }
 
 
     public GameState(GameState gameState) {
-        // TODO wait til all implemented
+        this.currentPlayer = gameState.currentPlayer;
+        this.currentDiceSum = gameState.currentDiceSum;
+
+        for (int i = 0; i < gameState.playerList.size(); i++) {
+            this.playerList.add(new Player(gameState.playerList.get(i)));
+        }
+
     }
 
     @Override
