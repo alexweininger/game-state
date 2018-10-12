@@ -31,6 +31,6 @@ public class Player {
 
 	@Override
 	public String toString(){
-		return "Player: \nLocal Score = " + this.localScore + "\nPublic score = " + this.publicScore + "\nResources = " + this.resources + "\nDevelopment Cards = " + this.developmentCards + "\n";
+		return "Player: \nPrivate Score = " + this.localScore + "\nPublic score = " + this.publicScore + "\nResources = " + this.resources + "\nDevelopment Cards = " + this.developmentCards + "\n";
 	}
 }
