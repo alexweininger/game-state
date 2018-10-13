@@ -1,12 +1,16 @@
 package cs.up.catan.catangamestate;
+/**
+ * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
+ * @version: October 10th, 2018
+ * https://github.com/alexweininger/game-state
+ **/
 
 import java.util.Random;
-
 
 /**
  * dice class - done for now 10/10
  */
-public class Dice extends GameState {
+public class Dice {
     private int[] diceValues; // array of dice values
 
     public Dice() {
@@ -24,6 +28,7 @@ public class Dice extends GameState {
 
     /**
      * getSum
+     *
      * @return the sum of the dice values
      */
     public int getSum() {
