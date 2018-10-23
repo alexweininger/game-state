@@ -21,6 +21,11 @@ public class Building {
 
     }
 
+    public void build()
+    {
+
+    }
+
     public Building(String buildingName, HashMap<String, Integer> checkResources, int victoryPoints) {
         this.buildingName = buildingName;
         this.checkResources = checkResources;
@@ -29,7 +34,19 @@ public class Building {
 
     @Override
     public String toString() {
-        return "Building{" + "buildingName='" + buildingName + '\'' + ", checkResources=" + checkResources +
-                ", victoryPoints=" + victoryPoints + ", intersectionId=" + intersectionId + '}';
+        StringBuilder sb = new StringBuilder("");
+        sb.append("Building{");
+        sb.append("buildingName='");
+        sb.append(buildingName);
+        sb.append('\'');
+        sb.append(", checkResources=");
+        sb.append(checkResources);
+        sb.append(", victoryPoints=");
+        sb.append(victoryPoints);
+        sb.append(", intersectionId=");
+        sb.append(intersectionId);
+        sb.append('}');
+
+        return sb.toString();
     }
 }

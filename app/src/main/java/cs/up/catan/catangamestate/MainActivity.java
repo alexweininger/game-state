@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public String toString() {
         editText.append(developmentCards.toString() + "\n");
-        return "";
+        StringBuilder sb = new StringBuilder("");
+        return sb.toString();
     }
 }

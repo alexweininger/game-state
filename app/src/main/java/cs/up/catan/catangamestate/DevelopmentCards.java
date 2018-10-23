@@ -50,6 +50,17 @@ public class DevelopmentCards {
     public DevelopmentCards() {
     }
 
+    //default use method
+    public void useCard()
+    {
+
+    }
+
+    public void build()
+    {
+
+    }
+
     public int getRandomCard() {
         //probabilities
         int countKnight = 14;
