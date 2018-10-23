@@ -1,14 +1,7 @@
 package cs.up.catan.catangamestate;
 
-/**
- * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 10th, 2018
- * https://github.com/alexweininger/game-state
- **/
-
-public class Knights extends DevelopmentCards {
-
-    public Knights() {
+public class Monopoly extends DevelopmentCards {
+    public Monopoly() {
 
     }
 
@@ -18,10 +11,12 @@ public class Knights extends DevelopmentCards {
 
     }
 
+
     @Override
     public String toString()
     {
         StringBuilder sb = new StringBuilder("");
+
         return sb.toString();
     }
 }
