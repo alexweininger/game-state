@@ -30,7 +30,7 @@ public class GameState {
         this.playerList.add(new Player());
         this.playerList.add(new Player());
         this.robberLocationHex = 4;
-
+        this.board.toString();
     } // end GameState constructor
 
     // GameState deep copy constructor

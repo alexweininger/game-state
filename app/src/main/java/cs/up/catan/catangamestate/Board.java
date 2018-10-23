@@ -47,24 +47,8 @@ public class Board {
      */
     public Board() {
 
-        // for loop to add the rings to the lists
-        int intersectionRingSize;
-        for (int i = 0; i < 3; i++) {
-            intersectionRingSize = ((i * 2) + 1) * 6; // size of intersection ring i
-            // add the calculated IDs to the corresponding lists
-            this.hexagonIdRings.add(new ArrayList<Integer>(new ArrayList<Integer>(intersectionRingSize)));
-        }
-
         populateHexagonIds();
-
-        int id = 0;
-        for (int i = 0; i < this.intersectionIdRings.size(); i++) {
-            for (int j = 0; j < this.intersectionIdRings.get(i).size(); j++) {
-                this.intersectionIdRings.get(i).add(id);
-                Log.d("dev", "adding " + id + " to intersection id list");
-                id++;
-            }
-        }
+        pupulateIntersectionIds();
 
         for (int i = 0; i < this.hexagonIdRings.size(); i++) {
             for (int j = 0; j < this.hexagonIdRings.get(i).size(); j++) {
@@ -85,6 +69,7 @@ public class Board {
     public void populateHexagonIds() {
         int id = 0;
         for (int i = 0; i < 3; i++) {
+            this.hexagonIdRings.add(new ArrayList<Integer>());
             if (0 == i) {
                 this.hexagonIdRings.get(i).add(0);
                 id++;
@@ -97,8 +82,21 @@ public class Board {
         }
     }
 
+    public void pupulateIntersectionIds() {
+        int id = 0;
+        for (int i = 0; i < 3; i++) {
+            this.intersectionIdRings.add(new ArrayList<Integer>());
+            for (int j = 0; j < ((2 * i) + 1) * 6; j++) {
+                this.intersectionIdRings.get(i).add(id);
+                Log.d("dev", "adding " + id + " to intersection id list");
+                id++;
+            }
+        }
+    }
+
     /**
      * toString method
+     *
      * @return String
      */
     // TODO not working
@@ -106,11 +104,11 @@ public class Board {
     public String toString() {
         StringBuilder str = new StringBuilder();
 
-        str.append("Hexagon IDs:\n");
+        str.append("\nHexagon IDs:\n");
         str.append(listToString(this.hexagonIdRings));
         str.append("Intersection IDs:\n");
         str.append(listToString(this.intersectionIdRings));
-
+        Log.d("dev", "" + str.toString());
         return str.toString();
     } // end toString()
 
