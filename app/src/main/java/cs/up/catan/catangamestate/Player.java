@@ -106,12 +106,12 @@ public class Player {
         this.publicScore = publicScore;
     }
 
-    public void setPlayerId(int id){
-        this.playerId = id;
-    }
-
     public int getPlayerId(){
         return this.playerId;
+    }
+
+    public void setPlayerId(int id){
+        this.playerId = id;
     }
 
     public static int getPlayerCount() {
