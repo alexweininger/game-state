@@ -39,16 +39,23 @@ public class GameState {
 
     @Override
     public String toString() {
-        String str = "";
+        StringBuilder sb = new StringBuilder("");
 
         for (int i = 0; i < playerList.size(); i++) {
-            str += playerList.get(i).toString() + " "; // TODO
-            str += "\n\n";
+            sb.append(playerList.get(i).toString() + " ");
+            sb.append("\n\n");
         }
-        str += "Current Player:" + currentPlayer + "\n";
-        str += "Current Dice Sum: " + currentDiceSum + "\n";
-        str += "Robber Location: " + robberLoc + "\n";
-        return str;
+        sb.append("Current Player:");
+        sb.append(currentPlayer);
+        sb.append("\n");
+        sb.append("Current Dice Sum: ");
+        sb.append(currentDiceSum);
+        sb.append("\n");
+        sb.append("Robber Location: ");
+        sb.append(robberLoc);
+        sb.append("\n");
+
+        return sb.toString();
     }
 
     /*initBuildings() method
