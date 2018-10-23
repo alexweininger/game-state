@@ -2,7 +2,7 @@ package cs.up.catan.catangamestate;
 /**
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
  * @version: October 10th, 2018
- * https://github.com/alexweininger/game-state
+ * github: https://github.com/alexweininger/game-state
  **/
 
 import android.util.Log;
@@ -39,6 +39,8 @@ public class Board {
      *  To check if hexagon 2 and 7 are adjacent, we can get the value located at list.get(2).get(7); */
     private ArrayList<ArrayList<Boolean>> hexagonAdjacencyGraph = new ArrayList<ArrayList<Boolean>>(18);
 
+    private ArrayList<ArrayList<Boolean>> intersectionAdjecencyGraph = new ArrayList<ArrayList<Boolean>>(36); // TODO
+
     /**
      * Board constructor
      * defines hexagonIdRings, intersectionIdRings, and hexagonAdjacencyGraph.
@@ -53,29 +55,19 @@ public class Board {
             this.hexagonIdRings.add(new ArrayList<Integer>(new ArrayList<Integer>(intersectionRingSize)));
         }
 
-        hexagonIdRings.add(new ArrayList<Integer>(1));
-        hexagonIdRings.add(new ArrayList<Integer>(6));
-        hexagonIdRings.add(new ArrayList<Integer>(12));
+        populateHexagonIds();
 
         int id = 0;
-        for (int i = 0; i < hexagonIdRings.size(); i++) {
-            for (int j = 0; j < hexagonIdRings.get(i).size(); j++) {
-                hexagonIdRings.get(i).add(id);
-                Log.d("dev", "adding " + id + " to hexagon id list");
-                id++;
-            }
-        }
-        id = 0;
-        for (int i = 0; i < intersectionIdRings.size(); i++) {
-            for (int j = 0; j < intersectionIdRings.get(i).size(); j++) {
-                intersectionIdRings.get(i).add(id);
+        for (int i = 0; i < this.intersectionIdRings.size(); i++) {
+            for (int j = 0; j < this.intersectionIdRings.get(i).size(); j++) {
+                this.intersectionIdRings.get(i).add(id);
                 Log.d("dev", "adding " + id + " to intersection id list");
                 id++;
             }
         }
 
-        for (int i = 0; i < hexagonIdRings.size(); i++) {
-            for (int j = 0; j < hexagonIdRings.get(i).size(); j++) {
+        for (int i = 0; i < this.hexagonIdRings.size(); i++) {
+            for (int j = 0; j < this.hexagonIdRings.get(i).size(); j++) {
                 /* TODO implement
                  * for each hexagon in hexagonIdRings:
                  *   1. check the next hexagon in the same ring
@@ -88,9 +80,25 @@ public class Board {
         }
     } // end constructor
 
+
+    // populating hexagonIdRings with hex IDs (0-18, 19 hexagons)
+    public void populateHexagonIds() {
+        int id = 0;
+        for (int i = 0; i < 3; i++) {
+            if (0 == i) {
+                this.hexagonIdRings.get(i).add(0);
+                id++;
+            } else {
+                for (int j = 0; j < i * 6; j++) {
+                    this.hexagonIdRings.get(i).add(id);
+                    id++;
+                }
+            }
+        }
+    }
+
     /**
      * toString method
-     *
      * @return String
      */
     // TODO not working
@@ -109,8 +117,9 @@ public class Board {
     public String listToString(ArrayList<ArrayList<Integer>> list) {
         String result = "";
         for (int i = 0; i < list.size(); i++) {
+            result += "Ring " + i + ": ";
             for (int j = 0; j < list.get(i).size(); j++) {
-                result += list.get(i).get(j);
+                result += list.get(i).get(j) + " ";
             }
             // System.out.println();
             result += "\n";
