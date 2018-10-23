@@ -11,62 +11,52 @@ import java.util.ArrayList;
 
 public class GameState {
 
-    // GameState instance variables
     private Dice dice;
     private int currentPlayer = -1;
     private int currentDiceSum = -1;
     private ArrayList<Player> playerList = new ArrayList<>();
-    private int robberLocationHex;
-    private Board board = new Board();
+    private int robberLoc;
 
-    // GameState constructor
     public GameState() {
-        // objects
         this.dice = new Dice();
-
-        // variables
         this.currentPlayer = 1;
         this.currentDiceSum = 3;
         this.playerList.add(new Player());
         this.playerList.add(new Player());
-        this.robberLocationHex = 4;
+        this.robberLoc = 4;
+    }
 
-    } // end GameState constructor
-
-    // GameState deep copy constructor
     public GameState(GameState gameState) {
         this.dice = gameState.dice;
         this.currentPlayer = gameState.currentPlayer;
         this.currentDiceSum = gameState.currentDiceSum;
-        this.robberLocationHex = gameState.robberLocationHex;
+        this.robberLoc = gameState.robberLoc;
 
         for (int i = 0; i < gameState.playerList.size(); i++) {
             this.playerList.add(new Player(gameState.playerList.get(i)));
         }
-    } // end deep copy constructor
+    }
 
-    // toString()
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-        String str = "";
-
-        result.append("GameState:\n");
-        result.append("Current Player: ").append(this.currentPlayer).append("\n");
-        str += "GameState:\n";
-        str += "Current Player:" + currentPlayer + "\n";
-        str += "Current Dice Sum: " + currentDiceSum + "\n";
-        str += "Robber Location: " + robberLocationHex + "\n";
+        StringBuilder sb = new StringBuilder("");
 
         for (int i = 0; i < playerList.size(); i++) {
-            str += playerList.get(i).toString() + " "; // TODO
-            str += "\n\n";
+            sb.append(playerList.get(i).toString() + " ");
+            sb.append("\n\n");
         }
+        sb.append("Current Player:");
+        sb.append(currentPlayer);
+        sb.append("\n");
+        sb.append("Current Dice Sum: ");
+        sb.append(currentDiceSum);
+        sb.append("\n");
+        sb.append("Robber Location: ");
+        sb.append(robberLoc);
+        sb.append("\n");
 
-
-        str += this.board.toString();
-        return str;
-    } // end GameState toString()
+        return sb.toString();
+    }
 
     /*initBuildings() method
      *
@@ -83,7 +73,7 @@ public class GameState {
         }
 
         return false;
-    } // end initBuilding action method
+    }
 
     /*rollDice() method
      *
@@ -92,16 +82,13 @@ public class GameState {
      *
      * */
     public boolean rollDice(boolean move, EditText edit) {
-        StringBuilder str = new StringBuilder();
         if (move) {
-            this.dice.roll();
-            str.append("Player 1 rolled a ").append(this.dice.getSum()).append("\n");
+            edit.append("Player 1 rolled a 8!\n");
             return true;
         }
-        str.append("It is not ").append(this.currentPlayer).append("'s turn!\n"); // TODO
-        edit.append(str.toString());
+        edit.append("It is not Player 1's turn!\n");
         return false;
-    } // end rollDice action method
+    }
 
     /*tradePort() method
      *
@@ -116,7 +103,7 @@ public class GameState {
         }
         edit.append("Player 1 does that have enough resources to trade!\n");
         return false;
-    } // end tradePort action method
+    }
 
     /*tradeBank() method
      *
