@@ -13,7 +13,16 @@ public class VictoryPoints extends DevelopmentCards {
     }
 
     @Override
-    public String toString() {
-        return "";
+    public void useCard()
+    {
+
+    }
+
+    @Override
+    public String toString()
+    {
+        StringBuilder sb = new StringBuilder("");
+
+        return sb.toString();
     }
 }

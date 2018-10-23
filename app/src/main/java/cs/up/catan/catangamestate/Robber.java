@@ -18,7 +18,25 @@ public class Robber {
 
     @Override
     public String toString() {
-        return "The robber is currently at: " + currentPosition + "\nThe robber has been" +
-                "move to: " + positionMovedTo;
+        StringBuilder sb = new StringBuilder("");
+        sb.append("The robber is currently at: ");
+        sb.append(currentPosition);
+        sb.append("\nThe robber has been");
+        sb.append("move to: ");
+        sb.append(positionMovedTo);
+
+        return sb.toString();
+    }
+
+    //sets the new position of the Robber to be moved
+    public void setCurrentPosition(int newPosition)
+    {
+
+    }
+
+    //returns the current location of the Robber
+    public int getCurrentPosition()
+    {
+        return currentPosition;
     }
 }
