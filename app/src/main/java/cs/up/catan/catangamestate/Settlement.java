@@ -12,7 +12,7 @@ public class Settlement extends Building {
     } // end constructor
 
     @Override
-    public void useCard()
+    public void build()
     {
 
     }

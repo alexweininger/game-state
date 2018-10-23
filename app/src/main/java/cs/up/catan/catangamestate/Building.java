@@ -21,6 +21,11 @@ public class Building {
 
     }
 
+    public void build()
+    {
+
+    }
+
     public Building(String buildingName, HashMap<String, Integer> checkResources, int victoryPoints) {
         this.buildingName = buildingName;
         this.checkResources = checkResources;
