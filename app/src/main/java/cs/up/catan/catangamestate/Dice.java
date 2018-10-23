@@ -37,7 +37,8 @@ public class Dice {
 
     @Override
     public String toString() {
-        // TODO
-        return "The dice roll was: [" + diceValues[1] + ", " + diceValues[2] + "\n";
+        StringBuilder str = new StringBuilder();
+        str.append("Dice roll: ").append(diceValues[0]).append(", ").append(diceValues[1]);
+        return str.toString();
     }
 }

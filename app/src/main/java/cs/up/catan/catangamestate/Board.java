@@ -121,7 +121,6 @@ public class Board {
             for (int j = 0; j < list.get(i).size(); j++) {
                 result += list.get(i).get(j) + " ";
             }
-            // System.out.println();
             result += "\n";
         }
         return result;
