@@ -16,8 +16,14 @@ public class Road {
 
     @Override
     public String toString() {
-        return "Road{" +
-                "startIntersectionID=" + startIntersectionID +
-                ", endIntersectionID=" + endIntersectionID + '}';
+        StringBuilder sb = new StringBuilder("");
+        sb.append("Road{");
+        sb.append("startIntersectionID=");
+        sb.append(startIntersectionID);
+        sb.append(", endIntersectionID=");
+        sb.append(endIntersectionID);
+        sb.append('}');
+
+        return sb.toString();
     }
 }
