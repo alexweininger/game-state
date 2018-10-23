@@ -13,7 +13,7 @@ public class Building {
     public String buildingName = "";
     private HashMap<String, Integer> checkResources = new HashMap<>();
     private int victoryPoints = 0;
-
+    private int ownerId = 0;
     private int intersectionId = 0;
 
     //default constructor for subclasses
@@ -48,5 +48,37 @@ public class Building {
         sb.append('}');
 
         return sb.toString();
+    }
+
+    public String getBuildingName() {
+        return buildingName;
+    }
+
+    public void setBuildingName(String buildingName) {
+        this.buildingName = buildingName;
+    }
+
+    public int getVictoryPoints() {
+        return victoryPoints;
+    }
+
+    public void setVictoryPoints(int victoryPoints) {
+        this.victoryPoints = victoryPoints;
+    }
+
+    public int getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(int ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public int getIntersectionId() {
+        return intersectionId;
+    }
+
+    public void setIntersectionId(int intersectionId) {
+        this.intersectionId = intersectionId;
     }
 }
