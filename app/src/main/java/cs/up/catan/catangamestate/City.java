@@ -14,9 +14,10 @@ public class City extends Building {
 
     @Override
     public String toString() {
-        String str = "";
-        str.concat("City toString()\n");
-        str.concat(super.toString());
-        return str;
+        StringBuilder sb = new StringBuilder("");
+        sb.append("City toString()\n");
+        sb.append(super.toString());
+
+        return sb.toString();
     }
 }

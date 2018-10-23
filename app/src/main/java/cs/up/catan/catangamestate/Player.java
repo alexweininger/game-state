@@ -42,6 +42,19 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player " + playerId + ": \nPrivate Score = " + this.localScore + "\nPublic score = " + this.publicScore + "\nResources = " + this.resources + "\nDevelopment Cards = " + this.developmentCards + "\n";
+        StringBuilder sb = new StringBuilder("");
+        sb.append("Player ");
+        sb.append(playerId);
+        sb.append(": \nPrivate Score = ");
+        sb.append(this.localScore);
+        sb.append("\nPublic score = ");
+        sb.append(this.publicScore);
+        sb.append("\nResources = ");
+        sb.append(this.resources);
+        sb.append("\nDevelopment Cards = ");
+        sb.append(this.developmentCards);
+        sb.append("\n");
+
+        return sb.toString();
     }
 }
