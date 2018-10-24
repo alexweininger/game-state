@@ -103,16 +103,22 @@ public class Board {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < hexagonIdRings.get(i).size(); j++) {
+
+                hGraph[getId(i, j)][getId(i, j)] = true;
+
                 int newIndex = j + 1;
                 int newIndexBack = j - 1;
+
+                Log.d("dev", "newIndex: " + newIndex + " newIndexBack: " + newIndexBack);
+
                 if(newIndex >= hexagonIdRings.get(i).size()) {
                     newIndex = newIndex % hexagonIdRings.get(i).size();
                 }
-                if(newIndexBack >= hexagonIdRings.get(i).size()) {
-                    newIndexBack = hexagonIdRings.get(i).size() - Math.abs(newIndexBack) % hexagonIdRings.get(i).size();
+                if(newIndexBack < 0) {
+                    newIndexBack = hexagonIdRings.get(i).size() - Math.abs(newIndexBack);
                 }
-                hGraph[getId(i, j)][getId(i, (j + 1) % hexagonIdRings.get(i).size())] = true;
-                hGraph[getId(i, j)][getId(i, Math.abs(j - 1) % hexagonIdRings.get(i).size())] = true;
+                hGraph[getId(i, j)][getId(i, newIndex)] = true;
+                hGraph[getId(i, j)][getId(i, newIndexBack)] = true;
             }
         }
 
@@ -123,9 +129,8 @@ public class Board {
         }
         
         StringBuilder str = new StringBuilder();
-        str.append("\n\n   kjhk \n");
+        str.append("\n\n----------------\n");
         for (int i = 0; i < hGraph.length; i++) {
-            str.append(i);
             for (int j = 0; j < hGraph[i].length; j++) {
                 str.append(i).append("-").append(j).append("=");
                 if (hGraph[i][j]) str.append("t ");
