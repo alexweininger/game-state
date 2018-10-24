@@ -38,6 +38,7 @@ public class Board {
     /*  hexagonAdjacencyGraph is a 2d ArrayList that holds adjacency information for each hexagon.    *
      *  To check if hexagon 2 and 7 are adjacent, we can get the value located at list.get(2).get(7); */
     private ArrayList<ArrayList<Boolean>> hexagonAdjacencyGraph = new ArrayList<ArrayList<Boolean>>(18);
+    private boolean[][] hGraph = new boolean[19][19];
 
     private ArrayList<ArrayList<Boolean>> intersectionAdjecencyGraph = new ArrayList<ArrayList<Boolean>>(36); // TODO
 
@@ -47,27 +48,22 @@ public class Board {
      */
     public Board() {
 
-        // for loop to add the rings to the lists
-        int intersectionRingSize;
-        for (int i = 0; i < 3; i++) {
-            intersectionRingSize = ((i * 2) + 1) * 6; // size of intersection ring i
-            // add the calculated IDs to the corresponding lists
-            this.hexagonIdRings.add(new ArrayList<Integer>(new ArrayList<Integer>(intersectionRingSize)));
-        }
-
         populateHexagonIds();
-
-        int id = 0;
-        for (int i = 0; i < this.intersectionIdRings.size(); i++) {
-            for (int j = 0; j < this.intersectionIdRings.get(i).size(); j++) {
-                this.intersectionIdRings.get(i).add(id);
-                Log.d("dev", "adding " + id + " to intersection id list");
-                id++;
+        populateIntersectionIds();
+        for (int i = 0; i < 2; i++) { // rings
+            for (int j = 0; j < this.hexagonIdRings.get(i).size(); j++) { // ids
+                this.hGraph[i][hexagonIdRings.get(i).get(j)] = false;
             }
         }
 
-        for (int i = 0; i < this.hexagonIdRings.size(); i++) {
-            for (int j = 0; j < this.hexagonIdRings.get(i).size(); j++) {
+        for (int col = 0; col < 6; col++) {
+            hGraph[0][col] = true;
+        }
+
+        for (int i = 0; i < 2; i++) { // rings (rows)
+            for (int j = 0; j < this.hexagonIdRings.get(i).size(); j++) { // cols
+
+                // i and j are only 0 once and never are 0 again 0, 0 = center
                 /* TODO implement
                  * for each hexagon in hexagonIdRings:
                  *   1. check the next hexagon in the same ring
@@ -76,15 +72,79 @@ public class Board {
                  *     a. corner vs. non-corner hexagons = if j % i == 0
                  *     b. sextants (0-5), calculated with sextant = j / i;
                  */
+                int sextant = -1;
+                boolean corner = true;
+                if (i == 0) {
+                    sextant = j;
+                    corner = false;
+                } else {
+
+                    sextant = j / i;
+                    corner = j % i == 0;
+                }
+
+                Log.d("dev", " i= " + i + " j= " + j + " id= " + hexagonIdRings.get(i).get(j) + " sextant= " + sextant + " corner= " + corner);
+
+                this.hGraph[getId(i, j)][getId(i + 1, j + sextant)] = true;
+                this.hGraph[getId(i, j)][getId(i + 1, j + sextant + 1)] = true;
+
+                if (corner) {
+                    int size = hexagonIdRings.get(i + 1).size();
+                    int nextIndex = ((j - 1 + sextant) % size);
+                    if (nextIndex < 12 && nextIndex >= 0) {
+                        hGraph[getId(i, j)][getId(i + 1, nextIndex)] = true;
+                    } else {
+                        Log.d("dev", "id value wrapped: " + (Math.abs(j - 1 + sextant) % size));
+                        hGraph[getId(i, j)][getId(i + 1, size - Math.abs(j - 1 + sextant) % size)] = true;
+                    }
+                }
             }
         }
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < hexagonIdRings.get(i).size(); j++) {
+                int newIndex = j + 1;
+                int newIndexBack = j - 1;
+                if(newIndex >= hexagonIdRings.get(i).size()) {
+                    newIndex = newIndex % hexagonIdRings.get(i).size();
+                }
+                if(newIndexBack >= hexagonIdRings.get(i).size()) {
+                    newIndexBack = hexagonIdRings.get(i).size() - Math.abs(newIndexBack) % hexagonIdRings.get(i).size();
+                }
+                hGraph[getId(i, j)][getId(i, (j + 1) % hexagonIdRings.get(i).size())] = true;
+                hGraph[getId(i, j)][getId(i, Math.abs(j - 1) % hexagonIdRings.get(i).size())] = true;
+            }
+        }
+
+        for (int i = 0; i < hGraph.length; i++) {
+            for (int j = 0; j < hGraph[i].length; j++) {
+                hGraph[j][i] = hGraph[i][j];
+            }
+        }
+        
+        StringBuilder str = new StringBuilder();
+        str.append("\n\n   kjhk \n");
+        for (int i = 0; i < hGraph.length; i++) {
+            str.append(i);
+            for (int j = 0; j < hGraph[i].length; j++) {
+                str.append(i).append("-").append(j).append("=");
+                if (hGraph[i][j]) str.append("t ");
+                else str.append("f ");
+            }
+            str.append("\n");
+        }
+        Log.d("dev", "" + str.toString());
     } // end constructor
 
+    public int getId(int ring, int col) {
+        return hexagonIdRings.get(ring).get(col);
+    }
 
     // populating hexagonIdRings with hex IDs (0-18, 19 hexagons)
-    public void populateHexagonIds() {
+    private void populateHexagonIds() {
         int id = 0;
         for (int i = 0; i < 3; i++) {
+            this.hexagonIdRings.add(new ArrayList<Integer>());
             if (0 == i) {
                 this.hexagonIdRings.get(i).add(0);
                 id++;
@@ -97,8 +157,30 @@ public class Board {
         }
     }
 
+    private void populateIntersectionIds() {
+        int id = 0;
+        for (int i = 0; i < 3; i++) {
+            this.intersectionIdRings.add(new ArrayList<Integer>());
+            for (int j = 0; j < ((2 * i) + 1) * 6; j++) {
+                this.intersectionIdRings.get(i).add(id);
+            }
+        }
+    }
+
+    public boolean checkHexagonAdjacency(int id1, int id2) {
+
+        /*
+         * 1. if in same ring == true
+         * 2. check graph
+         */
+
+
+        return false;
+    }
+
     /**
      * toString method
+     *
      * @return String
      */
     // TODO not working
@@ -106,11 +188,11 @@ public class Board {
     public String toString() {
         StringBuilder str = new StringBuilder();
 
-        str.append("Hexagon IDs:\n");
+        str.append("\nHexagon IDs:\n");
         str.append(listToString(this.hexagonIdRings));
         str.append("Intersection IDs:\n");
         str.append(listToString(this.intersectionIdRings));
-
+        Log.d("dev", "" + str.toString());
         return str.toString();
     } // end toString()
 
@@ -121,7 +203,6 @@ public class Board {
             for (int j = 0; j < list.get(i).size(); j++) {
                 result += list.get(i).get(j) + " ";
             }
-            // System.out.println();
             result += "\n";
         }
         return result;
