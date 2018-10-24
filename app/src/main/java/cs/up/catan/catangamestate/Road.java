@@ -13,7 +13,7 @@ public class Road { //TODO Extend Building? Need to decide
         this.startIntersectionID = 0;
         this.startIntersectionID = 1;
     }
-    
+
     //sets rhe start and end intersection ids
     public void placeRoad(int startIntersectionID, int endIntersectionID)
     {

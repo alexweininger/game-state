@@ -13,12 +13,6 @@ public class City extends Building {
     }
 
     @Override
-    public void build()
-    {
-
-    }
-
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("");
         sb.append("City toString()\n");
