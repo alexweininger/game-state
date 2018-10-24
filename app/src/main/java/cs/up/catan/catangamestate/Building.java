@@ -21,15 +21,26 @@ public class Building {
 
     }
 
-    public void build()
-    {
-
-    }
-
     public Building(String buildingName, HashMap<String, Integer> checkResources, int victoryPoints) {
         this.buildingName = buildingName;
         this.checkResources = checkResources;
         this.victoryPoints = victoryPoints;
+    }
+
+    public void build(Player player)
+    {
+        player.removeResources("Brick",this.checkResources.get("Brick"));
+        player.removeResources("Ore",this.checkResources.get("Ore"));
+        player.removeResources("Sheep",this.checkResources.get("Sheep"));
+        player.removeResources("Wheat",this.checkResources.get("Wheat"));
+        player.removeResources("Wood",this.checkResources.get("Wood"));
+
+        //assigns the player's id the building signifying who owns it
+        setOwnerId(player.getPlayerId());
+        //adds the building to the player's array list of built buildings
+        player.addBuilding(this);
+
+        //TODO: mark when a location is taken on the board (Use setIntersectionId(int intersectionId))
     }
 
     @Override

@@ -12,12 +12,6 @@ public class Settlement extends Building {
     } // end constructor
 
     @Override
-    public void build()
-    {
-
-    }
-
-    @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("");
         sb.append("Settlement toString()\n");
