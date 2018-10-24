@@ -103,8 +103,13 @@ public class Board {
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < hexagonIdRings.get(i).size(); j++) {
-                if(j + 1 >= hexagonIdRings.get(i).size()) {
-
+                int newIndex = j + 1;
+                int newIndexBack = j - 1;
+                if(newIndex >= hexagonIdRings.get(i).size()) {
+                    newIndex = newIndex % hexagonIdRings.get(i).size();
+                }
+                if(newIndexBack >= hexagonIdRings.get(i).size()) {
+                    newIndexBack = hexagonIdRings.get(i).size() - Math.abs(newIndexBack) % hexagonIdRings.get(i).size();
                 }
                 hGraph[getId(i, j)][getId(i, (j + 1) % hexagonIdRings.get(i).size())] = true;
                 hGraph[getId(i, j)][getId(i, Math.abs(j - 1) % hexagonIdRings.get(i).size())] = true;
