@@ -52,13 +52,16 @@ public class Board {
         populateIntersectionIds();
         for (int i = 0; i < 2; i++) { // rings
             for (int j = 0; j < this.hexagonIdRings.get(i).size(); j++) { // ids
-                this.hGraph[i][j] = false;
+                this.hGraph[i][hexagonIdRings.get(i).get(j)] = false;
             }
         }
 
+        for (int col = 0; col < 6; col++) {
+            hGraph[0][col] = true;
+        }
 
-        for (int i = 0; i < 2; i++) { // rings
-            for (int j = 0; j < this.hexagonIdRings.get(i).size(); j++) { // ids
+        for (int i = 0; i < 2; i++) { // rings (rows)
+            for (int j = 0; j < this.hexagonIdRings.get(i).size(); j++) { // cols
 
                 // i and j are only 0 once and never are 0 again 0, 0 = center
                 /* TODO implement
@@ -69,40 +72,59 @@ public class Board {
                  *     a. corner vs. non-corner hexagons = if j % i == 0
                  *     b. sextants (0-5), calculated with sextant = j / i;
                  */
-                int sextant = 0;
-                boolean corner = false;
+                int sextant = -1;
+                boolean corner = true;
                 if (i == 0) {
                     sextant = j;
-                    corner = true;
+                    corner = false;
                 } else {
 
                     sextant = j / i;
                     corner = j % i == 0;
                 }
 
-
+                Log.d("dev", " i= " + i + " j= " + j + " id= " + hexagonIdRings.get(i).get(j) + " sextant= " + sextant + " corner= " + corner);
 
                 this.hGraph[getId(i, j)][getId(i + 1, j + sextant)] = true;
                 this.hGraph[getId(i, j)][getId(i + 1, j + sextant + 1)] = true;
 
-//                if (corner) { // check if hexagon is a corner
-//                    int size = 1;
-//                    if (i == 1) {
-//                        size = 6;
-//                    } else {
-//                        size = 12;
-//                    }
-//                    Log.d("dev", "sextant= " + sextant + " i= " + i + " j= " + j);
-//                    Log.d("dev", "id value wrapped: " + Math.abs(j - 1 + sextant) % size);
-//                    hGraph[i + 1][Math.abs(j - 1 + sextant)] = true;
-//                }
+                if (corner) {
+                    int size = hexagonIdRings.get(i + 1).size();
+                    int nextIndex = ((j - 1 + sextant) % size);
+                    if (nextIndex < 12 && nextIndex >= 0) {
+                        hGraph[getId(i, j)][getId(i + 1, nextIndex)] = true;
+                    } else {
+                        Log.d("dev", "id value wrapped: " + (Math.abs(j - 1 + sextant) % size));
+                        hGraph[getId(i, j)][getId(i + 1, size - Math.abs(j - 1 + sextant) % size)] = true;
+                    }
+                }
             }
         }
-        StringBuilder str = new StringBuilder();
-        str.append("\n");
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < hexagonIdRings.get(i).size(); j++) {
+                if(j + 1 >= hexagonIdRings.get(i).size()) {
+
+                }
+                hGraph[getId(i, j)][getId(i, (j + 1) % hexagonIdRings.get(i).size())] = true;
+                hGraph[getId(i, j)][getId(i, Math.abs(j - 1) % hexagonIdRings.get(i).size())] = true;
+            }
+        }
+
         for (int i = 0; i < hGraph.length; i++) {
             for (int j = 0; j < hGraph[i].length; j++) {
-                str.append(i).append(" ").append(j).append(" ").append(hGraph[i][j]).append(" ");
+                hGraph[j][i] = hGraph[i][j];
+            }
+        }
+        
+        StringBuilder str = new StringBuilder();
+        str.append("\n\n   kjhk \n");
+        for (int i = 0; i < hGraph.length; i++) {
+            str.append(i);
+            for (int j = 0; j < hGraph[i].length; j++) {
+                str.append(i).append("-").append(j).append("=");
+                if (hGraph[i][j]) str.append("t ");
+                else str.append("f ");
             }
             str.append("\n");
         }
