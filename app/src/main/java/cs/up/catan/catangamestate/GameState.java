@@ -24,7 +24,10 @@ public class GameState {
     private int robberLocationHex;
 
     private int currentLargestArmyPlayerId; // player who currently has the largest army
+
+    // victory points of each player
     private int[] playerVictoryPoints = new int[4];
+    private int[] playerPrivateVictoryPoints = new int[4];
 
     // GameState constructor
     public GameState() {
@@ -45,6 +48,7 @@ public class GameState {
         // set all vic points to 0 to start
         for (int i = 0; i < playerVictoryPoints.length; i++) {
             playerVictoryPoints[i] = 0;
+            playerPrivateVictoryPoints[i] = 0;
         }
     } // end GameState constructor
 
@@ -81,7 +85,7 @@ public class GameState {
 
     }
 
-    // turn method
+    // turn method TODO Niraj
 
     /**
      * within this method if they build a building we add it to the board
@@ -104,7 +108,7 @@ public class GameState {
 
     }
 
-    // toString()
+    // toString() TODO
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
@@ -127,7 +131,7 @@ public class GameState {
         return str;
     } // end GameState toString()
 
-    /*initBuildings() method
+    /* initBuildings method
      *
      * Method for the very first turn for each player; player will select coordinates for
      * two roads and two settlements at the beginning of the game

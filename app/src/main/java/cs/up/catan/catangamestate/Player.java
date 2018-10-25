@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class Player {
 
-    //instance variables
+    /* Player instance variables */
     private int localScore; // score of player that accounts for the players dev cards, must greater or equal to global score
     private int publicScore;
     private HashMap<String, Integer> resources = new HashMap<String, Integer>(); // k: resource id, v: resource count
@@ -21,7 +21,7 @@ public class Player {
     private int playerId;   // player ID
     private static int playerCount = 1;
 
-    /**
+    /** Player constructor
      *
      */
     public Player() {
