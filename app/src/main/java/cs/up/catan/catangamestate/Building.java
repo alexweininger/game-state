@@ -10,8 +10,8 @@ import java.util.HashMap;
 public class Building {
 
     //ensures the player has enough resources to build the requested building
-    public String buildingName = "";
-    private HashMap<String, Integer> checkResources = new HashMap<>();
+    public String buildingName;
+    private HashMap<String, Integer> resourceCost = new HashMap<>();
     private int victoryPoints = 0;
     private int ownerId = 0;
 
@@ -33,11 +33,11 @@ public class Building {
      */
     public void build(Player player) {
         // TODO does this work?
-        player.removeResources("Brick", this.checkResources.get("Brick"));
-        player.removeResources("Ore", this.checkResources.get("Ore"));
-        player.removeResources("Sheep", this.checkResources.get("Sheep"));
-        player.removeResources("Wheat", this.checkResources.get("Wheat"));
-        player.removeResources("Wood", this.checkResources.get("Wood"));
+        player.removeResources("Brick", this.resourceCost.get("Brick"));
+        player.removeResources("Ore", this.resourceCost.get("Ore"));
+        player.removeResources("Sheep", this.resourceCost.get("Sheep"));
+        player.removeResources("Wheat", this.resourceCost.get("Wheat"));
+        player.removeResources("Wood", this.resourceCost.get("Wood"));
 
         //assigns the player's id the building signifying who owns it
         setOwnerId(player.getPlayerId());
@@ -54,8 +54,8 @@ public class Building {
         sb.append("buildingName='");
         sb.append(buildingName);
         sb.append('\'');
-        sb.append(", checkResources=");
-        sb.append(checkResources);
+        sb.append(", resourceCost=");
+        sb.append(resourceCost);
         sb.append(", victoryPoints=");
         sb.append(victoryPoints);
         sb.append(", intersectionId=");
