@@ -9,9 +9,10 @@ import java.util.HashMap;
  **/
 public class Settlement extends Building {
 
-    public Settlement(String name, HashMap<String, Integer> checkResources, int victoryPoints)
+    public Settlement()
     {
-        super(name, victoryPoints);
+        super("Settlement", 2);
+        HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
         checkResources.put("Brick", 1);
         checkResources.put("Ore", 0);
         checkResources.put("Sheep", 1);

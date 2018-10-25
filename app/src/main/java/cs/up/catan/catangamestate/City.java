@@ -11,9 +11,10 @@ import java.util.HashMap;
 public class City extends Building {
 
 
-    public City(String name,HashMap<String, Integer> checkResources, int victoryPoints)
+    public City()
     {
-        super(name, victoryPoints);
+        super("City", 1);
+        HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
         checkResources.put("Brick", 0);
         checkResources.put("Ore", 3);
         checkResources.put("Sheep", 0);

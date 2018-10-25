@@ -11,9 +11,10 @@ public class Road extends Building{
 
     private int startIntersectionID, endIntersectionID;
 
-    public Road(String name, HashMap<String, Integer> checkResources, int victoryPoints, int startIntersectionID, int endIntersectionID)
+    public Road(int startIntersectionID, int endIntersectionID)
     {
-        super(name, victoryPoints);
+        super("Road", 0);
+        HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
         this.startIntersectionID = startIntersectionID;
         this.endIntersectionID = endIntersectionID;
         checkResources.put("Brick", 1);

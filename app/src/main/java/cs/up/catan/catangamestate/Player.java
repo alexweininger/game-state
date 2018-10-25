@@ -1,7 +1,7 @@
 package cs.up.catan.catangamestate;
 /**
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 24th, 2018
+ * @version: October 25th, 2018
  * <p>
  * https://github.com/alexweininger/game-state
  **/
@@ -18,6 +18,7 @@ public class Player {
     private ArrayList<DevelopmentCards> developmentCards = new ArrayList<DevelopmentCards>(); // ArrayList of the development cards the player owns
     private ArrayList<Building> buidlingsBuilt = new ArrayList<Building>(); // ArrayList of the buildings the player has built
     private HashMap<String, Integer> availiableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
+    private int armySize;
     private int playerId;   //Player ID
     private static int playerCount = 1;
 
@@ -25,7 +26,8 @@ public class Player {
     public Player() {
         this.localScore = 2;
         this.publicScore = 4;
-        this.resources.put("Bricks", 1);
+        this.armySize = 0;
+        this.resources.put("Brick", 1);
         this.resources.put("Ore", 1);
         this.resources.put("Sheep", 2);
         this.resources.put("Wheat", 0);
@@ -38,6 +40,7 @@ public class Player {
         this.publicScore = player.publicScore;
         this.localScore = player.localScore;
         this.developmentCards = player.developmentCards;
+        this.armySize = player.armySize;
         this.resources = player.resources;
         this.playerId = player.playerId;
     }
@@ -56,6 +59,13 @@ public class Player {
 
     }
 
+    public int getArmySize() {
+        return armySize;
+    }
+
+    public void setArmySize(int armySize) {
+        this.armySize = armySize;
+    }
 
     @Override
     public String toString() {
@@ -112,6 +122,15 @@ public class Player {
             return true;
         }
         return false;
+    }
+
+    //use to allow the player to use the dev card they built the turn prior
+    public void setDevelopmentCardsAsPlayable()
+    {
+        for(int i = 0; i < developmentCards.size(); i++)
+        {
+            developmentCards.get(i).setPlayable(true);
+        }
     }
 
     public int getLocalScore() {
