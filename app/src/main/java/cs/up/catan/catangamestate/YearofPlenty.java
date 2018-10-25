@@ -2,18 +2,44 @@ package cs.up.catan.catangamestate;
 
 /**
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 10th, 2018
+ * @version: October 25th, 2018
  * https://github.com/alexweininger/game-state
  **/
 public class YearofPlenty extends DevelopmentCards {
-    public YearofPlenty() {
-
+    public YearofPlenty(String name)
+    {
+        super(name);
     }
 
+    /*
+    Year of Plenty: If you play this card you may immediately
+                    take any 2 Resource Cards from the supply stacks. You
+                    may use these cards to build in the same turn.
+     */
     @Override
-    public void useCard()
+    public void useCard(Player player)
     {
-
+        super.useCard(player);
+        for(int i = 0; i < 2; i++) {
+            int random = (int) Math.random() * 5;
+            switch (random) {
+                case 0:
+                    player.addResources("Brick", 1);
+                    break;
+                case 1:
+                    player.addResources("Ore", 1);
+                    break;
+                case 2:
+                    player.addResources("Sheep", 1);
+                    break;
+                case 3:
+                    player.addResources("Wheat", 1);
+                    break;
+                case 4:
+                    player.addResources("Wood", 1);
+                    break;
+            }
+        }
     }
 
 

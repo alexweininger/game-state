@@ -8,9 +8,16 @@ package cs.up.catan.catangamestate;
 import android.drm.DrmStore;
 
 public class VictoryPoints extends DevelopmentCards {
-    public VictoryPoints(Player player)
+
+    public VictoryPoints(String name)
     {
-        super();
+        super(name);
+    }
+
+    @Override
+    public void useCard(Player player)
+    {
+        super.useCard(player);
         player.setLocalScore(player.getLocalScore() + 1);
     }
 
