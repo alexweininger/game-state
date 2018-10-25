@@ -15,7 +15,9 @@ public class Player {
     private int localScore; // score of player that accounts for the players dev cards, must greater or equal to global score
     private int publicScore;
     private HashMap<String, Integer> resources = new HashMap<String, Integer>(); // k: resource id, v: resource count
-    private ArrayList<Integer> developmentCards = new ArrayList<Integer>(); // ArrayList of the development card IDs the player owns
+    private ArrayList<DevelopmentCards> developmentCards = new ArrayList<DevelopmentCards>(); // ArrayList of the development cards the player owns
+    private ArrayList<Building> buidlingsBuilt = new ArrayList<Building>(); // ArrayList of the buildings the player has built
+    private HashMap<String, Integer> availiableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
     private int playerId;   //Player ID
     private static int playerCount = 1;
 
@@ -23,11 +25,11 @@ public class Player {
     public Player() {
         this.localScore = 2;
         this.publicScore = 4;
-        this.resources.put("Logs", 3);
         this.resources.put("Bricks", 1);
         this.resources.put("Ore", 1);
-        this.resources.put("Wool", 2);
-        this.developmentCards.add(1);
+        this.resources.put("Sheep", 2);
+        this.resources.put("Wheat", 0);
+        this.resources.put("Wood", 3);
         this.playerId = playerCount;
         playerCount++;
     }
@@ -39,6 +41,20 @@ public class Player {
         this.resources = player.resources;
         this.playerId = player.playerId;
     }
+
+    //adds buildings when the player builds them
+    public void addBuilding(Building building)
+    {
+
+        buidlingsBuilt.add(building);
+
+        //once the player chooses the build something there victory points are are added locally and publicly
+        localScore += buidlingsBuilt.get(buidlingsBuilt.size()-1).getVictoryPoints();
+        publicScore += buidlingsBuilt.get(buidlingsBuilt.size()-1).getVictoryPoints();
+        // decreases the available buildings by one
+        availiableBuildings.put(building.getBuildingName(),availiableBuildings.get(building.getBuildingName())-1);
+    }
+
 
     @Override
     public String toString() {
@@ -66,9 +82,16 @@ public class Player {
         return false;
     }
 
-    public boolean addDevCard(Integer id){
-        developmentCards.add(id);
-        return true;
+    public boolean removeResources(String res, int num){
+        if(this.resources.containsKey(res)) {
+            this.resources.put(res, this.resources.get(res) - num);
+            return true;
+        }
+        return false;
+    }
+
+    public void addDevCard(DevelopmentCards devCard){
+        developmentCards.add(devCard);
     }
 
     public boolean useResource(String res, int num){
@@ -82,9 +105,9 @@ public class Player {
         return false;
     }
 
-    public boolean useDevCard(Integer id){
-        if(developmentCards.contains(id)){
-            developmentCards.remove(id);
+    public boolean useDevCard(DevelopmentCards devCard){
+        if(developmentCards.contains(devCard)){
+            developmentCards.remove(devCard);
             return true;
         }
         return false;

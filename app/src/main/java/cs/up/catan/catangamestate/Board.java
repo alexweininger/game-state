@@ -41,6 +41,7 @@ public class Board {
     private boolean[][] hGraph = new boolean[19][19];
 
     private ArrayList<ArrayList<Boolean>> intersectionAdjecencyGraph = new ArrayList<ArrayList<Boolean>>(36); // TODO
+    private boolean[][] iGraph = new boolean[54][54];
 
     /**
      * Board constructor
@@ -139,6 +140,8 @@ public class Board {
             str.append("\n");
         }
         Log.d("dev", "" + str.toString());
+
+        iGraphGeneration();
     } // end constructor
 
     public int getId(int ring, int col) {
@@ -181,6 +184,53 @@ public class Board {
 
     public boolean checkHexagonAdjacency(int id1, int id2) {
         return (hGraph[id1][id2] || hGraph[id2][id1]);
+    }
+
+    public int getIntersectionId(int ring, int col) {
+        return intersectionIdRings.get(ring).get(col);
+    }
+
+    private void iGraphGeneration(){
+        for (int i = 0; i < 3; i++){ //rings
+            for (int j = 1; j < intersectionIdRings.get(i).size(); j++){ //columns
+                boolean hasNextLink = true;
+                int ringIndexDiff = -1;
+
+                int sextant;
+                boolean corner = true;
+                if (i == 0) {
+                    sextant = j;
+                    corner = false;
+                } else {
+
+                    sextant = j / i;
+                    corner = j % i == 0;
+                }
+
+                int size = intersectionIdRings.get(i).size();
+                int nextIntersection = (j+1) % size;
+                Log.d("dev", "" + nextIntersection);
+                iGraph[getIntersectionId(i,j)][getIntersectionId(i, nextIntersection)] = true;
+
+                /*
+                 * 1. every intersection in a ring contains 3 links, 2 of which are in the same ring (i)
+                 * 2.
+                 */
+            }
+        }
+        StringBuilder str = new StringBuilder();
+        str.append("\n\n----------------\n");
+        for (int i = 0; i < iGraph.length; i++) {
+            StringBuilder strRow = new StringBuilder();
+            for (int j = 0; j < iGraph[i].length; j++) {
+                strRow.append(i).append("-").append(j).append("=");
+                if (iGraph[i][j]) strRow.append("t ");
+                else strRow.append("f ");
+            }
+            //str.append("\n");
+            Log.d("dev", "" + strRow.toString());
+        }
+        Log.d("dev", "" + str.toString());
     }
 
     /**
