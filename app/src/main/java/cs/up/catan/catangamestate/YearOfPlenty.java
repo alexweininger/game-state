@@ -7,13 +7,12 @@ package cs.up.catan.catangamestate;
  **/
 public class YearOfPlenty extends DevelopmentCards {
     public YearOfPlenty() {
-        super("Year of plenty");
+        super("Year Of plenty");
     }
 
-    /*
-    Year of Plenty: If you play this card you may immediately
-                    take any 2 Resource Cards from the supply stacks. You
-                    may use these cards to build in the same turn.
+    /**
+     *
+     * @param player player who is using the card
      */
     @Override
     public void useCard(Player player) {
@@ -41,6 +40,10 @@ public class YearOfPlenty extends DevelopmentCards {
     }
 
 
+    /**
+     *
+     * @return string representation of a YearOfPlenty
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("");

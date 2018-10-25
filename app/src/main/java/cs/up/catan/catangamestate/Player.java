@@ -50,14 +50,26 @@ public class Player {
         this.playerId = player.playerId;
     } // end deepCopy player cons.
 
+    /**
+     *
+     * @return the size of the player's army
+     */
     public int getArmySize() {
         return armySize;
     }
 
+    /**
+     *
+     * @param armySize the size of the player's army
+     */
     public void setArmySize(int armySize) {
         this.armySize = armySize;
     }
 
+    /**
+     *
+     * @return string representation of a Player
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("");
@@ -76,6 +88,12 @@ public class Player {
         return sb.toString();
     }
 
+    /**
+     *
+     * @param res name of resource
+     * @param num amount to add
+     * @return if action was possible
+     */
     public boolean addResources(String res, int num) {
         if (this.resources.containsKey(res)) {
             this.resources.put(res, this.resources.get(res) + num);
@@ -84,6 +102,12 @@ public class Player {
         return false;
     }
 
+    /**
+     *
+     * @param res name of resource
+     * @param num amount to add
+     * @return if action was possible
+     */
     public boolean removeResources(String res, int num) {
         if (this.resources.containsKey(res)) {
             this.resources.put(res, this.resources.get(res) - num);
@@ -92,10 +116,20 @@ public class Player {
         return false;
     }
 
+    /**
+     *
+     * @param devCard  dev card to add
+     */
     public void addDevCard(DevelopmentCards devCard) {
         developmentCards.add(devCard);
     }
 
+    /**
+     *
+     * @param res name of resource
+     * @param num amount to add
+     * @return if action was possible
+     */
     public boolean useResource(String res, int num) {
         if (this.resources.containsKey(res)) {
             if (this.resources.get(res) >= num) {
@@ -107,6 +141,11 @@ public class Player {
         return false;
     }
 
+    /**
+     *
+     * @param devCard dev card to remove
+     * @return if action was poissible
+     */
     public boolean useDevCard(DevelopmentCards devCard) {
         if (developmentCards.contains(devCard)) {
             developmentCards.remove(devCard);
@@ -122,36 +161,85 @@ public class Player {
         }
     }
 
+    /**
+     *
+     * @return the players local score
+     */
     public int getLocalScore() {
         return localScore;
     }
 
+    /**
+     *
+     * @param localScore thre players local score
+     */
     public void setLocalScore(int localScore) {
         this.localScore = localScore;
     }
 
+    /**
+     *
+     * @return the player's public score
+     */
     public int getPublicScore() {
         return publicScore;
     }
 
+    /**
+     *
+     * @param publicScore the player's public score
+     */
     public void setPublicScore(int publicScore) {
         this.publicScore = publicScore;
     }
 
+    /**
+     *
+     * @return the player's id
+     */
     public int getPlayerId() {
         return this.playerId;
     }
 
+    /**
+     *
+     * @param id the player's id
+     */
     public void setPlayerId(int id) {
         this.playerId = id;
     }
 
+    /**
+     *
+     * @return number of players
+     */
     public static int getPlayerCount() {
         return playerCount;
     }
 
+    /**
+     *
+     * @param playerCount number of players
+     */
     public static void setPlayerCount(int playerCount) {
         Player.playerCount = playerCount;
+    }
+
+    /**
+     *
+     * @return hashmap of resources
+     */
+    public HashMap<String, Integer> getResources() {
+        return resources;
+    }
+
+    /**
+     *
+     * @param resource name of resource
+     * @param value amount of resource
+     */
+    public void setResources(String resource, int value) {
+        this.resources.put(resource,value);
     }
 }
 

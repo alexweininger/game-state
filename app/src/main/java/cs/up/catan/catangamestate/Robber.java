@@ -12,12 +12,16 @@ public class Robber {
 
     /**
      *
-     * @param currentHexagonId -
+     * @param currentHexagonId - where the robber is currently
      */
     public Robber(int currentHexagonId) {
         this.currentHexagonId = currentHexagonId;
     }
 
+    /**
+     *
+     * @return string representation of a Robber
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("");
