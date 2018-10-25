@@ -8,35 +8,50 @@ package cs.up.catan.catangamestate;
 import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameState {
 
     // GameState instance variables
-    private Dice dice;
-    private int currentPlayer = -1;
+    private Dice dice; // dice object
     private int currentDiceSum = -1;
-    private ArrayList<Player> playerList = new ArrayList<>();
-    private int robberLocationHex;
+
+    private int currentPlayerId = -1; // id of player who is the current playing player
+
+    private ArrayList<Player> playerList = new ArrayList<>(); // list of players in game
+
     private Board board = new Board();
+    private int robberLocationHex;
+
+    private int currentLargestArmyPlayerId; // player who currently has the largest army
+    private int[] playerVictoryPoints = new int[4];
 
     // GameState constructor
     public GameState() {
-        // objects
         this.dice = new Dice();
-
-        // variables
-        this.currentPlayer = 1;
+        this.currentPlayerId = 0;
         this.currentDiceSum = 3;
+
         this.playerList.add(new Player());
         this.playerList.add(new Player());
-        this.robberLocationHex = 4;
+        this.playerList.add(new Player());
+        this.playerList.add(new Player());
+
+        Random random = new Random();
+        this.robberLocationHex = random.nextInt(18); // random hexagon id (0-18)
+
         this.board.toString();
+
+        // set all vic points to 0 to start
+        for (int i = 0; i < playerVictoryPoints.length; i++) {
+            playerVictoryPoints[i] = 0;
+        }
     } // end GameState constructor
 
-    // GameState deep copy constructor
+    // GameState deep copy constructor TODO
     public GameState(GameState gameState) {
         this.dice = gameState.dice;
-        this.currentPlayer = gameState.currentPlayer;
+        this.currentPlayerId = gameState.currentPlayerId;
         this.currentDiceSum = gameState.currentDiceSum;
         this.robberLocationHex = gameState.robberLocationHex;
 
@@ -45,6 +60,50 @@ public class GameState {
         }
     } // end deep copy constructor
 
+    /**
+     * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
+     */
+    public void checkArmySize() {
+        // stuff... TODO
+    }
+
+    /**
+     * checkRoadLength - after each turn check if any player has longest road, with a min of 5 road segments
+     * probably just calls a method in board?
+     * recursion???
+     */
+    public void checkRoadLength() {
+
+    }
+
+    // TODO move vic points to GameState
+    public void updateVictoryPoints() {
+
+    }
+
+    // turn method
+
+    /**
+     * within this method if they build a building we add it to the board
+     * @return
+     */
+    private boolean turnHandler() {
+        // board.add()()()
+        return false;
+
+        /*
+        1. roll dice
+
+        2. get action
+        while (!over) {
+           getAction() // get players action
+
+           3. carry out action
+        }
+        */
+
+    }
+
     // toString()
     @Override
     public String toString() {
@@ -52,9 +111,9 @@ public class GameState {
         String str = "";
 
         result.append("GameState:\n");
-        result.append("Current Player: ").append(this.currentPlayer).append("\n");
+        result.append("Current Player: ").append(this.currentPlayerId).append("\n");
         str += "GameState:\n";
-        str += "Current Player:" + currentPlayer + "\n";
+        str += "Current Player:" + currentPlayerId + "\n";
         str += "Current Dice Sum: " + currentDiceSum + "\n";
         str += "Robber Location: " + robberLocationHex + "\n";
 
@@ -98,7 +157,7 @@ public class GameState {
             str.append("Player 1 rolled a ").append(this.dice.getSum()).append("\n");
             return true;
         }
-        str.append("It is not ").append(this.currentPlayer).append("'s turn!\n"); // TODO
+        str.append("It is not ").append(this.currentPlayerId).append("'s turn!\n"); // TODO
         edit.append(str.toString());
         return false;
     } // end rollDice action method

@@ -42,7 +42,7 @@ public class Building {
         //assigns the player's id the building signifying who owns it
         setOwnerId(player.getPlayerId());
         //adds the building to the player's array list of built buildings
-        player.addBuilding(this);
+        // TODO board.addBuilding(this);
 
         //TODO: mark when a location is taken on the board (Use setIntersectionId(int intersectionId))
     }
