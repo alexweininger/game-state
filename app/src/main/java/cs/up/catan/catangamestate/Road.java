@@ -30,6 +30,10 @@ public class Road extends Building {
     public int getStartIntersectionID() { return startIntersectionID; }
     public int getEndIntersectionID() { return endIntersectionID; }
 
+    /**
+     *
+     * @return string representation of a Road
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("");

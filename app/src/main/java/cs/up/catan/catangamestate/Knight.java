@@ -13,18 +13,22 @@ public class Knight extends DevelopmentCards {
     }
 
     /**
-     * TODO
-     * @param robber -
-     * @param player -
+     *
+     * @param robber - instance of the the robber object
+     * @param player - player whose turn it is
      */
     public void useCard(Robber robber, Player player) {
         super.useCard(player);
-        //TODO:need to get input of title user pressed on screen to move robber to
+        //TODO:need to get input of tile user pressed on screen to move robber to
         int hexNumber = 5; //5 is only a placeholder for now
         robber.setCurrentHexagonId(hexNumber);
         player.setArmySize(player.getArmySize() + 1);
     }
 
+    /**
+     *
+     * @return string representation of a Knight
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("");

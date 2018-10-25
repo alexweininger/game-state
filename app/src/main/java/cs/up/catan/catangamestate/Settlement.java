@@ -11,7 +11,7 @@ public class Settlement extends Building {
 
     /**
      *
-     * @param ownerId -
+     * @param ownerId - player id of who owns the settlement
      */
     public Settlement(int ownerId) {
         super("Settlement", 2, ownerId);
@@ -22,6 +22,10 @@ public class Settlement extends Building {
         checkResources.put("Wood", 1);
     } // end constructor
 
+    /**
+     *
+     * @return string representation of a settlement
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

@@ -17,9 +17,9 @@ public class Building {
 
     /**
      *
-     * @param buildingName
-     * @param victoryPoints
-     * @param ownerId
+     * @param buildingName - name of the kind of building
+     * @param victoryPoints - number victory points it awards
+     * @param ownerId - player who owns it
      */
     public Building(String buildingName, int victoryPoints, int ownerId) {
         this.buildingName = buildingName;
@@ -47,6 +47,10 @@ public class Building {
         //TODO: mark when a location is taken on the board (Use setIntersectionId(int intersectionId))
     }
 
+    /**
+     *
+     * @return string representation of a Building
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("");
@@ -64,26 +68,50 @@ public class Building {
         return sb.toString();
     }
 
+    /**
+     *
+     * @return the name of a building
+     */
     public String getBuildingName() {
         return buildingName;
     }
 
+    /**
+     *
+     * @param buildingName the of building
+     */
     public void setBuildingName(String buildingName) {
         this.buildingName = buildingName;
     }
 
+    /**
+     *
+     * @return number of victory points
+     */
     public int getVictoryPoints() {
         return victoryPoints;
     }
 
+    /**
+     *
+     * @param victoryPoints sets the number
+     */
     public void setVictoryPoints(int victoryPoints) {
         this.victoryPoints = victoryPoints;
     }
 
+    /**
+     *
+     * @return id of who owns the building
+     */
     public int getOwnerId() {
         return ownerId;
     }
 
+    /**
+     *
+     * @param ownerId if of who owns the building
+     */
     public void setOwnerId(int ownerId) {
         this.ownerId = ownerId;
     }

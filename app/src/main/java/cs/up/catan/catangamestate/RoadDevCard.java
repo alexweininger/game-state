@@ -2,7 +2,7 @@ package cs.up.catan.catangamestate;
 
 /**
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 10th, 2018
+ * @version: October 25th, 2018
  * https://github.com/alexweininger/game-state
  **/
 public class RoadDevCard extends DevelopmentCards {
@@ -11,10 +11,9 @@ public class RoadDevCard extends DevelopmentCards {
         super("Road");
     }
 
-    /*
-    Road Building: If you play this card, you may immediately
-                   place 2 free roads on the board (according to normal
-                   building rules).
+    /**
+     *
+     * @param player player whose turn it is
      */
     @Override
     public void useCard(Player player) {
@@ -26,6 +25,10 @@ public class RoadDevCard extends DevelopmentCards {
         }
     }
 
+    /**
+     *
+     * @return string representation of a RoadDevCard
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
