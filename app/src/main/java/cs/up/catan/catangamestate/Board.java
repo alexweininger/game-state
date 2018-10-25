@@ -1,17 +1,19 @@
 package cs.up.catan.catangamestate;
-/*
- * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 24th, 2018
- * github: https://github.com/alexweininger/game-state
- */
-
-import android.util.Log;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
+ * @author Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
+ * @version October 10th, 2018
+ * https://github.com/alexweininger/game-state
+ **/
+
+import android.graphics.Color;
+import android.util.Log;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Random;
+
+/*
  * External Citation
  * Date: 8 October 2018
  * Problem: Struggling to represent board and tiles.
@@ -47,7 +49,7 @@ public class Board {
 
     private HashMap<Integer, Building> buildings = new HashMap<Integer, Building>(); // list of buildings on board
 
-    // private HashMap<Integer, Hexagon> hexagons = new HashMap<Integer, Hexagon>();
+    private ArrayList<Hexagon> hexagons = new ArrayList<>();
     /**
      * Board constructor
      * defines hexagonIdRings, intersectionIdRings, and hexagonAdjacencyGraph.
@@ -68,19 +70,85 @@ public class Board {
 
         generateHexToIntIdMap();
 
-    } // end constructor
+    } // end Board constructor
 
     /**
      *
-     * @param ownerId
-     * @param building
+     * @param ownerId -
+     * @param building -
      */
     public void addBuilding(int ownerId, Building building) {
         this.buildings.put(ownerId, building);
     }
 
+    /** populateHexagonList
+     *
+     */
+    public void populateHexagonList() {
+        int[] numTiles = {4, 3, 3, 3, 4};
+        String[] resources = {"Brick", "Wool", "Grain", "Ore", "Wood"};
+        for (int i = 0; i < 18; i++) {
+            int max = numTiles.length - 1;
+            int min = 0;
+            Random random = new Random();
+            int randomNumber = random.nextInt((max - min) + 1) + min;
+            while(numTiles[randomNumber] < 0) {
+                randomNumber = random.nextInt((max - min) + 1) + min;
+            }
+            hexagons.add(new Hexagon(resources[randomNumber]));
+            numTiles[randomNumber]--;
+        }
+    }
+
     /**
      *
+     * @param hexagonId
+     * @return
+     */
+    public String getResourceOfHexagon(int hexagonId) {
+        return hexagons.get(hexagonId).getResource();
+    }
+
+    /**
+     *
+     * @param intersectionId
+     * @return
+     */
+    public ArrayList<Integer> getAdjacentIntersections(int intersectionId) {
+        ArrayList<Integer> adjacentIntersections = new ArrayList<>(6);
+        for (int i = 0; i < 54; i++) {
+            if (adjacentIntersections.size() > 3) {
+                Log.d("dev", "getAdjacentIntersections: ERROR got more than 3 adjacent intersections");
+                break;
+            }
+            if (iGraph[intersectionId][i] || iGraph[i][intersectionId]) {
+                adjacentIntersections.add(i);
+            }
+        }
+        return adjacentIntersections;
+    }
+
+    /**
+     * getAdjacentHexagons
+     * @param hexagonId - hexagon id that you want to get adjacency of
+     * @return ArrayList<Integer> - list of adj. hex id's
+     */
+    public ArrayList<Integer> getAdjacentHexagons(int hexagonId) {
+        ArrayList<Integer> adjacentHexagons = new ArrayList<>(6);
+        for (int i = 0; i < 19; i++) {
+            if (adjacentHexagons.size() > 6) {
+                Log.d("dev", "getAdjacentHexagons: ERROR got more than 6 adjacent hexagons");
+                break;
+            }
+            if (hGraph[hexagonId][i] || hGraph[i][hexagonId]) {
+                adjacentHexagons.add(i);
+            }
+        }
+        return adjacentHexagons;
+    }
+
+    /**
+     * generates hexagon to int id map TODO
      */
     private void generateHexToIntIdMap() {
         for (int i = 0; i < 19; i++) {
