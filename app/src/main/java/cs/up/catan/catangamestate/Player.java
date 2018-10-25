@@ -1,7 +1,7 @@
 package cs.up.catan.catangamestate;
 /**
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 10th, 2018
+ * @version: October 24th, 2018
  * <p>
  * https://github.com/alexweininger/game-state
  **/
@@ -53,6 +53,7 @@ public class Player {
         publicScore += buidlingsBuilt.get(buidlingsBuilt.size()-1).getVictoryPoints();
         // decreases the available buildings by one
         availiableBuildings.put(building.getBuildingName(),availiableBuildings.get(building.getBuildingName())-1);
+
     }
 
 

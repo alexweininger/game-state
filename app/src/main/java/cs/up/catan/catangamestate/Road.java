@@ -1,17 +1,26 @@
 package cs.up.catan.catangamestate;
 
+import java.util.HashMap;
+
 /**
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 10th, 2018
+ * @version: October 24th, 2018
  * https://github.com/alexweininger/game-state
  **/
-public class Road { //TODO Extend Building? Need to decide
+public class Road extends Building{
 
     private int startIntersectionID, endIntersectionID;
 
-    public Road() {
-        this.startIntersectionID = 0;
-        this.startIntersectionID = 1;
+    public Road(String name, HashMap<String, Integer> checkResources, int victoryPoints, int startIntersectionID, int endIntersectionID)
+    {
+        super(name, victoryPoints);
+        this.startIntersectionID = startIntersectionID;
+        this.endIntersectionID = endIntersectionID;
+        checkResources.put("Brick", 1);
+        checkResources.put("Ore", 0);
+        checkResources.put("Sheep", 0);
+        checkResources.put("Wheat", 0);
+        checkResources.put("Wood", 1);
     }
 
     //sets rhe start and end intersection ids
@@ -21,7 +30,7 @@ public class Road { //TODO Extend Building? Need to decide
         this.endIntersectionID = endIntersectionID;
     }
 
-    //returns wehere the road starts
+    //returns where the road starts
     public int getStartIntersectionID()
     {
         return startIntersectionID;
