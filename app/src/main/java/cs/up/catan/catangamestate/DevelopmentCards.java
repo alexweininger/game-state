@@ -1,7 +1,7 @@
 package cs.up.catan.catangamestate;
 /**
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 24th, 2018
+ * @version: October 25th, 2018
  * https://github.com/alexweininger/game-state
  **/
 
@@ -67,9 +67,9 @@ public class DevelopmentCards{
     }
 
     //default use method
-    public void useCard()
+    public void useCard(Player player)
     {
-
+        player.useDevCard(this);
     }
 
     public void build(Player player)
@@ -88,26 +88,30 @@ public class DevelopmentCards{
         developmentCards.remove(random);
         switch (cardChosen)
         {
-            case 0: // Knight
-                DevelopmentCards knight = new DevelopmentCards("Knight");
+            case 0:
+                Knights knight = new Knights("Knight");
                 return knight;
             case 1:
-                DevelopmentCards vicortyPoints = new DevelopmentCards("Vicorty Points");
+                VictoryPoints vicortyPoints = new VictoryPoints("Vicorty Points");
                 return vicortyPoints;
             case 2:
-                DevelopmentCards roadBuilding = new DevelopmentCards("Road Building");
+                RoadBuilding roadBuilding = new RoadBuilding("Road Building");
                 return roadBuilding;
             case 3:
-                DevelopmentCards monopoly = new DevelopmentCards("Monopoly");
+                Monopoly monopoly = new Monopoly("Monopoly");
                 return monopoly;
             case 4:
-                DevelopmentCards yearOfPlenty = new DevelopmentCards("Year Of Plenty");
+                YearofPlenty yearOfPlenty = new YearofPlenty("Year Of Plenty");
                 return yearOfPlenty;
         }
 
 
 
         return null;
+    }
+
+    public void setPlayable(boolean playable) {
+        isPlayable = playable;
     }
 
     // play card based on given dev card id

@@ -1,14 +1,23 @@
 package cs.up.catan.catangamestate;
 
+import java.util.HashMap;
+
 /**
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 10th, 2018
+ * @version: October th, 2018
  * https://github.com/alexweininger/game-state
  **/
 public class Settlement extends Building {
 
-    public Settlement() {
-        super();
+    public Settlement()
+    {
+        super("Settlement", 2);
+        HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
+        checkResources.put("Brick", 1);
+        checkResources.put("Ore", 0);
+        checkResources.put("Sheep", 1);
+        checkResources.put("Wheat", 1);
+        checkResources.put("Wood", 1);
     } // end constructor
 
     @Override

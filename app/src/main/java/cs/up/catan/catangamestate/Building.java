@@ -1,7 +1,7 @@
 package cs.up.catan.catangamestate;
 /**
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 10th, 2018
+ * @version: October 24th, 2018
  * https://github.com/alexweininger/game-state
  **/
 
@@ -21,9 +21,8 @@ public class Building {
 
     }
 
-    public Building(String buildingName, HashMap<String, Integer> checkResources, int victoryPoints) {
+    public Building(String buildingName, int victoryPoints) {
         this.buildingName = buildingName;
-        this.checkResources = checkResources;
         this.victoryPoints = victoryPoints;
     }
 

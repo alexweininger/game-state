@@ -7,12 +7,31 @@ package cs.up.catan.catangamestate;
  **/
 public class RoadBuilding extends DevelopmentCards {
 
-    public RoadBuilding() {
+    public RoadBuilding(String name)
+    {
+        super(name);
+    }
 
+    /*
+    Road Building: If you play this card, you may immediately
+                   place 2 free roads on the board (according to normal
+                   building rules).
+     */
+    @Override
+    public void useCard(Player player)
+    {
+        super.useCard(player);
+        for(int i = 0; i < 2; i++)
+        {
+            int x = 5; //TODO: Get the start and end intersection id from users tap. This is only a placeholder for now
+            Road road = new Road(x, x);
+            player.addBuilding(road);
+        }
     }
 
     @Override
     public String toString() {
-        return "";
+        StringBuilder sb = new StringBuilder("");
+        return sb.toString();
     }
 }
