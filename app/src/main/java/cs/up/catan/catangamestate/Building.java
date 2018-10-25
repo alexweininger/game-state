@@ -1,4 +1,5 @@
 package cs.up.catan.catangamestate;
+
 /**
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
  * @version: October 24th, 2018
@@ -10,16 +11,14 @@ import java.util.HashMap;
 public class Building {
 
     //ensures the player has enough resources to build the requested building
-    public String buildingName;
+    private String buildingName;
     private HashMap<String, Integer> resourceCost = new HashMap<>();
-    private int victoryPoints = 0;
-    private int ownerId = 0;
+    private int victoryPoints, ownerId;
 
-    /**
-     *
-     * @param buildingName
-     * @param victoryPoints
-     * @param ownerId
+    /** Building constructor
+     * @param buildingName - name of the building, we may remove this later
+     * @param victoryPoints - number of victory points building grants the owner on building
+     * @param ownerId - player who owns and built building
      */
     public Building(String buildingName, int victoryPoints, int ownerId) {
         this.buildingName = buildingName;
@@ -27,7 +26,7 @@ public class Building {
         this.ownerId = ownerId;
     }
 
-    /** build
+    /** build TODO
      *
      * @param player - player who is building the building
      */

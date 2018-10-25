@@ -1,6 +1,6 @@
 package cs.up.catan.catangamestate;
 
-/**
+/** RoadDevCard class
  * @author Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
  * @version October 10th, 2018
  * https://github.com/alexweininger/game-state
@@ -12,9 +12,8 @@ public class RoadDevCard extends DevelopmentCards {
     }
 
     /*
-    Road Building: If you play this card, you may immediately
-                   place 2 free roads on the board (according to normal
-                   building rules).
+     * Road Building: If you play this card, you may immediately
+     * place 2 free roads on the board (according to normal building rules).
      */
     @Override
     public void useCard(Player player) {
