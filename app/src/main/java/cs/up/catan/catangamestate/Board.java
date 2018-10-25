@@ -72,6 +72,15 @@ public class Board {
 
     /**
      *
+     * @param ownerId
+     * @param building
+     */
+    public void addBuilding(int ownerId, Building building) {
+        this.buildings.put(ownerId, building);
+    }
+
+    /**
+     *
      */
     private void generateHexToIntIdMap() {
         for (int i = 0; i < 19; i++) {

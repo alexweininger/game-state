@@ -1,29 +1,32 @@
 package cs.up.catan.catangamestate;
 
 /**
- * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 25th, 2018
+ * @author Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
+ * @version October 25th, 2018
  * https://github.com/alexweininger/game-state
  **/
 
-public class Knights extends DevelopmentCards {
+public class Knight extends DevelopmentCards {
 
-    public Knights(String name) {
-        super(name);
+    public Knight() {
+        super("Knight");
     }
 
-    public void useCard(Robber robber, Player player)
-    {
+    /**
+     * TODO
+     * @param robber -
+     * @param player -
+     */
+    public void useCard(Robber robber, Player player) {
         super.useCard(player);
         //TODO:need to get input of title user pressed on screen to move robber to
         int hexNumber = 5; //5 is only a placeholder for now
-        robber.setCurrentPosition(hexNumber);
+        robber.setCurrentHexagonId(hexNumber);
         player.setArmySize(player.getArmySize() + 1);
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder("");
         return sb.toString();
     }

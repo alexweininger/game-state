@@ -31,7 +31,7 @@ public class DevelopmentCards{
         checkResources.put("Sheep", 1);
 
 
-        //add Knights
+        //add Knight
         for(int i = 0; i < 14; i++)
         {
             developmentCards.add(0);
@@ -43,7 +43,7 @@ public class DevelopmentCards{
             developmentCards.add(1);
         }
 
-        //add RoadBuilding
+        //add RoadDevCard
         for(int i = 0; i < 2; i++)
         {
             developmentCards.add(2);
@@ -89,19 +89,19 @@ public class DevelopmentCards{
         switch (cardChosen)
         {
             case 0:
-                Knights knight = new Knights("Knight");
+                Knight knight = new Knight();
                 return knight;
             case 1:
-                VictoryPoints vicortyPoints = new VictoryPoints("Vicorty Points");
+                VictoryPoints vicortyPoints = new VictoryPoints();
                 return vicortyPoints;
             case 2:
-                RoadBuilding roadBuilding = new RoadBuilding("Road Building");
+                RoadDevCard roadBuilding = new RoadDevCard();
                 return roadBuilding;
             case 3:
-                Monopoly monopoly = new Monopoly("Monopoly");
+                Monopoly monopoly = new Monopoly();
                 return monopoly;
             case 4:
-                YearofPlenty yearOfPlenty = new YearofPlenty("Year Of Plenty");
+                YearOfPlenty yearOfPlenty = new YearOfPlenty();
                 return yearOfPlenty;
         }
 

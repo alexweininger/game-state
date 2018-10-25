@@ -16,13 +16,14 @@ public class Player {
     private int publicScore;
     private HashMap<String, Integer> resources = new HashMap<String, Integer>(); // k: resource id, v: resource count
     private ArrayList<DevelopmentCards> developmentCards = new ArrayList<DevelopmentCards>(); // ArrayList of the development cards the player owns
-    private ArrayList<Building> buidlingsBuilt = new ArrayList<Building>(); // ArrayList of the buildings the player has built
-    private HashMap<String, Integer> availiableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
-    private int armySize;
-    private int playerId;   //Player ID
+    private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
+    private int armySize; // for the knight card
+    private int playerId;   // player ID
     private static int playerCount = 1;
 
-    // constructor
+    /**
+     *
+     */
     public Player() {
         this.localScore = 2;
         this.publicScore = 4;
@@ -36,6 +37,10 @@ public class Player {
         playerCount++;
     }
 
+    /**
+     * deepCopy constructor
+     * @param player -
+     */
     public Player(Player player) {
         this.publicScore = player.publicScore;
         this.localScore = player.localScore;
@@ -43,21 +48,7 @@ public class Player {
         this.armySize = player.armySize;
         this.resources = player.resources;
         this.playerId = player.playerId;
-    }
-
-    //adds buildings when the player builds them
-    public void addBuilding(Building building)
-    {
-
-        buidlingsBuilt.add(building);
-
-        //once the player chooses the build something there victory points are are added locally and publicly
-        localScore += buidlingsBuilt.get(buidlingsBuilt.size()-1).getVictoryPoints();
-        publicScore += buidlingsBuilt.get(buidlingsBuilt.size()-1).getVictoryPoints();
-        // decreases the available buildings by one
-        availiableBuildings.put(building.getBuildingName(),availiableBuildings.get(building.getBuildingName())-1);
-
-    }
+    } // end deepCopy player cons.
 
     public int getArmySize() {
         return armySize;
@@ -85,29 +76,29 @@ public class Player {
         return sb.toString();
     }
 
-    public boolean addResources(String res, int num){
-        if(this.resources.containsKey(res)) {
+    public boolean addResources(String res, int num) {
+        if (this.resources.containsKey(res)) {
             this.resources.put(res, this.resources.get(res) + num);
             return true;
         }
         return false;
     }
 
-    public boolean removeResources(String res, int num){
-        if(this.resources.containsKey(res)) {
+    public boolean removeResources(String res, int num) {
+        if (this.resources.containsKey(res)) {
             this.resources.put(res, this.resources.get(res) - num);
             return true;
         }
         return false;
     }
 
-    public void addDevCard(DevelopmentCards devCard){
+    public void addDevCard(DevelopmentCards devCard) {
         developmentCards.add(devCard);
     }
 
-    public boolean useResource(String res, int num){
-        if(this.resources.containsKey(res)){
-            if(this.resources.get(res) >= num){
+    public boolean useResource(String res, int num) {
+        if (this.resources.containsKey(res)) {
+            if (this.resources.get(res) >= num) {
                 this.resources.put(res, this.resources.get(res) - num);
                 return true;
             }
@@ -116,8 +107,8 @@ public class Player {
         return false;
     }
 
-    public boolean useDevCard(DevelopmentCards devCard){
-        if(developmentCards.contains(devCard)){
+    public boolean useDevCard(DevelopmentCards devCard) {
+        if (developmentCards.contains(devCard)) {
             developmentCards.remove(devCard);
             return true;
         }
@@ -125,10 +116,8 @@ public class Player {
     }
 
     //use to allow the player to use the dev card they built the turn prior
-    public void setDevelopmentCardsAsPlayable()
-    {
-        for(int i = 0; i < developmentCards.size(); i++)
-        {
+    public void setDevelopmentCardsAsPlayable() {
+        for (int i = 0; i < developmentCards.size(); i++) {
             developmentCards.get(i).setPlayable(true);
         }
     }
@@ -149,11 +138,11 @@ public class Player {
         this.publicScore = publicScore;
     }
 
-    public int getPlayerId(){
+    public int getPlayerId() {
         return this.playerId;
     }
 
-    public void setPlayerId(int id){
+    public void setPlayerId(int id) {
         this.playerId = id;
     }
 

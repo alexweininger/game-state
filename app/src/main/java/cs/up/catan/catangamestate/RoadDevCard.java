@@ -5,11 +5,10 @@ package cs.up.catan.catangamestate;
  * @version: October 10th, 2018
  * https://github.com/alexweininger/game-state
  **/
-public class RoadBuilding extends DevelopmentCards {
+public class RoadDevCard extends DevelopmentCards {
 
-    public RoadBuilding(String name)
-    {
-        super(name);
+    public RoadDevCard() {
+        super("Road");
     }
 
     /*
@@ -18,20 +17,18 @@ public class RoadBuilding extends DevelopmentCards {
                    building rules).
      */
     @Override
-    public void useCard(Player player)
-    {
+    public void useCard(Player player) {
         super.useCard(player);
-        for(int i = 0; i < 2; i++)
-        {
+        for (int i = 0; i < 2; i++) {
             int x = 5; //TODO: Get the start and end intersection id from users tap. This is only a placeholder for now
-            Road road = new Road(x, x);
-            player.addBuilding(road);
+            Road road = new Road(x, x, player.getPlayerId());
+            // TODO player.addBuilding(road);
         }
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         return sb.toString();
     }
 }

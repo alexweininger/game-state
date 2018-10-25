@@ -5,10 +5,9 @@ package cs.up.catan.catangamestate;
  * @version: October 25th, 2018
  * https://github.com/alexweininger/game-state
  **/
-public class YearofPlenty extends DevelopmentCards {
-    public YearofPlenty(String name)
-    {
-        super(name);
+public class YearOfPlenty extends DevelopmentCards {
+    public YearOfPlenty() {
+        super("Year of plenty");
     }
 
     /*
@@ -17,10 +16,9 @@ public class YearofPlenty extends DevelopmentCards {
                     may use these cards to build in the same turn.
      */
     @Override
-    public void useCard(Player player)
-    {
+    public void useCard(Player player) {
         super.useCard(player);
-        for(int i = 0; i < 2; i++) {
+        for (int i = 0; i < 2; i++) {
             int random = (int) Math.random() * 5;
             switch (random) {
                 case 0:
@@ -44,8 +42,7 @@ public class YearofPlenty extends DevelopmentCards {
 
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder("");
 
         return sb.toString();

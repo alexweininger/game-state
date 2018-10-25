@@ -10,9 +10,12 @@ import java.util.HashMap;
 
 public class City extends Building {
 
-    public City()
-    {
-        super("City", 1);
+    /**
+     *
+     * @param ownerId
+     */
+    public City(int ownerId) {
+        super("City", 1, ownerId);
         HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
         checkResources.put("Ore", 3);
         checkResources.put("Wheat", 2);

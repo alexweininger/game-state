@@ -9,22 +9,19 @@ import android.drm.DrmStore;
 
 public class VictoryPoints extends DevelopmentCards {
 
-    public VictoryPoints(String name)
-    {
-        super(name);
+    public VictoryPoints() {
+        super("Victory Points");
     }
 
     @Override
-    public void useCard(Player player)
-    {
+    public void useCard(Player player) {
         super.useCard(player);
         player.setLocalScore(player.getLocalScore() + 1);
     }
 
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         StringBuilder sb = new StringBuilder("");
 
         return sb.toString();
