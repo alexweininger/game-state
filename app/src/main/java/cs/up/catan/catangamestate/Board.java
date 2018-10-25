@@ -7,7 +7,9 @@ package cs.up.catan.catangamestate;
 
 import android.util.Log;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * External Citation
@@ -43,6 +45,9 @@ public class Board {
     private ArrayList<ArrayList<Integer>> hexToIntIdMap = new ArrayList<ArrayList<Integer>>(); // rows: hex id - col: int ids
     private ArrayList<ArrayList<Integer>> intToHexIdMap = new ArrayList<ArrayList<Integer>>(); // rows: int id - col: hex id
 
+    private HashMap<Integer, Building> buildings = new HashMap<Integer, Building>(); // list of buildings on board
+
+    // private HashMap<Integer, Hexagon> hexagons = new HashMap<Integer, Hexagon>();
     /**
      * Board constructor
      * defines hexagonIdRings, intersectionIdRings, and hexagonAdjacencyGraph.
