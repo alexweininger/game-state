@@ -7,39 +7,34 @@ import java.util.HashMap;
  * @version: October 24th, 2018
  * https://github.com/alexweininger/game-state
  **/
-public class Road extends Building{
+public class Road extends Building {
 
     private int startIntersectionID, endIntersectionID;
 
-    public Road(int startIntersectionID, int endIntersectionID)
-    {
+    public Road(int startIntersectionID, int endIntersectionID) {
         super("Road", 0);
-        HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
+
         this.startIntersectionID = startIntersectionID;
         this.endIntersectionID = endIntersectionID;
+
+        HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
         checkResources.put("Brick", 1);
-        checkResources.put("Ore", 0);
-        checkResources.put("Sheep", 0);
-        checkResources.put("Wheat", 0);
         checkResources.put("Wood", 1);
     }
 
-    //sets rhe start and end intersection ids
-    public void placeRoad(int startIntersectionID, int endIntersectionID)
-    {
+    //sets rhe start and end intersection ids TODO use this
+    public void placeRoad(int startIntersectionID, int endIntersectionID) {
         this.startIntersectionID = startIntersectionID;
         this.endIntersectionID = endIntersectionID;
     }
 
     //returns where the road starts
-    public int getStartIntersectionID()
-    {
+    public int getStartIntersectionID() {
         return startIntersectionID;
     }
 
     //return where the road ends
-    public int getEndIntersectionID()
-    {
+    public int getEndIntersectionID() {
         return endIntersectionID;
     }
 

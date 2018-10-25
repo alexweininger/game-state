@@ -14,25 +14,30 @@ public class Building {
     private HashMap<String, Integer> checkResources = new HashMap<>();
     private int victoryPoints = 0;
     private int ownerId = 0;
-    private int intersectionId = 0;
 
-    //default constructor for subclasses
-    public Building() {
-
-    }
-
-    public Building(String buildingName, int victoryPoints) {
+    /**
+     *
+     * @param buildingName
+     * @param victoryPoints
+     * @param ownerId
+     */
+    public Building(String buildingName, int victoryPoints, int ownerId) {
         this.buildingName = buildingName;
         this.victoryPoints = victoryPoints;
+        this.ownerId = ownerId;
     }
 
-    public void build(Player player)
-    {
-        player.removeResources("Brick",this.checkResources.get("Brick"));
-        player.removeResources("Ore",this.checkResources.get("Ore"));
-        player.removeResources("Sheep",this.checkResources.get("Sheep"));
-        player.removeResources("Wheat",this.checkResources.get("Wheat"));
-        player.removeResources("Wood",this.checkResources.get("Wood"));
+    /** build
+     *
+     * @param player - player who is building the building
+     */
+    public void build(Player player) {
+        // TODO does this work?
+        player.removeResources("Brick", this.checkResources.get("Brick"));
+        player.removeResources("Ore", this.checkResources.get("Ore"));
+        player.removeResources("Sheep", this.checkResources.get("Sheep"));
+        player.removeResources("Wheat", this.checkResources.get("Wheat"));
+        player.removeResources("Wood", this.checkResources.get("Wood"));
 
         //assigns the player's id the building signifying who owns it
         setOwnerId(player.getPlayerId());
@@ -54,7 +59,6 @@ public class Building {
         sb.append(", victoryPoints=");
         sb.append(victoryPoints);
         sb.append(", intersectionId=");
-        sb.append(intersectionId);
         sb.append('}');
 
         return sb.toString();
@@ -84,11 +88,4 @@ public class Building {
         this.ownerId = ownerId;
     }
 
-    public int getIntersectionId() {
-        return intersectionId;
-    }
-
-    public void setIntersectionId(int intersectionId) {
-        this.intersectionId = intersectionId;
-    }
 }
