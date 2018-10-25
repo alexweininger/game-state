@@ -168,19 +168,19 @@ public class Board {
             this.intersectionIdRings.add(new ArrayList<Integer>());
             for (int j = 0; j < ((2 * i) + 1) * 6; j++) {
                 this.intersectionIdRings.get(i).add(id);
+                id++;
             }
         }
     }
 
+    private void buildIGraph() {
+        for (int i = 0; i < 3; i++) {
+            
+        }
+    }
+
     public boolean checkHexagonAdjacency(int id1, int id2) {
-
-        /*
-         * 1. if in same ring == true
-         * 2. check graph
-         */
-
-
-        return false;
+        return (hGraph[id1][id2] || hGraph[id2][id1]);
     }
 
     /**
