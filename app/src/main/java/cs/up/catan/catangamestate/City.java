@@ -12,7 +12,7 @@ public class City extends Building {
 
     /**
      *
-     * @param ownerId
+     * @param ownerId id of who owns the building
      */
     public City(int ownerId) {
         super("City", 1, ownerId);
@@ -21,6 +21,10 @@ public class City extends Building {
         checkResources.put("Wheat", 2);
     }
 
+    /**
+     *
+     * @return string representation of a City
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

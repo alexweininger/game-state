@@ -13,6 +13,11 @@ public class VictoryPoints extends DevelopmentCards {
         super("Victory Points");
     }
 
+
+    /**
+     *
+     * @param player player who is using the card
+     */
     @Override
     public void useCard(Player player) {
         super.useCard(player);
@@ -20,6 +25,10 @@ public class VictoryPoints extends DevelopmentCards {
     }
 
 
+    /**
+     *
+     * @return string representation of a VictoryPoints
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("");

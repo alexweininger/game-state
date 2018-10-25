@@ -24,6 +24,9 @@ public class DevelopmentCards{
         this.isPlayable = false;
     }
 
+    /**
+     * creates a deck of int representing the exact number each type of card
+     */
     public void generateDevCardDeck()
     {
         checkResources.put("Ore", 1);
@@ -62,16 +65,16 @@ public class DevelopmentCards{
         }
     }
 
-    //default constructor
-    public DevelopmentCards() {
-    }
-
     //default use method
     public void useCard(Player player)
     {
         player.useDevCard(this);
     }
 
+    /**
+     *
+     * @param player player who is building a dev card
+     */
     public void build(Player player)
     {
         player.removeResources("Ore",1);
@@ -82,6 +85,10 @@ public class DevelopmentCards{
         player.addDevCard(getRandomCard());
     }
 
+    /**
+     *
+     * @return the random dev card the player drew
+     */
     public DevelopmentCards getRandomCard() {
         int random = (int) Math.random() * 25;
         int cardChosen = developmentCards.get(random);
@@ -110,6 +117,10 @@ public class DevelopmentCards{
         return null;
     }
 
+    /**
+     *
+     * @param playable allows the player to play the card or not
+     */
     public void setPlayable(boolean playable) {
         isPlayable = playable;
     }
@@ -122,6 +133,10 @@ public class DevelopmentCards{
     //as if they selected to play this card (may need a boolean to see if they have
     //the card)
 
+    /**
+     *
+     * @return string representation of a DevelopmnentCard
+     */
     @Override
     public String toString() {
         return "You played + " + name;

@@ -2,31 +2,38 @@ package cs.up.catan.catangamestate;
 
 public class Monopoly extends DevelopmentCards {
 
-    /**
-     *
-     */
     public Monopoly() {
         super("Monopoly");
     }
 
-    /** useCard method
+    /**
      *
-     * @param player - player who uses the Monopoly card
+     * @param player player useing the card
+     * @param p2 other player to lose resources
+     * @param p3 other player to lose resources
+     * @param p4 other player to lose resources
      */
-    @Override
-    public void useCard(Player player) {
+    public void useCard(Player player, Player p2, Player p3, Player p4) {
         super.useCard(player);
-        //TODO: How we gonna do this... DB
-        /*
-        Monopoly: If you play this card, you must name 1 type of
-                  resource. All the other players must give you all of the
-                  Resource Cards of this type that they have in their hands.
 
-                  1. option to select resource
-                  2. take res from each player who has res
-         */
+        //TODO: figure which resourse the play picked
+        int totalCollected;
+        totalCollected = p2.getResources().get("Ore");
+        totalCollected += p3.getResources().get("Ore");
+        totalCollected += p4.getResources().get("Ore");
+
+        p2.setResources("Ore", 0);
+        p3.setResources("Ore", 0);
+        p4.setResources("Ore", 0);
+
+        player.setResources("Ore", totalCollected);
+
     } // end useCard method
 
+    /**
+     *
+     * @return string representation of a Monopoly
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
