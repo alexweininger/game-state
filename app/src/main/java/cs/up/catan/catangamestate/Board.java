@@ -6,6 +6,7 @@ package cs.up.catan.catangamestate;
  */
 
 import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -38,6 +39,10 @@ public class Board {
     private boolean[][] hGraph = new boolean[19][19];
     private boolean[][] iGraph = new boolean[54][54];
 
+    /* maps relating hex to intersection and intersection to hex ids */
+    private ArrayList<ArrayList<Integer>> hexToIntIdMap = new ArrayList<ArrayList<Integer>>(); // rows: hex id - col: int ids
+    private ArrayList<ArrayList<Integer>> intToHexIdMap = new ArrayList<ArrayList<Integer>>(); // rows: int id - col: hex id
+
     /**
      * Board constructor
      * defines hexagonIdRings, intersectionIdRings, and hexagonAdjacencyGraph.
@@ -56,7 +61,48 @@ public class Board {
         printGraph(this.hGraph);
         printGraph(this.iGraph);
 
+        generateHexToIntIdMap();
+
     } // end constructor
+
+    /**
+     *
+     */
+    private void generateHexToIntIdMap() {
+        for (int i = 0; i < 19; i++) {
+            hexToIntIdMap.add(new ArrayList<Integer>());
+        }
+        for (int i = 0; i < 54; i++) {
+            intToHexIdMap.add(new ArrayList<Integer>());
+        }
+
+        for (int i = 0; i < 3; i++) { // rings
+            for (int j = 0; j < hexagonIdRings.get(i).size(); j++) { // j = hex id
+                int hexId = getHexagonId(i, j);
+                boolean corner = false;
+                corner = j % i == 0;
+                if (corner) {
+                    // 2 prev 4 next
+                    hexToIntIdMap.get(hexId).add(getIntersectionId(i - 1, j));
+                    hexToIntIdMap.get(hexId).add(getIntersectionId(i - 1, j + 1));
+                    hexToIntIdMap.get(hexId).add(getIntersectionId(i, j));
+                    hexToIntIdMap.get(hexId).add(getIntersectionId(i, j - 1));
+                    hexToIntIdMap.get(hexId).add(getIntersectionId(i, j - 2));
+                    hexToIntIdMap.get(hexId).add(getIntersectionId(i, j - 3));
+                } else {
+                    // 3 prev 3 next
+                }
+
+            }
+        }
+    }
+
+    /**
+     *
+     */
+    private void generateIntToHexIdMap() {
+
+    }
 
     /**
      * intersectionAdjCheck
@@ -149,17 +195,17 @@ public class Board {
                     corner = j % i == 0;
                 }
 
-                this.hGraph[getId(i, j)][getId(i + 1, j + sextant)] = true;
-                this.hGraph[getId(i, j)][getId(i + 1, j + sextant + 1)] = true;
+                this.hGraph[getHexagonId(i, j)][getHexagonId(i + 1, j + sextant)] = true;
+                this.hGraph[getHexagonId(i, j)][getHexagonId(i + 1, j + sextant + 1)] = true;
 
                 if (corner) {
                     int size = hexagonIdRings.get(i + 1).size();
                     int nextIndex = ((j - 1 + sextant) % size);
                     if (nextIndex < 12 && nextIndex >= 0) {
-                        hGraph[getId(i, j)][getId(i + 1, nextIndex)] = true;
+                        hGraph[getHexagonId(i, j)][getHexagonId(i + 1, nextIndex)] = true;
                     } else {
                         Log.d("dev", "id value wrapped: " + (Math.abs(j - 1 + sextant) % size));
-                        hGraph[getId(i, j)][getId(i + 1, size - Math.abs(j - 1 + sextant) % size)] = true;
+                        hGraph[getHexagonId(i, j)][getHexagonId(i + 1, size - Math.abs(j - 1 + sextant) % size)] = true;
                     }
                 }
             }
@@ -168,7 +214,7 @@ public class Board {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < hexagonIdRings.get(i).size(); j++) {
 
-                hGraph[getId(i, j)][getId(i, j)] = true;
+                hGraph[getHexagonId(i, j)][getHexagonId(i, j)] = true;
 
                 int newIndex = j + 1;
                 int newIndexBack = j - 1;
@@ -181,8 +227,8 @@ public class Board {
                 if (newIndexBack < 0) {
                     newIndexBack = hexagonIdRings.get(i).size() - Math.abs(newIndexBack);
                 }
-                hGraph[getId(i, j)][getId(i, newIndex)] = true;
-                hGraph[getId(i, j)][getId(i, newIndexBack)] = true;
+                hGraph[getHexagonId(i, j)][getHexagonId(i, newIndex)] = true;
+                hGraph[getHexagonId(i, j)][getHexagonId(i, newIndexBack)] = true;
             }
         }
 
@@ -259,13 +305,13 @@ public class Board {
     } // end iGraphGeneration
 
     /**
-     * getId
+     * getHexagonId
      *
      * @param ring
      * @param col
      * @return
      */
-    private int getId(int ring, int col) {
+    private int getHexagonId(int ring, int col) {
         return hexagonIdRings.get(ring).get(col);
     }
 
