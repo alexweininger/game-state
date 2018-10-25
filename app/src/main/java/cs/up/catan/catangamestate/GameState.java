@@ -21,7 +21,6 @@ public class GameState {
     private ArrayList<Player> playerList = new ArrayList<>(); // list of players in game
 
     private Board board = new Board();
-    private int robberLocationHex;
 
     private int currentLargestArmyPlayerId; // player who currently has the largest army
 
@@ -40,9 +39,6 @@ public class GameState {
         this.playerList.add(new Player());
         this.playerList.add(new Player());
 
-        Random random = new Random();
-        this.robberLocationHex = random.nextInt(18); // random hexagon id (0-18)
-
         this.board.toString();
 
         // set all vic points to 0 to start
@@ -57,7 +53,6 @@ public class GameState {
         this.dice = gameState.dice;
         this.currentPlayerId = gameState.currentPlayerId;
         this.currentDiceSum = gameState.currentDiceSum;
-        this.robberLocationHex = gameState.robberLocationHex;
 
         for (int i = 0; i < gameState.playerList.size(); i++) {
             this.playerList.add(new Player(gameState.playerList.get(i)));
@@ -119,7 +114,6 @@ public class GameState {
         str += "GameState:\n";
         str += "Current Player:" + currentPlayerId + "\n";
         str += "Current Dice Sum: " + currentDiceSum + "\n";
-        str += "Robber Location: " + robberLocationHex + "\n";
 
         for (int i = 0; i < playerList.size(); i++) {
             str += playerList.get(i).toString() + " "; // TODO
