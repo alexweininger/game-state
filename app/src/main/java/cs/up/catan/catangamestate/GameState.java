@@ -158,23 +158,21 @@ public class GameState {
         if(playerId != currentPlayerId){
             return false;
         }
-        produceResources(dice.roll(), edit);
-        StringBuilder str = new StringBuilder();
-        if (move) {
-            this.dice.roll();
-            str.append("Player 1 rolled a ").append(this.dice.getSum()).append("\n");
+        int rollNum = dice.roll();
+        produceResources(rollNum, edit);
 
-            return true;
-        }
-        str.append("It is not ").append(this.currentPlayerId).append("'s turn!\n"); // TODO
-        edit.append(str.toString());
-        return false;
+        StringBuilder str = new StringBuilder();
+        str.append("Player " + playerId + " rolled a " + rollNum + "\n");
+        edit.append(str);
+        return true;
     } // end rollDice action method
 
     /*tradePort() method
      *
      * Player trades with ports, gives resources and receives a resource;
-     * number depends on the resource
+     * number depends on the resourc
+     *
+     * TODO Implement method
      *
      * */
     public boolean tradePort(boolean move, EditText edit) {
@@ -191,6 +189,7 @@ public class GameState {
      * Player trades with bank, gives resources and receives a resource;
      * number depends on the resource
      *
+     * TODO Implement method
      * */
     public boolean tradeBank(boolean move, EditText edit) {
         if (move) {
@@ -206,6 +205,7 @@ public class GameState {
      * Player requests to build road ands Gamestate processes requests and returns true
      * if build was successful
      *
+     * TODO Implement method
      * */
     public boolean buildRoad(boolean move, EditText edit) {
         if (move) {
@@ -221,6 +221,7 @@ public class GameState {
      * Player requests to build settlement and Gamestate processes requests and returns true
      * if build was successful
      *
+     * TODO Implement method
      * */
     public boolean buildSettlement(boolean move, EditText edit) {
         if (move) {
@@ -236,6 +237,7 @@ public class GameState {
      * Player requests to build city and Gamestate processes requests and returns true
      * if build was successful
      *
+     * TODO Implement method
      * */
     public boolean buildCity(boolean move, EditText edit) {
         if (move) {
@@ -251,6 +253,7 @@ public class GameState {
      * Player will choose "Development Card" from the build menu, confirm, and then add a
      * random development card to their development card inventory
      *
+     * TODO Implement method
      */
     public boolean buyDevCard(boolean move, EditText edit) {
         if (move) {
@@ -266,6 +269,7 @@ public class GameState {
      * Player will select a development card they own and use it; gamestate will determine
      * legality and then carry out development cards function
      *
+     * TODO Implement method
      */
     public boolean useDevCard(boolean move, EditText edit) {
         if (move) {
@@ -280,6 +284,7 @@ public class GameState {
      *
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
      *
+     * TODO Implement method
      */
     public boolean robberDiscard(boolean move, EditText edit) {
         if (move) {
@@ -295,6 +300,7 @@ public class GameState {
      * If the player has rolled a 7, player will move the robber to another Hexagon that
      * has settlements nearby
      *
+     * TODO Implement method
      */
     public boolean robberMove(boolean move, EditText edit) {
         if (move) {
@@ -310,6 +316,7 @@ public class GameState {
      * After the player has moved the Robber, the player will choose a player to steal from and
      * receive a random card from their hand
      *
+     * TODO Implement method
      */
     public boolean robberSteal(boolean move, EditText edit) {
         if (move) {
