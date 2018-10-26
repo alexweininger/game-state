@@ -3,18 +3,19 @@ package cs.up.catan.catangamestate;
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
  * @version: October 25th, 2018
  * https://github.com/alexweininger/game-state
- *
+ * -
  * GameState contains the overall data and actions pertaining to the Settlers of Catan game.
- *
+ * -
  * Main classes that are part of the GameState data, are the Board class which contains all
  * information about the current board. This includes adjacency maps and the robbers hexagon location.
  * Other smaller classes are the Dice class, Player class, DevelopmentCard class, and the classes that
  * are used within those classes.
+ * -
+ * This class also
+ *
  **/
 
 import android.widget.EditText;
-
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -239,11 +240,11 @@ public class GameState {
     public boolean tradePort(Player player, int playerId, String resGiven, String resReceive, EditText edit) {
 
         //Check if current player's turn and then if player has rolled dice
-        if(playerId != currentPlayerId){
+        if (playerId != currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!");
             return false;
         }
-        if(!actionPhase){
+        if (!actionPhase) {
             edit.append("Player " + playerId + " must roll dice first!");
             return false;
         }
@@ -251,7 +252,7 @@ public class GameState {
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
-        if(player.getResources().get(resGiven) < ratio){
+        if (player.getResources().get(resGiven) < ratio) {
             edit.append("PLayer");
             return false;
         }
