@@ -65,8 +65,7 @@ public class MainActivity extends AppCompatActivity {
                 editText.append(fourthInstance.toString());
             }
         });
-
-        // developmentCards = new DevelopmentCard(); // TODO wtf is this @DB
+        
     }
 
 
