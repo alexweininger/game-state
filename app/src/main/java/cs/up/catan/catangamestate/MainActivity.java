@@ -33,18 +33,26 @@ public class MainActivity extends AppCompatActivity {
                 GameState firstInstance = new GameState();
                 GameState secondInstance = new GameState(firstInstance);
 
-                editText.setText("--- First Instance --- \n");
-                firstInstance.rollDice(true, editText);
+                editText.setText("\n");
+                editText.append("--- First Instance --- \n");
+                editText.append(firstInstance.toString());
+
+                editText.append("--- First Instance --- \n");
+                firstInstance.rollDice(4, editText);
                 firstInstance.tradePort(true, editText);
                 firstInstance.tradeBank(true, editText);
                 firstInstance.buildSettlement(true, editText);
                 firstInstance.buildCity(true, editText);
                 firstInstance.buildRoad(true, editText);
-                firstInstance.buyDevCard(true, editText);
-                firstInstance.useDevCard(true, editText);
+                firstInstance.buyDevCard(true, editText, 0);
+                firstInstance.useDevCard(true, editText, 0);
                 firstInstance.robberDiscard(true, editText);
-                firstInstance.robberMove(true, editText);
-                firstInstance.robberSteal(true, editText);
+                firstInstance.robberMove(true, editText,0,0);
+                firstInstance.robberSteal(true, editText,0,0);
+
+                editText.append("\n");
+                editText.append("--- First Instance --- \n");
+                editText.append(firstInstance.toString());
 
                 editText.append("\n");
 
