@@ -69,6 +69,10 @@ public class Player {
         sb.append(this.resources);
         sb.append("\nDevelopment Cards = ");
         sb.append(this.developmentCards);
+        sb.append("\navailableBuildings = ");
+        sb.append(availableBuildings);
+        sb.append("\narmySize = ");
+        sb.append(armySize);
         sb.append("\n");
 
         return sb.toString();
