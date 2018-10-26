@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Set;
 
 public class GameState {
 
@@ -279,13 +280,23 @@ public class GameState {
      *
      * TODO Implement method
      * */
-    public boolean buildSettlement(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 2 built a Settlement!\n");
-            return true;
+    public boolean buildSettlement(Player player, int intersectionID, int playerId, EditText edit) {
+        if(playerId != currentPlayerId){
+            edit.append("It is not Player " + playerId + "'s turn!");
+            return false;
         }
-        edit.append("Player 1 cannot build a Settlement!\n");
-        return false;
+        if(!actionPhase){
+            edit.append("Player " + playerId + " must roll dice first!");
+            return false;
+        }
+
+        if(!Settlement.hasResources(player.getResources())){
+            edit.append("Player " + playerId + " does not have enough resources!");
+        }
+
+        Settlement settlement = new Settlement(intersectionID, playerId);
+        //board.addSettlement
+        return true;
     }
 
     /*buildCity() method
@@ -295,13 +306,23 @@ public class GameState {
      *
      * TODO Implement method
      * */
-    public boolean buildCity(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 2 built a City!\n");
-            return true;
+    public boolean buildCity(Player player, int intersectionID, int playerId, EditText edit) {
+        if(playerId != currentPlayerId){
+            edit.append("It is not Player " + playerId + "'s turn!");
+            return false;
         }
-        edit.append("Player 2 cannot build a City!\n");
-        return false;
+        if(!actionPhase){
+            edit.append("Player " + playerId + " must roll dice first!");
+            return false;
+        }
+
+        if(!City.hasResources(player.getResources())){
+            edit.append("Player " + playerId + " does not have enough resources!");
+        }
+
+        City city = new City(intersectionID, playerId);
+        //board.addCity
+        return true;
     }
 
     /*buyDevCard() method

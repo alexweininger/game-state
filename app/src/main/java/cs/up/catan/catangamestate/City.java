@@ -17,8 +17,9 @@ public class City extends Building {
      *
      * @param ownerId id of who owns the building
      */
-    public City(int ownerId) {
-        super("City", 1, ownerId);
+    public City(int intersectionID, int ownerId) {
+        super("City", 2, ownerId);
+        this.intersectionID = intersectionID;
         HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
     }
 

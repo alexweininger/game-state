@@ -16,8 +16,9 @@ public class Settlement extends Building {
      *
      * @param ownerId - player id of who owns the settlement
      */
-    public Settlement(int ownerId) {
-        super("Settlement", 2, ownerId);
+    public Settlement(int intersectionID, int ownerId) {
+        super("Settlement", 1, ownerId);
+        this.intersectionID = intersectionID;
         HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
     } // end constructor
 
