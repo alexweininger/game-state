@@ -60,7 +60,11 @@ public class GameState {
         }
     } // end GameState constructor
 
-    // GameState deep copy constructor
+    /**
+     * GameState deep copy constructor
+     *
+     * @param gameState - GameState object to make a copy of
+     */
     public GameState(GameState gameState) {
         this.dice = gameState.dice;
         this.currentPlayerId = gameState.currentPlayerId;
