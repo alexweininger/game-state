@@ -38,13 +38,13 @@ public class MainActivity extends AppCompatActivity {
                 editText.append(firstInstance.toString());
 
                 editText.append("--- First Instance --- \n");
-                firstInstance.rollDice(4, editText);
-                firstInstance.tradePort(true, editText);
-                firstInstance.tradeBank(true, editText);
-                firstInstance.buildSettlement(true, editText);
-                firstInstance.buildCity(true, editText);
-                firstInstance.buildRoad(true, editText);
-                firstInstance.buyDevCard(true, editText, 0);
+                firstInstance.rollDice(1, editText);
+                firstInstance.tradePort(1, "ore", "wood", editText);
+                firstInstance.tradeBank(1, "ore", "wood", editText);
+                firstInstance.buildSettlement(1, 2, editText);
+                firstInstance.buildCity(1, 7, editText);
+                firstInstance.buildRoad(1, 2, 2, editText);
+                firstInstance.buyDevCard(1, editText);
                 firstInstance.useDevCard(true, editText, 0);
                 firstInstance.robberDiscard(true, editText);
                 firstInstance.robberMove(true, editText,0,0);

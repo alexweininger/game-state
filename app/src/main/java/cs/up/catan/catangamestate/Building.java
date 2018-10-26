@@ -80,7 +80,7 @@ public class Building {
      *
      * Once resources are taken
      *
-     */
+
     public void build(Player player)
     {
         for(HashMap.Entry<String, Integer> entry: resourceCost.entrySet()){
@@ -95,7 +95,7 @@ public class Building {
         player.addBuilding(this);
 
         //TODO: mark when a location is taken on the board (Use setIntersectionId(int intersectionId))
-    }
+    }*/
 
     /*hasResources
      *
@@ -104,7 +104,7 @@ public class Building {
      *
      * Return true if there are enough resources; return false if otherwise
      *
-     */
+
     public static boolean hasResources(HashMap<String, Integer> resources){    //TODO Logic needs to be tested
         for(HashMap.Entry<String, Integer> entry: resources.entrySet()){
             if(entry.getValue() < resourceCost.get(entry.getKey())){
@@ -112,7 +112,7 @@ public class Building {
             }
         }
         return true;
-    }
+    }*/
 
 
     public String getBuildingName() {
