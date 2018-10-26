@@ -8,19 +8,16 @@ package cs.up.catan.catangamestate;
 import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameState {
 
     // GameState instance variables
     private Dice dice; // dice object
     private int currentDiceSum = -1;
-
     private int currentPlayerId = -1; // id of player who is the current playing player
-
     private ArrayList<Player> playerList = new ArrayList<>(); // list of players in game
-
     private Board board = new Board();
-
     private int currentLargestArmyPlayerId; // player who currently has the largest army
 
     // victory points of each player
