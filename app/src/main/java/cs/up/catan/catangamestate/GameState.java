@@ -297,6 +297,8 @@ public class GameState {
         }
 
         Road road = new Road(startIntersectionID, endIntersectionID, playerId);
+
+
         //board.addRoad
 
         edit.append("Player " + playerId + " built a Road!\n");
@@ -499,6 +501,7 @@ public class GameState {
             edit.append("Player " + currentPlayerId + " has ended their turn.");
             currentPlayerId++;
             edit.append("It is now player id: " + currentPlayerId + " turn.");
+            updateVictoryPoints();
             return true;
         }
         // if player cant end turn?

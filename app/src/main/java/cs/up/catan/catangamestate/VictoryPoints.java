@@ -19,6 +19,7 @@ public class VictoryPoints extends DevelopmentCard {
     @Override
     public void useCard(Player player) {
         super.useCard(player);
+        // TODO
     }
 
 
