@@ -364,9 +364,9 @@ public class GameState {
         DevelopmentCard dc = new DevelopmentCard();
         if (playerId == currentPlayerId){
             if (playerList.get(playerId).getResources().get("Ore") >= 1 && playerList.get(playerId).getResources().get("Sheep") >= 1 && playerList.get(playerId).getResources().get("Wheat") >= 1){
-
+                dc.build(playerList.get(playerId));
+                return true;
             }
-            dc.build(playerList.get(playerId));
             /*playerList.get(playerId).removeResources("Ore", 1);
             playerList.get(playerId).removeResources("Wool", 1);
             playerList.get(playerId).removeResources("Grain", 1);*/

@@ -23,11 +23,11 @@ public class Player {
      */
     public Player(int id) {
         this.armySize = 0;
-        this.resources.put("Brick", 1);
-        this.resources.put("Ore", 1);
-        this.resources.put("Sheep", 2);
-        this.resources.put("Wheat", 0);
-        this.resources.put("Wood", 3);
+        this.resources.put("Brick", 20);
+        this.resources.put("Ore", 20);
+        this.resources.put("Sheep", 20);
+        this.resources.put("Wheat", 20);
+        this.resources.put("Wood", 20);
         this.playerId = id;
     }
 

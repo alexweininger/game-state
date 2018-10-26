@@ -38,17 +38,15 @@ public class MainActivity extends AppCompatActivity {
                 editText.append(firstInstance.toString());
 
                 editText.append("--- First Instance --- \n");
-                firstInstance.rollDice(1, editText);
-                firstInstance.tradePort(1, "ore", "wood", editText);
-                firstInstance.tradeBank(1, "ore", "wood", editText);
-                firstInstance.buildSettlement(1, 2, editText);
-                firstInstance.buildCity(1, 7, editText);
-                firstInstance.buildRoad(1, 2, 2, editText);
-                firstInstance.buyDevCard(1, editText);
+                firstInstance.rollDice(0, editText);
+                firstInstance.tradePort(0,"Wood", "Ore", editText);
+                firstInstance.tradeBank(0, "Sheep","Brick", editText);
+                firstInstance.buildSettlement(5, 0, editText);
+                firstInstance.buildCity(9, 0, editText);
+                firstInstance.buildRoad(4, 5, 0, editText);
+                firstInstance.buyDevCard(true, editText, 0);
                 firstInstance.useDevCard(true, editText, 0);
-                firstInstance.robberDiscard(true, editText);
-                firstInstance.robberMove(true, editText,0,0);
-                firstInstance.robberSteal(true, editText,0,0);
+                firstInstance.endTurn(true, editText);
 
                 editText.append("\n");
                 editText.append("--- First Instance --- \n");
@@ -68,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // developmentCards = new DevelopmentCard(); // TODO wtf is this @DB
     }
 
 
