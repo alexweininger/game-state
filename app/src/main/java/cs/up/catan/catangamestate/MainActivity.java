@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 firstInstance.rollDice(0, editText);
                 firstInstance.tradePort(0,"Wood", "Ore", editText);
                 firstInstance.tradeBank(0, "Sheep","Brick", editText);
-                firstInstance.buildSettlement(5, 0, editText);
+                firstInstance.buildSettlement(0, 0, editText);
                 firstInstance.buildCity(0, 5, editText);
                 firstInstance.buildRoad(0, 9, 0, editText);
                 firstInstance.robberDiscard(true, editText);

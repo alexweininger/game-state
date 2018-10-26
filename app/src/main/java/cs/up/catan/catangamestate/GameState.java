@@ -218,11 +218,11 @@ public class GameState {
 
         //Check if current player's turn and then if player has rolled dice
         if(playerId != currentPlayerId){
-            edit.append("It is not Player " + playerId + "'s turn!");
+            edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
         if(!actionPhase){
-            edit.append("Player " + playerId + " must roll dice first!");
+            edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
 
@@ -231,13 +231,14 @@ public class GameState {
         int ratio = random.nextInt(1) + 2;
 
         if(playerList.get(playerId).getResources().get(resGiven) < ratio){
-            edit.append("Player" + playerId + " does not have enough resources!");
+            edit.append("Player" + playerId + " does not have enough resources!\n");
             return false;
         }
 
         playerList.get(playerId).removeResources(resGiven, ratio);
         playerList.get(playerId).addResources(resReceive, 1);
 
+        edit.append("Player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with a Port!\n");
         return true;
     }
 
@@ -250,11 +251,11 @@ public class GameState {
     public boolean tradeBank(int playerId, String resGiven, String resReceive, EditText edit) {
         //Check if current player's turn and then if player has rolled dice
         if(playerId != currentPlayerId){
-            edit.append("It is not Player " + playerId + "'s turn!");
+            edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
         if(!actionPhase){
-            edit.append("Player " + playerId + " must roll dice first!");
+            edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
 
@@ -263,13 +264,14 @@ public class GameState {
         int ratio = random.nextInt(1) + 2;
 
         if(playerList.get(playerId).getResources().get(resGiven) < ratio){
-            edit.append("Player " + playerId + " does not have enough resources!");
+            edit.append("Player " + playerId + " does not have enough resources!\n");
             return false;
         }
 
         playerList.get(playerId).removeResources(resGiven, ratio);
         playerList.get(playerId).addResources(resReceive, 1);
 
+        edit.append("Player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with the Bank!\n");
         return true;
     }
 
@@ -282,20 +284,24 @@ public class GameState {
      * */
     public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID, EditText edit) {
         if(playerId != currentPlayerId){
-            edit.append("It is not Player " + playerId + "'s turn!");
+            edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
         if(!actionPhase){
-            edit.append("Player " + playerId + " must roll dice first!");
+            edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
 
-        if(playerList.get(playerId).hasResources("brick", 3) && playerList.get(playerId).hasResources("wood", 2)){
-            edit.append("Player " + playerId + " does not have enough resources!");
+        if(playerList.get(playerId).getResources().get("Brick") < 1 && playerList.get(playerId).getResources().get("Wood") < 1){
+            edit.append("Player " + playerId + " does not have enough resources!\n");
         }
 
         Road road = new Road(startIntersectionID, endIntersectionID, playerId);
+
+
         //board.addRoad
+
+        edit.append("Player " + playerId + " built a Road!\n");
         return true;
     }
 
@@ -308,22 +314,23 @@ public class GameState {
      * */
     public boolean buildSettlement(int playerId, int intersectionID, EditText edit) {
         if(playerId != currentPlayerId){
-            edit.append("It is not Player " + playerId + "'s turn!");
+            edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
         if(!actionPhase){
-            edit.append("Player " + playerId + " must roll dice first!");
+            edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
 
-        if(playerList.get(playerId).hasResources("brick", 1) && playerList.get(playerId).hasResources("grain", 1)
-                && playerList.get(playerId).hasResources("wood", 1) && playerList.get(playerId).hasResources("wool", 1)){
-            edit.append("Player " + playerId + " does not have enough resources!");
-            edit.append("Player " + playerId + " does not have enough resources!");
+        if(playerList.get(playerId).getResources().get("Brick") == 1 && playerList.get(playerId).getResources().get("Grain") == 1
+                && playerList.get(playerId).getResources().get("Wood") == 1 && playerList.get(playerId).getResources().get("Wool") == 1){
+            edit.append("Player " + playerId + " does not have enough resources!\n");
         }
 
         Settlement settlement = new Settlement(intersectionID, playerId);
         //board.addSettlement
+
+        edit.append("Player " + playerId + " built a Settlement!\n");
         return true;
     }
 
@@ -336,20 +343,22 @@ public class GameState {
      * */
     public boolean buildCity(int playerId, int intersectionID, EditText edit) {
         if(playerId != currentPlayerId){
-            edit.append("It is not Player " + playerId + "'s turn!");
+            edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
         if(!actionPhase){
-            edit.append("Player " + playerId + " must roll dice first!");
+            edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
 
-        if(playerList.get(playerId).hasResources("ore", 3) && playerList.get(playerId).hasResources("grain", 2)){
-            edit.append("Player " + playerId + " does not have enough resources!");
+        if(playerList.get(playerId).getResources().get("Ore") == 3 && playerList.get(playerId).getResources().get("Grain") == 2){
+            edit.append("Player " + playerId + " does not have enough resources!\n");
         }
 
         City city = new City(intersectionID, playerId);
         //board.addCity
+
+        edit.append("Player " + playerId + " built a City!\n");
         return true;
     }
 
@@ -492,6 +501,7 @@ public class GameState {
             edit.append("Player " + currentPlayerId + " has ended their turn.");
             currentPlayerId++;
             edit.append("It is now player id: " + currentPlayerId + " turn.");
+            updateVictoryPoints();
             return true;
         }
         // if player cant end turn?
@@ -506,50 +516,33 @@ public class GameState {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
+        String str = "";
 
         result.append("GameState:\n");
         result.append("Current Player: ").append(this.currentPlayerId).append("\n");
-        result.append("GameState:\n");
-        result.append("Current Player:");
         result.append(currentPlayerId);
         result.append("\n");
         result.append("Current Dice Sum: ");
         result.append(currentDiceSum);
         result.append("\n");
-        result.append("isActionPase: ");
+        result.append("isActionPhase: ");
         result.append(isActionPhase);
         result.append("\n");
 
         for (int i = 0; i < playerList.size(); i++) {
-            result.append(playerList.get(i).toString());
-            result.append(" ");
-            result.append("\n");
+            result.append(playerList.get(i).toString() + " "); // TODO
+            result.append("\n\n");
         }
         result.append(this.board.toString());
 
-        result.append("currentLargestArmyPlayerId: ");
-        result.append(currentLargestArmyPlayerId);
-        result.append("\n");
-        result.append("currentLongestRoadPlayerId: ");
-        result.append(currentLongestRoadPlayerId);
-        result.append("\n");
+        result.append("currentLargestArmyPlayerId: " + currentLargestArmyPlayerId + "\n");
+        result.append("currentLongestRoadPlayerId: " + currentLongestRoadPlayerId + "\n\n");
 
-        result.append("playerVictoryPoints:");
         for(int i = 0; i < playerList.size(); i++)
         {
-            result.append(playerVictoryPoints[i]);
-            result.append(" ");
-        }
-        result.append("\n");
 
-        result.append("playerPrivateVictoryPoints:");
-        for(int i = 0; i < playerList.size(); i++)
-        {
-            result.append(playerPrivateVictoryPoints[i]);
-            result.append(" ");
         }
-
-        result.append("\n");
-        return result.toString();
+        str = result.toString();
+        return str;
     } // end GameState toString()
 }
