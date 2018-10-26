@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 firstInstance.buildSettlement(5, 0, editText);
                 firstInstance.buildCity(9, 0, editText);
                 firstInstance.buildRoad(4, 5, 0, editText);
-                firstInstance.buyDevCard(true, editText, 0);
+                //firstInstance.buyDevCard(true, editText, 0);
                 firstInstance.useDevCard(true, editText, 0);
                 firstInstance.endTurn(true, editText);
 
