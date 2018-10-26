@@ -19,7 +19,6 @@ public class VictoryPoints extends DevelopmentCard {
     @Override
     public void useCard(Player player) {
         super.useCard(player);
-        player.setLocalScore(player.getLocalScore() + 1);
     }
 
 
