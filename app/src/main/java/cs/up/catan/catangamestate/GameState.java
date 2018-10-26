@@ -60,15 +60,28 @@ public class GameState {
         }
     } // end GameState constructor
 
-    // GameState deep copy constructor TODO
+    // GameState deep copy constructor
     public GameState(GameState gameState) {
         this.dice = gameState.dice;
         this.currentPlayerId = gameState.currentPlayerId;
         this.currentDiceSum = gameState.currentDiceSum;
+        this.isActionPhase = gameState.isActionPhase;
+        this.board = gameState.board;
+        this.currentLongestRoadPlayerId = gameState.currentLongestRoadPlayerId;
+        this.currentLargestArmyPlayerId = gameState.currentLargestArmyPlayerId;
+        this.actionPhase = gameState.actionPhase;
 
         for (int i = 0; i < gameState.playerList.size(); i++) {
             this.playerList.add(new Player(gameState.playerList.get(i)));
         }
+
+        for(int i = 0; i < gameState.playerVictoryPoints.length; i++)
+        {
+            this.playerVictoryPoints[i] = gameState.playerVictoryPoints[i];
+            this.playerPrivateVictoryPoints[i] = gameState.playerPrivateVictoryPoints[i];
+        }
+
+
     } // end deep copy constructor
 
     /**
