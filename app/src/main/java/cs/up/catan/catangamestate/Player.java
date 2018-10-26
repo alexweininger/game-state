@@ -101,7 +101,7 @@ public class Player {
     }
 
     public boolean hasResources(String key, int amount){
-        if(resources.get(key) < amount) {
+        if(resources.get(key).intValue() < amount) {
             return false;
         }
         return true;
