@@ -94,6 +94,9 @@ public class Board {
         return hexagons.get(hexagonId);
     }
 
+    /**
+     *
+     */
     public void populatePortIntersectionIds() {
         for (int i = 0; i < 6; i++) {
             portIntersectionLocations.add(17 + i * 6);
@@ -101,14 +104,30 @@ public class Board {
         }
     }
 
+    /**
+     * @param intersectionId - intersection to check for port adjacency
+     * @return -
+     */
     public boolean checkPortAdjacency(int intersectionId) {
         return portIntersectionLocations.contains(intersectionId);
     }
 
-    public Collection<Building> getBuildings() {
-        return buildings.values();
+    /**
+     * @return ArrayList of buildings on board
+     */
+    public ArrayList<Building> getBuildings() {
+        ArrayList<Building> result = new ArrayList<>();
+        for (int i = 0; i < 54; i++) {
+            if (buildings.containsKey(i)) {
+                result.add(buildings.get(i));
+            }
+        }
+        return result;
     }
 
+    /**
+     * @param road
+     */
     public void addRoad(Road road) {
         roads.add(road);
     }
@@ -165,14 +184,14 @@ public class Board {
     /**
      * addRoad - attempts to add a new road to the board,
      *
-     * @param startIntersectinId
-     * @param endIntersectionId
-     * @param ownerId
-     * @return
+     * @param startIntersectionId -
+     * @param endIntersectionId   -
+     * @param ownerId             -
+     * @return -
      */
-    public boolean addRoad(int startIntersectinId, int endIntersectionId, int ownerId) {
+    public boolean addRoad(int startIntersectionId, int endIntersectionId, int ownerId) {
 
-        Road road = new Road(startIntersectinId, endIntersectionId, ownerId);
+        Road road = new Road(startIntersectionId, endIntersectionId, ownerId);
         return false;
     }
 
