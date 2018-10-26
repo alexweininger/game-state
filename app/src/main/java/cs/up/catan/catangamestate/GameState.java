@@ -28,6 +28,7 @@ public class GameState {
     // victory points of each player
     private int[] playerVictoryPoints = new int[4];
     private int[] playerPrivateVictoryPoints = new int[4];
+    private boolean actionPhase = false;
 
     // GameState constructor
     public GameState() {
@@ -160,6 +161,7 @@ public class GameState {
         }
         int rollNum = dice.roll();
         produceResources(rollNum, edit);
+        actionPhase = true;
 
         StringBuilder str = new StringBuilder();
         str.append("Player " + playerId + " rolled a " + rollNum + "\n");
@@ -175,13 +177,30 @@ public class GameState {
      * TODO Implement method
      *
      * */
-    public boolean tradePort(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 1 traded with a Port!\n");
-            return true;
+    public boolean tradePort(Player player, int playerId, String resGiven, String resReceive, EditText edit) {
+
+        //Check if current player's turn and then if player has rolled dice
+        if(playerId != currentPlayerId){
+            return false;
+            edit.append("It is not Player " + playerId + "'s turn!");
         }
-        edit.append("Player 1 does that have enough resources to trade!\n");
-        return false;
+        if(!actionPhase){
+            return false;
+            edit.append("Player " + playerId + " must roll dice first!");
+        }
+
+        Random random = new Random();
+        int ratio = random.nextInt(1) + 2;
+
+        if(player.getResources().get(resGiven) < ratio){
+            return false;
+            edit.append("PLayer");
+        }
+
+        player.removeResources(resGiven, ratio);
+        player.addResources(resReceive, 1);
+
+        
     } // end tradePort action method
 
     /*tradeBank() method
