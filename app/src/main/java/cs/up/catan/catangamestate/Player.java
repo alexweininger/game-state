@@ -16,6 +16,7 @@ public class Player {
 
     /* Player instance variables */
     private HashMap<String, Integer> resources = new HashMap<>(); // k: resource id, v: resource count
+    /* resourceCard index values: 0 = Brick 1 = Ore 2 = Wool 3 = Wheat 4 = Wood */
     private int[] resourceCards = new int[5]; // array for number of each resource card a player has
 
     private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>(); // ArrayList of the development cards the player owns
@@ -48,11 +49,18 @@ public class Player {
         this.playerId = player.getPlayerId();
     }
 
+    /**
+     * @param resourceCardId - index value of resource to add (0-4) defined above
+     * @param numToAdd       - number of resource cards of this type to add to the players inventory AW
+     */
     public void addResourceCard(int resourceCardId, int numToAdd) {
+
         if (resourceCardId < 0 || resourceCardId >= 5) {
             Log.d("devError", "ERROR addResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
+        } else {
+            Log.d("devInfo", "INFO addResourceCard: added resourceCardId: " + resourceCardId + " to playerId: " + this.playerId + " resourceCards.");
+            this.resourceCards[resourceCardId] += numToAdd;
         }
-        this.resourceCards[resourceCardId] += numToAdd;
     }
 
     /**
