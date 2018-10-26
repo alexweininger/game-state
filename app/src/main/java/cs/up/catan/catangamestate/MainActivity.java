@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                 firstInstance.buildRoad(4, 5, 0, editText);
                 firstInstance.buyDevCard(true, editText, 0);
                 firstInstance.useDevCard(true, editText, 0);
-                firstInstance.endTurn(true, EditText);
+                firstInstance.endTurn(true, editText);
 
                 editText.append("\n");
                 editText.append("--- First Instance --- \n");
