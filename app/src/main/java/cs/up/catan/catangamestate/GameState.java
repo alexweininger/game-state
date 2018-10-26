@@ -133,8 +133,11 @@ public class GameState {
      * Method for the very first turn for each player; player will select coordinates for
      * two roads and two settlements at the beginning of the game
      *
+     *
      */
     public boolean initBuilding(boolean move, EditText edit) {
+
+
         if (move) {
             edit.append("Player 1 placed their settlements and roads!\n");
             edit.append("Player 2 placed their settlements and roads!\n");
@@ -151,7 +154,11 @@ public class GameState {
      * resources depending on settlements players own and where they're located.
      *
      * */
-    public boolean rollDice(boolean move, EditText edit) {
+    public boolean rollDice(int playerId, EditText edit) {
+        if(playerId != currentPlayerId){
+            return false;
+        }
+        produceResources(dice.roll(), edit);
         StringBuilder str = new StringBuilder();
         if (move) {
             this.dice.roll();
