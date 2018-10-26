@@ -1,29 +1,41 @@
 package cs.up.catan.catangamestate;
 
 public class Hexagon {
-    private int id, x, y, z;
-    private String resource;
+    private String resourceType;
+    private int chitValue;
 
     /**
+     * Hexagon constructor AW
      *
-     * @param resource
+     * @param resourceType - resourceType type of hexagon
+     * @param chitValue    - dice value of hexagon
      */
-    public Hexagon(String resource) {
-        this.resource = resource;
+    public Hexagon(String resourceType, int chitValue) {
+        this.resourceType = resourceType;
+        this.chitValue = chitValue;
     }
 
-    public String getResource() {
-        return resource;
+    /**
+     * @return
+     */
+    public String getResourceType() {
+        return resourceType;
     }
 
-    public void setResource(String resource) {
-        this.resource = resource;
+    /**
+     * @return
+     */
+    public int getChitValue() {
+        return chitValue;
     }
 
+    /**
+     * @return
+     */
     @Override
     public String toString() {
         return "Hexagon{" +
-                "resource='" + resource + '\'' +
+                "resourceType='" + resourceType + '\'' +
                 '}';
     }
 }
