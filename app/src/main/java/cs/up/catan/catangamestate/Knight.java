@@ -21,7 +21,7 @@ public class Knight extends DevelopmentCards {
         super.useCard(player);
         //TODO:need to get input of tile user pressed on screen to move robber to
         int hexNumber = 5; //5 is only a placeholder for now
-        robber.setCurrentHexagonId(hexNumber);
+        robber.setHexagonId(hexNumber);
         player.setArmySize(player.getArmySize() + 1);
     }
 

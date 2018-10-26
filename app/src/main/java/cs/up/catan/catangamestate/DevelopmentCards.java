@@ -7,17 +7,16 @@ package cs.up.catan.catangamestate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
-public class DevelopmentCards{
+public class DevelopmentCards {
 
     private ArrayList<Integer> developmentCards = new ArrayList<Integer>(); // ArrayList of the development card in the deck
-    private HashMap<String, Integer> checkResources = new HashMap<>();
+    private HashMap<String, Integer> resourceCost = new HashMap<>();
 
     //default instance variable
     private String name;
     private boolean isPlayable;
-
-    // hashmap connecting ids to a specifc card
 
     public DevelopmentCards(String name) {
         this.name = name;
@@ -27,98 +26,61 @@ public class DevelopmentCards{
     /**
      * creates a deck of int representing the exact number each type of card
      */
-    public void generateDevCardDeck()
-    {
-        checkResources.put("Ore", 1);
-        checkResources.put("Wheat", 1);
-        checkResources.put("Sheep", 1);
+    public void generateDevCardDeck() {
+        resourceCost.put("Ore", 1);
+        resourceCost.put("Wheat", 1);
+        resourceCost.put("Sheep", 1);
 
-
-        //add Knight
-        for(int i = 0; i < 14; i++)
-        {
-            developmentCards.add(0);
-        }
-
-        //add VictoryPoints
-        for(int i = 0; i < 5; i++)
-        {
-            developmentCards.add(1);
-        }
-
-        //add RoadDevCard
-        for(int i = 0; i < 2; i++)
-        {
-            developmentCards.add(2);
-        }
-
-        //add Monopoly
-        for(int i = 0; i < 2; i++)
-        {
-            developmentCards.add(3);
-        }
-
-        //add Year Of Plenty
-        for(int i = 0; i < 2; i++)
-        {
-            developmentCards.add(4);
+        int[] devCardCounts = {14, 5, 2, 2, 2};
+        for (int i = 0; i < devCardCounts.length; i++) {
+            for (int j = 0; j < devCardCounts[i]; j++) {
+                developmentCards.add(i);
+            }
         }
     }
 
     //default use method
-    public void useCard(Player player)
-    {
+    public void useCard(Player player) {
         player.useDevCard(this);
     }
 
     /**
-     *
      * @param player player who is building a dev card
      */
-    public void build(Player player)
-    {
-        player.removeResources("Ore",1);
-        player.removeResources("Sheep",1);
-        player.removeResources("Wheat",1);
+    public void build(Player player) {
+        player.removeResources("Ore", 1);
+        player.removeResources("Sheep", 1);
+        player.removeResources("Wheat", 1);
 
         //adds the building to the player's array list of built buildings
         player.addDevCard(getRandomCard());
     }
 
     /**
-     *
      * @return the random dev card the player drew
      */
     public DevelopmentCards getRandomCard() {
-        int random = (int) Math.random() * 25;
-        int cardChosen = developmentCards.get(random);
-        developmentCards.remove(random);
-        switch (cardChosen)
-        {
+        Random random = new Random();
+        int randomDevCard = random.nextInt(developmentCards.size() - 1);
+        int drawnDevCard = developmentCards.get(randomDevCard);
+        developmentCards.remove(randomDevCard);
+        switch (drawnDevCard) { // switch to create new dev card
             case 0:
-                Knight knight = new Knight();
-                return knight;
+                return new Knight();
             case 1:
-                VictoryPoints vicortyPoints = new VictoryPoints();
-                return vicortyPoints;
+                return new VictoryPoints();
             case 2:
-                RoadDevCard roadBuilding = new RoadDevCard();
-                return roadBuilding;
+                return new RoadDevCard();
             case 3:
-                Monopoly monopoly = new Monopoly();
-                return monopoly;
+                return new Monopoly();
             case 4:
-                YearOfPlenty yearOfPlenty = new YearOfPlenty();
-                return yearOfPlenty;
+                return new YearOfPlenty();
+            default:
+                return null;
         }
-
-
-
-        return null;
     }
 
     /**
-     *
      * @param playable allows the player to play the card or not
      */
     public void setPlayable(boolean playable) {
@@ -134,7 +96,6 @@ public class DevelopmentCards{
     //the card)
 
     /**
-     *
      * @return string representation of a DevelopmnentCard
      */
     @Override

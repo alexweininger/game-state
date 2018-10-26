@@ -7,6 +7,7 @@ package cs.up.catan.catangamestate;
 
 import android.widget.EditText;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -21,7 +22,6 @@ public class GameState {
     private ArrayList<Player> playerList = new ArrayList<>(); // list of players in game
 
     private Board board = new Board();
-    private int robberLocationHex;
 
     private int currentLargestArmyPlayerId; // player who currently has the largest army
 
@@ -40,9 +40,6 @@ public class GameState {
         this.playerList.add(new Player());
         this.playerList.add(new Player());
 
-        Random random = new Random();
-        this.robberLocationHex = random.nextInt(18); // random hexagon id (0-18)
-
         this.board.toString();
 
         // set all vic points to 0 to start
@@ -57,7 +54,6 @@ public class GameState {
         this.dice = gameState.dice;
         this.currentPlayerId = gameState.currentPlayerId;
         this.currentDiceSum = gameState.currentDiceSum;
-        this.robberLocationHex = gameState.robberLocationHex;
 
         for (int i = 0; i < gameState.playerList.size(); i++) {
             this.playerList.add(new Player(gameState.playerList.get(i)));
@@ -89,6 +85,7 @@ public class GameState {
 
     /**
      * within this method if they build a building we add it to the board
+     *
      * @return
      */
     private boolean turnHandler() {
@@ -108,28 +105,28 @@ public class GameState {
 
     }
 
-    // toString() TODO
-    @Override
-    public String toString() {
-        StringBuilder result = new StringBuilder();
-        String str = "";
+    /**
+     * AW
+     *
+     * @param diceSum - dice sum
+     */
+    public void produceResources(int diceSum, EditText edit) {
+        ArrayList<Integer> productionHexagonIds = board.getHexagonsFromChitValue(diceSum);
+        for (Integer i: productionHexagonIds) {
+            /* for each producing hexagon tile TODO
+             *   1. find adjacent intersections
+             *   2. check if intersections have buildings
+             *   3. give the owner of each building the corresponding
+             *       amount of the hexagon resource type
+             */
+            Hexagon hex = board.getHexagonFromId(i);
+            edit.append("producing " + hex.getResourceType());
 
-        result.append("GameState:\n");
-        result.append("Current Player: ").append(this.currentPlayerId).append("\n");
-        str += "GameState:\n";
-        str += "Current Player:" + currentPlayerId + "\n";
-        str += "Current Dice Sum: " + currentDiceSum + "\n";
-        str += "Robber Location: " + robberLocationHex + "\n";
+            ArrayList<Integer> receivingPlayerIds = new ArrayList<>();
 
-        for (int i = 0; i < playerList.size(); i++) {
-            str += playerList.get(i).toString() + " "; // TODO
-            str += "\n\n";
         }
+    }
 
-
-        str += this.board.toString();
-        return str;
-    } // end GameState toString()
 
     /* initBuildings method
      *
@@ -159,6 +156,7 @@ public class GameState {
         if (move) {
             this.dice.roll();
             str.append("Player 1 rolled a ").append(this.dice.getSum()).append("\n");
+
             return true;
         }
         str.append("It is not ").append(this.currentPlayerId).append("'s turn!\n"); // TODO
@@ -320,4 +318,27 @@ public class GameState {
 	    --On next steps
 	TODO
 	 */
+
+
+    // toString() TODO
+    @Override
+    public String toString() {
+        StringBuilder result = new StringBuilder();
+        String str = "";
+
+        result.append("GameState:\n");
+        result.append("Current Player: ").append(this.currentPlayerId).append("\n");
+        str += "GameState:\n";
+        str += "Current Player:" + currentPlayerId + "\n";
+        str += "Current Dice Sum: " + currentDiceSum + "\n";
+
+        for (int i = 0; i < playerList.size(); i++) {
+            str += playerList.get(i).toString() + " "; // TODO
+            str += "\n\n";
+        }
+
+
+        str += this.board.toString();
+        return str;
+    } // end GameState toString()
 }
