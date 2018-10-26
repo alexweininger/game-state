@@ -27,7 +27,7 @@ public class Player {
     /**
      * Player constructor
      */
-    public Player(int id) {
+    Player(int id) {
         this.armySize = 0;
         this.resources.put("Brick", 20);
         this.resources.put("Ore", 20);
@@ -52,16 +52,18 @@ public class Player {
     }
 
     /**
+     * error checking:
+     * - checks for valid resourceCardId
+     *
      * @param resourceCardId - index value of resource to add (0-4) defined above
      * @param numToAdd       - number of resource cards of this type to add to the players inventory AW
      */
     public void addResourceCard(int resourceCardId, int numToAdd) {
-
-        if (resourceCardId < 0 || resourceCardId >= 5) {
+        if (resourceCardId < 0 || resourceCardId >= 5) { // check for a valid resourceCardId
             Log.d("devError", "ERROR addResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
         } else {
             Log.d("devInfo", "INFO addResourceCard: added numToAdd: " + numToAdd + " resourceCardId: " + resourceCardId + " to playerId: " + this.playerId + " resourceCards.");
-            this.resourceCards[resourceCardId] += numToAdd;
+            this.resourceCards[resourceCardId] += numToAdd; // increase count of the resource card
         }
     }
 
@@ -112,26 +114,6 @@ public class Player {
         this.armySize = armySize;
     }
 
-    /**
-     * @return string representation of a Player
-     */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Player ");
-        sb.append(playerId);
-        sb.append("\nResources = ");
-        sb.append(this.resources);
-        sb.append("\nDevelopment Cards = ");
-        sb.append(this.developmentCards);
-        sb.append("\navailableBuildings = ");
-        sb.append(availableBuildings);
-        sb.append("\narmySize = ");
-        sb.append(armySize);
-        sb.append("\n");
-
-        return sb.toString();
-    }
 
     /**
      * @param res name of resource
@@ -258,13 +240,31 @@ public class Player {
         if (resourceNames.size() == 0) {
             return "No Cards in this person's hands!";
         }
-
         String stolenResource = resourceNames.get((int) (Math.random() * resourceNames.size()));
         this.removeResources(stolenResource, 1);
         return stolenResource;
     }
 
+    /**
+     * @return string representation of a Player
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Player ");
+        sb.append(playerId);
+        sb.append("\nResources = ");
+        sb.append(this.resources);
+        sb.append("\nDevelopment Cards = ");
+        sb.append(this.developmentCards);
+        sb.append("\navailableBuildings = ");
+        sb.append(availableBuildings);
+        sb.append("\narmySize = ");
+        sb.append(armySize);
+        sb.append("\n");
 
+        return sb.toString();
+    }
 }
 
 
