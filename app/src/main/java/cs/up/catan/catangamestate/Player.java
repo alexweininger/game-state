@@ -23,6 +23,7 @@ public class Player {
     private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
     private int armySize; // for the knight trophy and dev card
     private int playerId;   // player Id
+
     /**
      * Player constructor
      */
@@ -41,12 +42,13 @@ public class Player {
      *
      * @param player - Player object to copy
      */
-    public Player(Player player) {
+    Player(Player player) {
         this.developmentCards = player.getDevelopmentCards();
         this.armySize = player.getArmySize();
         this.resources = player.getResources();
         this.availableBuildings = player.getAvailableBuildings();
         this.playerId = player.getPlayerId();
+        this.resourceCards = player.getResourceCards();
     }
 
     /**
@@ -61,6 +63,14 @@ public class Player {
             Log.d("devInfo", "INFO addResourceCard: added resourceCardId: " + resourceCardId + " to playerId: " + this.playerId + " resourceCards.");
             this.resourceCards[resourceCardId] += numToAdd;
         }
+    }
+
+    public int[] getResourceCards() {
+        return resourceCards;
+    }
+
+    public void setResourceCards(int[] resourceCards) {
+        this.resourceCards = resourceCards;
     }
 
     /**
@@ -124,12 +134,13 @@ public class Player {
         return false;
     }
 
-    public boolean hasResources(String key, int amount){
-        if(resources.get(key).intValue() < amount) {
+    public boolean hasResources(String key, int amount) {
+        if (resources.get(key).intValue() < amount) {
             return false;
         }
         return true;
     }
+
     /**
      * @param devCard dev card to add
      */
@@ -212,17 +223,17 @@ public class Player {
         this.availableBuildings = availableBuildings;
     }
 
-    public String getRandomCard(){
+    public String getRandomCard() {
         ArrayList<String> resourceNames = new ArrayList<>();
         String[] baseResources = {"Brick", "Wool", "Grain", "Ore", "Wood"};
-        for (int n = 0; n < resources.size(); n++){
+        for (int n = 0; n < resources.size(); n++) {
             for (int x = 0; x < baseResources.length; x++) {
-                if (resources.containsKey(baseResources[n])){
+                if (resources.containsKey(baseResources[n])) {
                     resourceNames.add(baseResources[n]);
                 }
             }
         }
-        if (resourceNames.size() == 0){
+        if (resourceNames.size() == 0) {
             return "No Cards in this person's hands!";
         }
 
@@ -230,7 +241,6 @@ public class Player {
         this.removeResources(stolenResource, 1);
         return stolenResource;
     }
-
 
 
 }
