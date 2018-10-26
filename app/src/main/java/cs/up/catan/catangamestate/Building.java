@@ -63,6 +63,8 @@ public class Building {
         sb.append(", victoryPoints=");
         sb.append(victoryPoints);
         sb.append(", intersectionId=");
+        sb.append(", ownerID=");
+        sb.append(ownerId);
         sb.append('}');
 
         return sb.toString();
