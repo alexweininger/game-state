@@ -19,7 +19,7 @@ public class VictoryPoints extends DevelopmentCard {
     @Override
     public void useCard(Player player) {
         super.useCard(player);
-        player.setLocalScore(player.getLocalScore() + 1);
+        // TODO
     }
 
 
@@ -29,7 +29,7 @@ public class VictoryPoints extends DevelopmentCard {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
 
         return sb.toString();
     }
