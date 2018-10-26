@@ -16,8 +16,10 @@ public class Player {
 
     /* Player instance variables */
     private HashMap<String, Integer> resources = new HashMap<>(); // k: resource id, v: resource count
+
     /* resourceCard index values: 0 = Brick 1 = Ore 2 = Wool 3 = Wheat 4 = Wood */
     private int[] resourceCards = new int[5]; // array for number of each resource card a player has
+    private String[] resourceCardIds = {"Brick", "Ore", "Wool", "Wheat", "Wood"};
 
     private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>(); // ArrayList of the development cards the player owns
     private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
@@ -28,6 +30,10 @@ public class Player {
      * Player constructor
      */
     Player(int id) {
+        // initialize all resource card counts to 0
+        for (int i = 0; i < this.resourceCards.length; i++) {
+            this.resourceCards[i] = 0;
+        }
         this.armySize = 0;
         this.resources.put("Brick", 20);
         this.resources.put("Ore", 20);
@@ -90,6 +96,17 @@ public class Player {
                 return false; // did not remove resource cards to players inventory
             }
         }
+    }
+
+    /**
+     * @return String showing the number of each resource card the player has
+     */
+    public String printResourceCards() {
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < this.resourceCards.length; i++) {
+            str.append(this.resourceCardIds[i]).append(": ").append(this.resourceCards[i]).append(", ");
+        }
+        return str.toString();
     }
 
     public int[] getResourceCards() {
@@ -262,7 +279,6 @@ public class Player {
         sb.append("\narmySize = ");
         sb.append(armySize);
         sb.append("\n");
-
         return sb.toString();
     }
 }
