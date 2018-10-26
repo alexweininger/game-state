@@ -4,7 +4,7 @@ package cs.up.catan.catangamestate;
  * Board class
  *
  * @author Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version October 10th, 2018
+ * @version October 25th, 2018
  * https://github.com/alexweininger/game-state
  * all information about the current state of the board is contained in this class:
  * - buildings, and their locations
