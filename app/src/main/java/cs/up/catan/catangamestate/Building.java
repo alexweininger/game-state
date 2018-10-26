@@ -7,6 +7,7 @@ package cs.up.catan.catangamestate;
  **/
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Building {
 
@@ -29,7 +30,7 @@ public class Building {
     /** build TODO
      *
      * @param player - player who is building the building
-     */
+
     public void build(Player player) {
         // TODO does this work?
         player.removeResources("Brick", this.resourceCost.get("Brick"));
@@ -44,7 +45,7 @@ public class Building {
         // TODO board.addBuilding(this);
 
         //TODO: mark when a location is taken on the board (Use setIntersectionId(int intersectionId))
-    }
+    }*/
 
     /**
      *
@@ -71,6 +72,49 @@ public class Building {
      *
      * @return the name of a building
      */
+    /*build
+     *
+     * Build a building; overrided by subclasses to specify which resources to take. It will be
+     * Iterating through the reqResources HashMap to taking the needed values from the player
+     * resources HashMap.
+     *
+     * Once resources are taken
+     *
+     */
+    public void build(Player player)
+    {
+        for(HashMap.Entry<String, Integer> entry: reqResources.entrySet()){
+            if(entry.getValue() < reqResources.get(entry.getKey())){
+                player.removeResources(entry.getKey(), entry.getValue());
+            }
+        }
+
+        //assigns the player's id the building signifying who owns it
+        setOwnerId(player.getPlayerId());
+        //adds the building to the player's array list of built buildings
+        player.addBuilding(this);
+
+        //TODO: mark when a location is taken on the board (Use setIntersectionId(int intersectionId))
+    }
+
+    /*hasResources
+     *
+     * Iterates through reqResources HashMap and checks the Key values in the resources
+     * HashMap to see if there is a sufficient amount of resources to build the called building.
+     *
+     * Return true if there are enough resources; return false if otherwise
+     *
+     */
+    public boolean hasResources(HashMap<String, Integer> resources){    //TODO Logic needs to be tested
+        for(HashMap.Entry<String, Integer> entry: reqResources.entrySet()){
+            if(entry.getValue() < reqResources.get(entry.getKey())){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
     public String getBuildingName() {
         return buildingName;
     }
