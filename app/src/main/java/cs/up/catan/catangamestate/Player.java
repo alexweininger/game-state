@@ -6,6 +6,8 @@ package cs.up.catan.catangamestate;
  * https://github.com/alexweininger/game-state
  **/
 
+import android.os.Build;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -42,10 +44,20 @@ public class Player {
         this.playerId = player.playerId;
     }
 
-    //adds buildings when the player builds them
-    public void addBuilding(Building building)
+    /*addBuilding
+    *
+    * Check if we can add a building to the map; returns if we cannot
+    *
+    * If we can, it will create the needed building, add it to the list of buildings that
+    * this player owns. It will then be added to the board in the specified coordinate
+    *
+    */
+    public boolean addBuilding(Building building)
     {
 
+        if(!building.hasResources(this.resources)){
+            return false;
+        }
         buidlingsBuilt.add(building);
 
         //once the player chooses the build something there victory points are are added locally and publicly

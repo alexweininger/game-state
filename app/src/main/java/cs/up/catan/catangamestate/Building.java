@@ -6,41 +6,21 @@ package cs.up.catan.catangamestate;
  **/
 
 import java.util.HashMap;
+import java.util.Iterator;
 
 public class Building {
 
     //ensures the player has enough resources to build the requested building
     public String buildingName = "";
-    private HashMap<String, Integer> checkResources = new HashMap<>();
+    private HashMap<String, Integer> reqResources = new HashMap<>();
     private int victoryPoints = 0;
     private int ownerId = 0;
     private int intersectionId = 0;
 
     //default constructor for subclasses
+    //No values initialized; this is to be overrided by subclasses
     public Building() {
 
-    }
-
-    public Building(String buildingName, HashMap<String, Integer> checkResources, int victoryPoints) {
-        this.buildingName = buildingName;
-        this.checkResources = checkResources;
-        this.victoryPoints = victoryPoints;
-    }
-
-    public void build(Player player)
-    {
-        player.removeResources("Brick",this.checkResources.get("Brick"));
-        player.removeResources("Ore",this.checkResources.get("Ore"));
-        player.removeResources("Sheep",this.checkResources.get("Sheep"));
-        player.removeResources("Wheat",this.checkResources.get("Wheat"));
-        player.removeResources("Wood",this.checkResources.get("Wood"));
-
-        //assigns the player's id the building signifying who owns it
-        setOwnerId(player.getPlayerId());
-        //adds the building to the player's array list of built buildings
-        player.addBuilding(this);
-
-        //TODO: mark when a location is taken on the board (Use setIntersectionId(int intersectionId))
     }
 
     @Override
@@ -50,8 +30,8 @@ public class Building {
         sb.append("buildingName='");
         sb.append(buildingName);
         sb.append('\'');
-        sb.append(", checkResources=");
-        sb.append(checkResources);
+        sb.append(", reqResources=");
+        sb.append(reqResources);
         sb.append(", victoryPoints=");
         sb.append(victoryPoints);
         sb.append(", intersectionId=");
@@ -60,6 +40,49 @@ public class Building {
 
         return sb.toString();
     }
+
+    /*build
+     *
+     * Build a building; overrided by subclasses to specify which resources to take. It will be
+     * Iterating through the reqResources HashMap to taking the needed values from the player
+     * resources HashMap.
+     *
+     * Once resources are taken
+     *
+     */
+    public void build(Player player)
+    {
+        for(HashMap.Entry<String, Integer> entry: reqResources.entrySet()){
+            if(entry.getValue() < reqResources.get(entry.getKey())){
+                player.removeResources(entry.getKey(), entry.getValue());
+            }
+        }
+
+        //assigns the player's id the building signifying who owns it
+        setOwnerId(player.getPlayerId());
+        //adds the building to the player's array list of built buildings
+        player.addBuilding(this);
+
+        //TODO: mark when a location is taken on the board (Use setIntersectionId(int intersectionId))
+    }
+
+    /*hasResources
+     *
+     * Iterates through reqResources HashMap and checks the Key values in the resources
+     * HashMap to see if there is a sufficient amount of resources to build the called building.
+     *
+     * Return true if there are enough resources; return false if otherwise
+     *
+     */
+    public boolean hasResources(HashMap<String, Integer> resources){    //TODO Logic needs to be tested
+        for(HashMap.Entry<String, Integer> entry: reqResources.entrySet()){
+            if(entry.getValue() < reqResources.get(entry.getKey())){
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public String getBuildingName() {
         return buildingName;

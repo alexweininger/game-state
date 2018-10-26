@@ -31,7 +31,7 @@ public class Robber {
     //sets the new position of the Robber to be moved
     public void setCurrentPosition(int newPosition)
     {
-
+        this.currentPosition = newPosition;
     }
 
     //returns the current location of the Robber

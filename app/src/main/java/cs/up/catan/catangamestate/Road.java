@@ -5,7 +5,7 @@ package cs.up.catan.catangamestate;
  * @version: October 10th, 2018
  * https://github.com/alexweininger/game-state
  **/
-public class Road { //TODO Extend Building? Need to decide
+public class Road extends Building{
 
     private int startIntersectionID, endIntersectionID;
 
