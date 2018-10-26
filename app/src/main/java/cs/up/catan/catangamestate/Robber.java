@@ -19,6 +19,11 @@ public class Robber {
         this.hexagonId = currentHexagonId;
     }
 
+    //deep copy constructor
+    public Robber(Robber robber){
+        this.hexagonId = robber.hexagonId;
+    }
+
     //sets the new position of the Robber to be moved
     public void setHexagonId(int newHexagonId) {
         this.hexagonId = newHexagonId;
