@@ -280,7 +280,7 @@ public class GameState {
      *
      * TODO Implement method
      * */
-    public boolean buildRoad(int startIntersectionID, int endIntersectionID, int playerId, EditText edit) {
+    public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID, EditText edit) {
         if(playerId != currentPlayerId){
             edit.append("It is not Player " + playerId + "'s turn!");
             return false;
@@ -290,7 +290,7 @@ public class GameState {
             return false;
         }
 
-        if(!Road.hasResources(playerList.get(playerId).getResources())){
+        if(playerList.get(playerId).hasResources("brick", 3) && playerList.get(playerId).hasResources("wood", 2)){
             edit.append("Player " + playerId + " does not have enough resources!");
         }
 
@@ -306,7 +306,7 @@ public class GameState {
      *
      * TODO Implement method
      * */
-    public boolean buildSettlement(int intersectionID, int playerId, EditText edit) {
+    public boolean buildSettlement(int playerId, int intersectionID, EditText edit) {
         if(playerId != currentPlayerId){
             edit.append("It is not Player " + playerId + "'s turn!");
             return false;
@@ -316,7 +316,9 @@ public class GameState {
             return false;
         }
 
-        if(!Settlement.hasResources(playerList.get(playerId).getResources())){
+        if(playerList.get(playerId).hasResources("brick", 1) && playerList.get(playerId).hasResources("grain", 1)
+                && playerList.get(playerId).hasResources("wood", 1) && playerList.get(playerId).hasResources("wool", 1)){
+            edit.append("Player " + playerId + " does not have enough resources!");
             edit.append("Player " + playerId + " does not have enough resources!");
         }
 
@@ -332,7 +334,7 @@ public class GameState {
      *
      * TODO Implement method
      * */
-    public boolean buildCity(int intersectionID, int playerId, EditText edit) {
+    public boolean buildCity(int playerId, int intersectionID, EditText edit) {
         if(playerId != currentPlayerId){
             edit.append("It is not Player " + playerId + "'s turn!");
             return false;
@@ -342,7 +344,7 @@ public class GameState {
             return false;
         }
 
-        if(!City.hasResources(playerList.get(playerId).getResources())){
+        if(playerList.get(playerId).hasResources("ore", 3) && playerList.get(playerId).hasResources("grain", 2)){
             edit.append("Player " + playerId + " does not have enough resources!");
         }
 
@@ -358,7 +360,7 @@ public class GameState {
      *
      * TODO Implement method
      */
-    public boolean buyDevCard(boolean move, EditText edit, int playerId) {
+    public boolean buyDevCard(int playerId, EditText edit) {
         DevelopmentCard dc = new DevelopmentCard();
         if (playerId == currentPlayerId){
             if (playerList.get(playerId).getResources().get("Ore") >= 1 && playerList.get(playerId).getResources().get("Sheep") >= 1 && playerList.get(playerId).getResources().get("Wheat") >= 1){
@@ -370,12 +372,6 @@ public class GameState {
             playerList.get(playerId).removeResources("Grain", 1);*/
 
         }
-
-        if (move) {
-            edit.append("Player 3 built a Development Card!\n");
-            return true;
-        }
-        edit.append("Player 3 cannot build a Development Card!\n");
         return false;
     }
 

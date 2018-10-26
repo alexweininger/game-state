@@ -43,22 +43,6 @@ public class Player {
         this.playerId = player.playerId;
     }
 
-    /*addBuilding
-    *
-    * Check if we can add a building to the map; returns if we cannot
-    *
-    * If we can, it will create the needed building, add it to the list of buildings that
-    * this player owns. It will then be added to the board in the specified coordinate
-    *
-    */
-    public boolean addBuilding(Building building) {
-
-        if (!building.hasResources(this.resources)) {
-            return false;
-        }
-        return true;
-    }
-
     /**
      * @return the size of the player's army
      */
@@ -116,6 +100,12 @@ public class Player {
         return false;
     }
 
+    public boolean hasResources(String key, int amount){
+        if(resources.get(key) < amount) {
+            return false;
+        }
+        return true;
+    }
     /**
      * @param devCard dev card to add
      */
