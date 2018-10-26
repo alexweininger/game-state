@@ -9,17 +9,17 @@ import java.util.HashMap;
  **/
 public class Settlement extends Building {
 
+    private int intersectionID;
+    private static HashMap<String, Integer> checkResources = new HashMap<>();
+
     /**
      *
      * @param ownerId - player id of who owns the settlement
      */
-    public Settlement(int ownerId) {
-        super("Settlement", 2, ownerId);
+    public Settlement(int intersectionID, int ownerId) {
+        super("Settlement", 1, ownerId);
+        this.intersectionID = intersectionID;
         HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
-        checkResources.put("Brick", 1);
-        checkResources.put("Sheep", 1);
-        checkResources.put("Wheat", 1);
-        checkResources.put("Wood", 1);
     } // end constructor
 
     /**
@@ -33,4 +33,11 @@ public class Settlement extends Building {
         sb.append(super.toString());
         return sb.toString();
     } // end toString
+
+    public static void cityResourcePriceMake(){
+        checkResources.put("brick", 3);
+        checkResources.put("grain", 2);
+        checkResources.put("wood", 3);
+        checkResources.put("wool", 2);
+    }
 } // end Class
