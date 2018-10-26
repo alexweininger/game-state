@@ -8,6 +8,8 @@ package cs.up.catan.catangamestate;
 import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 
 public class GameState {
 
@@ -22,7 +24,8 @@ public class GameState {
 
     private Board board = new Board();
 
-    private int currentLargestArmyPlayerId; // player who currently has the largest army
+    private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
+    private int currentLongestRoadPlayerId = -1;
 
     // victory points of each player
     private int[] playerVictoryPoints = new int[4];
@@ -63,7 +66,20 @@ public class GameState {
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
     public void checkArmySize() {
-        // stuff... TODO
+        int max = -1;
+        if (this.currentLargestArmyPlayerId != -1) {
+            max = this.playerList.get(this.currentLargestArmyPlayerId).getArmySize();
+        }
+        int playerIdWithLargestArmy = -1;
+        for (int i = 0; i < 4; i++) {
+            if (this.playerList.get(i).getArmySize() > max) {
+                max = this.playerList.get(i).getArmySize();
+                playerIdWithLargestArmy = i;
+            }
+        }
+        if (max > 2) {
+            this.currentLargestArmyPlayerId = playerIdWithLargestArmy;
+        }
     }
 
     /**
@@ -72,12 +88,39 @@ public class GameState {
      * recursion???
      */
     public void checkRoadLength() {
-
+        int max = -1;
+        int playerIdWithLongestRoad = -1;
+        if (currentLongestRoadPlayerId != -1) {
+            max = playerVictoryPoints[currentLargestArmyPlayerId];
+        }
+        for (int i = 0; i < 4; i++) {
+            if (board.getPlayerRoadLength(i) > max) {
+                max = board.getPlayerRoadLength(i);
+                playerIdWithLongestRoad = i;
+            }
+        }
+        if (max > 4) {
+            this.currentLongestRoadPlayerId = playerIdWithLongestRoad;
+        }
     }
 
     // TODO move vic points to GameState
     public void updateVictoryPoints() {
+        if (this.currentLongestRoadPlayerId != -1) {
+            this.playerVictoryPoints[this.currentLongestRoadPlayerId] -= 2;
+        }
+        checkRoadLength();
+        if (this.currentLongestRoadPlayerId != -1) {
+            this.playerVictoryPoints[this.currentLongestRoadPlayerId] += 2;
+        }
 
+        if (this.currentLargestArmyPlayerId != -1) {
+            this.playerVictoryPoints[this.currentLargestArmyPlayerId] -= 2;
+        }
+        checkArmySize();
+        if (this.currentLargestArmyPlayerId != -1) {
+            this.playerVictoryPoints[this.currentLargestArmyPlayerId] += 2;
+        }
     }
 
     // turn method TODO Niraj
@@ -210,12 +253,12 @@ public class GameState {
      * if build was successful
      *
      * */
-    public boolean buildRoad(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 1 built 2 Roads!\n");
-            return true;
+    public boolean buildRoad(boolean move, EditText edit, int playerId) {
+        if (checkTurn(playerId)) {
+
+            edit.append("Player " + playerId + " built a road.\n");
         }
-        edit.append("Player 1 cannot build a Road!\n");
+        edit.append("It is not " + playerId + "'s turn. Cannot build road.");
         return false;
     }
 
@@ -225,12 +268,13 @@ public class GameState {
      * if build was successful
      *
      * */
-    public boolean buildSettlement(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 2 built a Settlement!\n");
-            return true;
+    public boolean buildSettlement(boolean move, EditText edit, int playerId) {
+        if (checkTurn(playerId)) {
+
+            edit.append("Player " + playerId + " built a settlement.\n");
+            playerVictoryPoints[playerId] += 1; // add 1 victory point
         }
-        edit.append("Player 1 cannot build a Settlement!\n");
+        edit.append("It is not " + playerId + "'s turn. Cannot build settlement.");
         return false;
     }
 
@@ -240,12 +284,17 @@ public class GameState {
      * if build was successful
      *
      * */
-    public boolean buildCity(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 2 built a City!\n");
-            return true;
+    public boolean buildCity(boolean move, EditText edit, int playerId, int intersectionId) {
+        if (checkTurn(playerId)) {
+            if (board.isIntresectionBuildable(intersectionId)) {
+
+                edit.append("Player " + playerId + " built a City.\n");
+                // add 1 victory points because they already have 1
+                // from building a settlement if they are building a city
+                playerVictoryPoints[playerId] += 1;
+            }
         }
-        edit.append("Player 2 cannot build a City!\n");
+        edit.append("It is not " + playerId + "'s turn. Cannot build City.");
         return false;
     }
 
