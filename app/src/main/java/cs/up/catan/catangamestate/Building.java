@@ -105,7 +105,7 @@ public class Building {
      * Return true if there are enough resources; return false if otherwise
      *
      */
-    public static boolean hasResources(HashMap<String, Integer> resources){    //TODO Logic needs to be tested
+    public static boolean hasResources(HashMap<String, Integer> resources){
         for(HashMap.Entry<String, Integer> entry: resourceCost.entrySet()){
             if(entry.getValue() < resourceCost.get(entry.getKey())){
                 return false;

@@ -188,7 +188,7 @@ public class GameState {
      * TODO Implement method
      *
      * */
-    public boolean tradePort(Player player, int playerId, String resGiven, String resReceive, EditText edit) {
+    public boolean tradePort(int playerId, String resGiven, String resReceive, EditText edit) {
 
         //Check if current player's turn and then if player has rolled dice
         if(playerId != currentPlayerId){
@@ -204,13 +204,13 @@ public class GameState {
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
-        if(player.getResources().get(resGiven) < ratio){
+        if(playerList.get(playerId)getResources().get(resGiven) < ratio){
             edit.append("Player" + playerId + " does not have enough resources!");
             return false;
         }
 
-        player.removeResources(resGiven, ratio);
-        player.addResources(resReceive, 1);
+        playerList.get(playerId)removeResources(resGiven, ratio);
+        playerList.get(playerId)addResources(resReceive, 1);
 
         return true;
     }
@@ -221,7 +221,7 @@ public class GameState {
      * number depends on the resource
      *
      * */
-    public boolean tradeBank(Player player, int playerId, String resGiven, String resReceive, EditText edit) {
+    public boolean tradeBank(int playerId, String resGiven, String resReceive, EditText edit) {
         //Check if current player's turn and then if player has rolled dice
         if(playerId != currentPlayerId){
             edit.append("It is not Player " + playerId + "'s turn!");
@@ -236,13 +236,13 @@ public class GameState {
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
-        if(player.getResources().get(resGiven) < ratio){
+        if(playerList.get(playerId)getResources().get(resGiven) < ratio){
             edit.append("Player " + playerId + " does not have enough resources!");
             return false;
         }
 
-        player.removeResources(resGiven, ratio);
-        player.addResources(resReceive, 1);
+        playerList.get(playerId)removeResources(resGiven, ratio);
+        playerList.get(playerId)addResources(resReceive, 1);
 
         return true;
     }
@@ -254,7 +254,7 @@ public class GameState {
      *
      * TODO Implement method
      * */
-    public boolean buildRoad(Player player, int startIntersectionID, int endIntersectionID, int playerId, EditText edit) {
+    public boolean buildRoad(int startIntersectionID, int endIntersectionID, int playerId, EditText edit) {
         if(playerId != currentPlayerId){
             edit.append("It is not Player " + playerId + "'s turn!");
             return false;
@@ -264,7 +264,7 @@ public class GameState {
             return false;
         }
 
-        if(!Road.hasResources(player.getResources())){
+        if(!Road.hasResources(playerList.get(playerId)getResources())){
             edit.append("Player " + playerId + " does not have enough resources!");
         }
 
@@ -280,7 +280,7 @@ public class GameState {
      *
      * TODO Implement method
      * */
-    public boolean buildSettlement(Player player, int intersectionID, int playerId, EditText edit) {
+    public boolean buildSettlement(int intersectionID, int playerId, EditText edit) {
         if(playerId != currentPlayerId){
             edit.append("It is not Player " + playerId + "'s turn!");
             return false;
@@ -290,7 +290,7 @@ public class GameState {
             return false;
         }
 
-        if(!Settlement.hasResources(player.getResources())){
+        if(!Settlement.hasResources(playerList.get(playerId)getResources())){
             edit.append("Player " + playerId + " does not have enough resources!");
         }
 
@@ -306,7 +306,7 @@ public class GameState {
      *
      * TODO Implement method
      * */
-    public boolean buildCity(Player player, int intersectionID, int playerId, EditText edit) {
+    public boolean buildCity(int intersectionID, int playerId, EditText edit) {
         if(playerId != currentPlayerId){
             edit.append("It is not Player " + playerId + "'s turn!");
             return false;
@@ -316,7 +316,7 @@ public class GameState {
             return false;
         }
 
-        if(!City.hasResources(player.getResources())){
+        if(!City.hasResources(playerList.get(playerId)getResources())){
             edit.append("Player " + playerId + " does not have enough resources!");
         }
 
