@@ -187,26 +187,26 @@ public class GameState {
 
         //Check if current player's turn and then if player has rolled dice
         if(playerId != currentPlayerId){
-            return false;
             edit.append("It is not Player " + playerId + "'s turn!");
+            return false;
         }
         if(!actionPhase){
-            return false;
             edit.append("Player " + playerId + " must roll dice first!");
+            return false;
         }
 
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
         if(player.getResources().get(resGiven) < ratio){
-            return false;
             edit.append("PLayer");
+            return false;
         }
 
         player.removeResources(resGiven, ratio);
         player.addResources(resReceive, 1);
 
-        
+        return true;
     } // end tradePort action method
 
     /*tradeBank() method
