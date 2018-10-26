@@ -35,8 +35,6 @@ public class Robber {
         StringBuilder sb = new StringBuilder("");
         sb.append("The robber is currently at: ");
         sb.append(hexagonId);
-        sb.append("\nThe robber has been");
-        sb.append("move to: ");
 
         return sb.toString();
     } // end robber toString

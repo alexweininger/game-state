@@ -28,10 +28,7 @@ public class Settlement extends Building {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Settlement toString()\n");
-        sb.append(super.toString());
-        return sb.toString();
+        return super.toString();
     } // end toString
 
     public static void cityResourcePriceMake(){
