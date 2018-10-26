@@ -510,17 +510,30 @@ public class GameState {
 
         result.append("GameState:\n");
         result.append("Current Player: ").append(this.currentPlayerId).append("\n");
-        str += "GameState:\n";
-        str += "Current Player:" + currentPlayerId + "\n";
-        str += "Current Dice Sum: " + currentDiceSum + "\n";
+        result.append("GameState:\n";
+        result.append("Current Player:");
+        result.append(currentPlayerId);
+        result.append("\n");
+        result.append("Current Dice Sum: ");
+        result.append(currentDiceSum);
+        result.append("\n");
+        result.append("isActionPase: ");
+        result.append(isActionPhase);
+        result.append("\n");
 
         for (int i = 0; i < playerList.size(); i++) {
-            str += playerList.get(i).toString() + " "; // TODO
-            str += "\n\n";
+            result.append(playerList.get(i).toString() + " "; // TODO
+            result.append("\n\n";
         }
+        result.append(this.board.toString();
 
+        result.append("currentLargestArmyPlayerId: " + currentLargestArmyPlayerId + "\n";
+        result.append("currentLongestRoadPlayerId: " + currentLongestRoadPlayerId + "\n";
 
-        str += this.board.toString();
+        for(int i = 0; i < playerList.size(); i++
+        {
+            str +=
+        }
         return str;
     } // end GameState toString()
 }
