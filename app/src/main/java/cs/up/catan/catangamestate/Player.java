@@ -1,33 +1,34 @@
 package cs.up.catan.catangamestate;
 /**
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 10th, 2018
+ * @version: October 25th, 2018
  * <p>
  * https://github.com/alexweininger/game-state
  **/
-
-import android.os.Build;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Player {
 
-    //instance variables
+    /* Player instance variables */
     private int localScore; // score of player that accounts for the players dev cards, must greater or equal to global score
     private int publicScore;
     private HashMap<String, Integer> resources = new HashMap<String, Integer>(); // k: resource id, v: resource count
     private ArrayList<DevelopmentCards> developmentCards = new ArrayList<DevelopmentCards>(); // ArrayList of the development cards the player owns
-    private ArrayList<Building> buidlingsBuilt = new ArrayList<Building>(); // ArrayList of the buildings the player has built
-    private HashMap<String, Integer> availiableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
-    private int playerId;   //Player ID
+    private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
+    private int armySize; // for the knight card
+    private int playerId;   // player ID
     private static int playerCount = 1;
 
-    // constructor
+    /** Player constructor
+     *
+     */
     public Player() {
         this.localScore = 2;
         this.publicScore = 4;
-        this.resources.put("Bricks", 1);
+        this.armySize = 0;
+        this.resources.put("Brick", 1);
         this.resources.put("Ore", 1);
         this.resources.put("Sheep", 2);
         this.resources.put("Wheat", 0);
@@ -36,10 +37,15 @@ public class Player {
         playerCount++;
     }
 
+    /**
+     * deepCopy constructor
+     * @param player -
+     */
     public Player(Player player) {
         this.publicScore = player.publicScore;
         this.localScore = player.localScore;
         this.developmentCards = player.developmentCards;
+        this.armySize = player.armySize;
         this.resources = player.resources;
         this.playerId = player.playerId;
     }
@@ -60,14 +66,26 @@ public class Player {
         }
         buidlingsBuilt.add(building);
 
-        //once the player chooses the build something there victory points are are added locally and publicly
-        localScore += buidlingsBuilt.get(buidlingsBuilt.size()-1).getVictoryPoints();
-        publicScore += buidlingsBuilt.get(buidlingsBuilt.size()-1).getVictoryPoints();
-        // decreases the available buildings by one
-        availiableBuildings.put(building.getBuildingName(),availiableBuildings.get(building.getBuildingName())-1);
+    /**
+     *
+     * @return the size of the player's army
+     */
+    public int getArmySize() {
+        return armySize;
     }
 
+    /**
+     *
+     * @param armySize the size of the player's army
+     */
+    public void setArmySize(int armySize) {
+        this.armySize = armySize;
+    }
 
+    /**
+     *
+     * @return string representation of a Player
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("");
@@ -86,29 +104,51 @@ public class Player {
         return sb.toString();
     }
 
-    public boolean addResources(String res, int num){
-        if(this.resources.containsKey(res)) {
+    /**
+     *
+     * @param res name of resource
+     * @param num amount to add
+     * @return if action was possible
+     */
+    public boolean addResources(String res, int num) {
+        if (this.resources.containsKey(res)) {
             this.resources.put(res, this.resources.get(res) + num);
             return true;
         }
         return false;
     }
 
-    public boolean removeResources(String res, int num){
-        if(this.resources.containsKey(res)) {
+    /**
+     *
+     * @param res name of resource
+     * @param num amount to add
+     * @return if action was possible
+     */
+    public boolean removeResources(String res, int num) {
+        if (this.resources.containsKey(res)) {
             this.resources.put(res, this.resources.get(res) - num);
             return true;
         }
         return false;
     }
 
-    public void addDevCard(DevelopmentCards devCard){
+    /**
+     *
+     * @param devCard  dev card to add
+     */
+    public void addDevCard(DevelopmentCards devCard) {
         developmentCards.add(devCard);
     }
 
-    public boolean useResource(String res, int num){
-        if(this.resources.containsKey(res)){
-            if(this.resources.get(res) >= num){
+    /**
+     *
+     * @param res name of resource
+     * @param num amount to add
+     * @return if action was possible
+     */
+    public boolean useResource(String res, int num) {
+        if (this.resources.containsKey(res)) {
+            if (this.resources.get(res) >= num) {
                 this.resources.put(res, this.resources.get(res) - num);
                 return true;
             }
@@ -117,44 +157,105 @@ public class Player {
         return false;
     }
 
-    public boolean useDevCard(DevelopmentCards devCard){
-        if(developmentCards.contains(devCard)){
+    /**
+     *
+     * @param devCard dev card to remove
+     * @return if action was poissible
+     */
+    public boolean useDevCard(DevelopmentCards devCard) {
+        if (developmentCards.contains(devCard)) {
             developmentCards.remove(devCard);
             return true;
         }
         return false;
     }
 
+    //use to allow the player to use the dev card they built the turn prior
+    public void setDevelopmentCardsAsPlayable() {
+        for (int i = 0; i < developmentCards.size(); i++) {
+            developmentCards.get(i).setPlayable(true);
+        }
+    }
+
+    /**
+     *
+     * @return the players local score
+     */
     public int getLocalScore() {
         return localScore;
     }
 
+    /**
+     *
+     * @param localScore thre players local score
+     */
     public void setLocalScore(int localScore) {
         this.localScore = localScore;
     }
 
+    /**
+     *
+     * @return the player's public score
+     */
     public int getPublicScore() {
         return publicScore;
     }
 
+    /**
+     *
+     * @param publicScore the player's public score
+     */
     public void setPublicScore(int publicScore) {
         this.publicScore = publicScore;
     }
 
-    public int getPlayerId(){
+    /**
+     *
+     * @return the player's id
+     */
+    public int getPlayerId() {
         return this.playerId;
     }
 
-    public void setPlayerId(int id){
+    /**
+     *
+     * @param id the player's id
+     */
+    public void setPlayerId(int id) {
         this.playerId = id;
     }
 
+    /**
+     *
+     * @return number of players
+     */
     public static int getPlayerCount() {
         return playerCount;
     }
 
+    /**
+     *
+     * @param playerCount number of players
+     */
     public static void setPlayerCount(int playerCount) {
         Player.playerCount = playerCount;
+    }
+
+    /**
+     *
+     * @return hashmap of resources
+     */
+    public HashMap<String, Integer> getResources() {
+        return resources;
+    }
+
+    /**
+     *
+     * @param resource name of resource
+     * @param value amount of resource
+     */
+    public void setResources(String resource, int value) {
+        this.resources.put(resource,value);
     }
 }
 

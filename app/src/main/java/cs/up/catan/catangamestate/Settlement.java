@@ -1,22 +1,36 @@
 package cs.up.catan.catangamestate;
 
-/**
- * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 10th, 2018
+import java.util.HashMap;
+
+/** Settlement class
+ * @author Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
+ * @version October th, 2018
  * https://github.com/alexweininger/game-state
  **/
 public class Settlement extends Building {
 
-    public Settlement() {
-        super();
+    /**
+     *
+     * @param ownerId - player id of who owns the settlement
+     */
+    public Settlement(int ownerId) {
+        super("Settlement", 2, ownerId);
+        HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
+        checkResources.put("Brick", 1);
+        checkResources.put("Sheep", 1);
+        checkResources.put("Wheat", 1);
+        checkResources.put("Wood", 1);
     } // end constructor
 
+    /**
+     *
+     * @return string representation of a settlement
+     */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         sb.append("Settlement toString()\n");
         sb.append(super.toString());
-
         return sb.toString();
     } // end toString
 } // end Class

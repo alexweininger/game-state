@@ -1,42 +1,43 @@
 package cs.up.catan.catangamestate;
 
-/**
- * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 10th, 2018
+/** Robber class
+ * @author Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
+ * @version October 10th, 2018
  * https://github.com/alexweininger/game-state
+ *
+ * contains the position of the robber as well as methods to get and set position
+ *
  **/
 public class Robber {
 
-    //number that the robber is placed on
-    private int currentPosition = 0;
-    private int positionMovedTo = 0;
+    private int hexagonId; // hexagon where the robber is located
 
-    public Robber(int current_position, int position_moved_to) {
-        this.currentPosition = current_position;
-        this.positionMovedTo = position_moved_to;
+    /** Robber constructor
+     * @param currentHexagonId - where the robber is currently
+     */
+    public Robber(int currentHexagonId) {
+        this.hexagonId = currentHexagonId;
     }
 
+    //sets the new position of the Robber to be moved
+    public void setHexagonId(int newHexagonId) {
+        this.hexagonId = newHexagonId;
+    }
+
+    //returns the current location of the Robber
+    public int getHexagonId() {
+        return hexagonId;
+    }
+
+    // toString
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("");
         sb.append("The robber is currently at: ");
-        sb.append(currentPosition);
+        sb.append(hexagonId);
         sb.append("\nThe robber has been");
         sb.append("move to: ");
-        sb.append(positionMovedTo);
 
         return sb.toString();
-    }
-
-    //sets the new position of the Robber to be moved
-    public void setCurrentPosition(int newPosition)
-    {
-        this.currentPosition = newPosition;
-    }
-
-    //returns the current location of the Robber
-    public int getCurrentPosition()
-    {
-        return currentPosition;
-    }
+    } // end robber toString
 }

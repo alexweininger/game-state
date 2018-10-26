@@ -1,38 +1,39 @@
 package cs.up.catan.catangamestate;
 
+import java.util.HashMap;
+
 /**
- * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 10th, 2018
+ * @author Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
+ * @version October 24th, 2018
  * https://github.com/alexweininger/game-state
  **/
-public class Road extends Building{
+public class Road extends Building {
 
     private int startIntersectionID, endIntersectionID;
 
-    public Road() {
-        this.startIntersectionID = 0;
-        this.startIntersectionID = 1;
-    }
+    /**
+     *
+     * @param startIntersectionID -
+     * @param endIntersectionID -
+     */
+    public Road(int startIntersectionID, int endIntersectionID, int ownerId) {
+        super("Road", 0, ownerId);
 
-    //sets rhe start and end intersection ids
-    public void placeRoad(int startIntersectionID, int endIntersectionID)
-    {
         this.startIntersectionID = startIntersectionID;
         this.endIntersectionID = endIntersectionID;
+
+        HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
+        checkResources.put("Brick", 1);
+        checkResources.put("Wood", 1);
     }
 
-    //returns wehere the road starts
-    public int getStartIntersectionID()
-    {
-        return startIntersectionID;
-    }
+    public int getStartIntersectionID() { return startIntersectionID; }
+    public int getEndIntersectionID() { return endIntersectionID; }
 
-    //return where the road ends
-    public int getEndIntersectionID()
-    {
-        return endIntersectionID;
-    }
-
+    /**
+     *
+     * @return string representation of a Road
+     */
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("");

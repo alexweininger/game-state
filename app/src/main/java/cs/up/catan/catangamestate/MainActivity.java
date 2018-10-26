@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        developmentCards = new DevelopmentCards();
+        // developmentCards = new DevelopmentCards(); // TODO wtf is this @DB
     }
 
 
