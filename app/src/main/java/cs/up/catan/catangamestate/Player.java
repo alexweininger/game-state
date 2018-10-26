@@ -1,4 +1,5 @@
 package cs.up.catan.catangamestate;
+
 /**
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
  * @version: October 25th, 2018
@@ -14,15 +15,15 @@ public class Player {
     /* Player instance variables */
     private int localScore; // score of player that accounts for the players dev cards, must greater or equal to global score
     private int publicScore;
-    private HashMap<String, Integer> resources = new HashMap<String, Integer>(); // k: resource id, v: resource count
-    private ArrayList<DevelopmentCards> developmentCards = new ArrayList<DevelopmentCards>(); // ArrayList of the development cards the player owns
+    private HashMap<String, Integer> resources = new HashMap<>(); // k: resource id, v: resource count
+    private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>(); // ArrayList of the development cards the player owns
     private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
-    private int armySize; // for the knight card
-    private int playerId;   // player ID
-    private static int playerCount = 1;
+    private int armySize; // for the knight trophy and dev card
+    private final int playerId;   // player Id
+    private static int playerCount = 1; // TODO what is this???
 
-    /** Player constructor
-     *
+    /**
+     * Player constructor
      */
     public Player() {
         this.localScore = 2;
@@ -39,6 +40,7 @@ public class Player {
 
     /**
      * deepCopy constructor
+     *
      * @param player -
      */
     public Player(Player player) {
@@ -51,7 +53,6 @@ public class Player {
     } // end deepCopy player cons.
 
     /**
-     *
      * @return the size of the player's army
      */
     public int getArmySize() {
@@ -59,7 +60,6 @@ public class Player {
     }
 
     /**
-     *
      * @param armySize the size of the player's army
      */
     public void setArmySize(int armySize) {
@@ -67,7 +67,6 @@ public class Player {
     }
 
     /**
-     *
      * @return string representation of a Player
      */
     @Override
@@ -89,7 +88,6 @@ public class Player {
     }
 
     /**
-     *
      * @param res name of resource
      * @param num amount to add
      * @return if action was possible
@@ -103,7 +101,6 @@ public class Player {
     }
 
     /**
-     *
      * @param res name of resource
      * @param num amount to add
      * @return if action was possible
@@ -117,15 +114,13 @@ public class Player {
     }
 
     /**
-     *
-     * @param devCard  dev card to add
+     * @param devCard dev card to add
      */
-    public void addDevCard(DevelopmentCards devCard) {
+    public void addDevCard(DevelopmentCard devCard) {
         developmentCards.add(devCard);
     }
 
     /**
-     *
      * @param res name of resource
      * @param num amount to add
      * @return if action was possible
@@ -142,11 +137,10 @@ public class Player {
     }
 
     /**
-     *
      * @param devCard dev card to remove
      * @return if action was poissible
      */
-    public boolean useDevCard(DevelopmentCards devCard) {
+    public boolean useDevCard(DevelopmentCard devCard) {
         if (developmentCards.contains(devCard)) {
             developmentCards.remove(devCard);
             return true;
@@ -162,7 +156,6 @@ public class Player {
     }
 
     /**
-     *
      * @return the players local score
      */
     public int getLocalScore() {
@@ -170,7 +163,6 @@ public class Player {
     }
 
     /**
-     *
      * @param localScore thre players local score
      */
     public void setLocalScore(int localScore) {
@@ -178,7 +170,6 @@ public class Player {
     }
 
     /**
-     *
      * @return the player's public score
      */
     public int getPublicScore() {
@@ -186,7 +177,6 @@ public class Player {
     }
 
     /**
-     *
      * @param publicScore the player's public score
      */
     public void setPublicScore(int publicScore) {
@@ -194,7 +184,6 @@ public class Player {
     }
 
     /**
-     *
      * @return the player's id
      */
     public int getPlayerId() {
@@ -202,15 +191,6 @@ public class Player {
     }
 
     /**
-     *
-     * @param id the player's id
-     */
-    public void setPlayerId(int id) {
-        this.playerId = id;
-    }
-
-    /**
-     *
      * @return number of players
      */
     public static int getPlayerCount() {
@@ -218,7 +198,6 @@ public class Player {
     }
 
     /**
-     *
      * @param playerCount number of players
      */
     public static void setPlayerCount(int playerCount) {
@@ -226,7 +205,6 @@ public class Player {
     }
 
     /**
-     *
      * @return hashmap of resources
      */
     public HashMap<String, Integer> getResources() {
@@ -234,12 +212,11 @@ public class Player {
     }
 
     /**
-     *
      * @param resource name of resource
-     * @param value amount of resource
+     * @param value    amount of resource
      */
     public void setResources(String resource, int value) {
-        this.resources.put(resource,value);
+        this.resources.put(resource, value);
     }
 }
 

@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button runTest;
     EditText editText;
-    DevelopmentCards developmentCards;
+    DevelopmentCard developmentCards;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // developmentCards = new DevelopmentCards(); // TODO wtf is this @DB
+        // developmentCards = new DevelopmentCard(); // TODO wtf is this @DB
     }
 
 

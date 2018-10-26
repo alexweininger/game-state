@@ -1,6 +1,6 @@
 package cs.up.catan.catangamestate;
 
-public class Monopoly extends DevelopmentCards {
+public class Monopoly extends DevelopmentCard {
 
     public Monopoly() {
         super("Monopoly");

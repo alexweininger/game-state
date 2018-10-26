@@ -5,9 +5,7 @@ package cs.up.catan.catangamestate;
  * https://github.com/alexweininger/game-state
  **/
 
-import android.drm.DrmStore;
-
-public class VictoryPoints extends DevelopmentCards {
+public class VictoryPoints extends DevelopmentCard {
 
     public VictoryPoints() {
         super("Victory Points");

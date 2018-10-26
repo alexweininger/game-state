@@ -7,9 +7,7 @@ package cs.up.catan.catangamestate;
 
 import android.widget.EditText;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class GameState {
 
@@ -112,7 +110,7 @@ public class GameState {
      */
     public void produceResources(int diceSum, EditText edit) {
         ArrayList<Integer> productionHexagonIds = board.getHexagonsFromChitValue(diceSum);
-        for (Integer i: productionHexagonIds) {
+        for (Integer i : productionHexagonIds) {
             /* for each producing hexagon tile TODO
              *   1. find adjacent intersections
              *   2. check if intersections have buildings
@@ -127,6 +125,17 @@ public class GameState {
         }
     }
 
+    /**
+     * TODO HELP me do this
+     * method for when a player must select a number resource cards from their inventory
+     *
+     * @param player        - player to select cards
+     * @param numberOfCards - number of cards to select
+     * @return - array list of card types that were selected: String
+     */
+    public ArrayList<String> selectResourceCards(Player player, int numberOfCards) {
+        return null;
+    }
 
     /* initBuildings method
      *
@@ -285,6 +294,8 @@ public class GameState {
 
     /*robberMove() method
      *
+     * must check if
+     *
      * If the player has rolled a 7, player will move the robber to another Hexagon that
      * has settlements nearby
      *
@@ -319,8 +330,30 @@ public class GameState {
 	TODO
 	 */
 
+    /**
+     * action for a player ending their turn, increments currentPlayerId. As of now does no checks. AW
+     *
+     * @param move - ???
+     * @param edit - text displayed on tablet
+     * @return boolean
+     */
+    public boolean endTurn(boolean move, EditText edit) {
 
-    // toString() TODO
+        if (move) { // if player can end turn
+            edit.append("Player " + currentPlayerId + " has ended their turn.");
+            currentPlayerId++;
+            edit.append("It is now player id: " + currentPlayerId + " turn.");
+            return true;
+        }
+        // if player cant end turn?
+        return false;
+    }
+
+    /**
+     * TODO
+     *
+     * @return String
+     */
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
