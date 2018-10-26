@@ -23,6 +23,9 @@ public class DevelopmentCard {
         this.isPlayable = false;
     }
 
+    public DevelopmentCard(){
+    }
+
     /**
      * creates a deck of int representing the exact number each type of card
      */

@@ -15,9 +15,15 @@ package cs.up.catan.catangamestate;
  *
  **/
 
+import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.Random;
+import java.util.Set;
 
 public class GameState {
 
@@ -45,10 +51,14 @@ public class GameState {
         this.currentPlayerId = 0;
         this.currentDiceSum = 3;
 
-        this.playerList.add(new Player());
-        this.playerList.add(new Player());
-        this.playerList.add(new Player());
-        this.playerList.add(new Player());
+        this.playerList.add(new Player(0));
+        this.playerList.add(new Player(1));
+        this.playerList.add(new Player(2));
+        this.playerList.add(new Player(3));
+
+        Road.roadResourcePriceMake();
+        Settlement.cityResourcePriceMake();
+        City.cityResourcePriceMake();
 
         this.board.toString();
 
@@ -212,12 +222,12 @@ public class GameState {
     /*tradePort() method
      *
      * Player trades with ports, gives resources and receives a resource;
-     * number depends on the resourc
+     * number depends on the resource
      *
      * TODO Implement method
      *
      * */
-    public boolean tradePort(Player player, int playerId, String resGiven, String resReceive, EditText edit) {
+    public boolean tradePort(int playerId, String resGiven, String resReceive, EditText edit) {
 
         //Check if current player's turn and then if player has rolled dice
         if (playerId != currentPlayerId) {
@@ -229,35 +239,58 @@ public class GameState {
             return false;
         }
 
+        //Setting ration then checking resources; if enough, we commence with trade
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
+        if(playerList.get(playerId).getResources().get(resGiven) < ratio){
+            edit.append("Player" + playerId + " does not have enough resources!");
         if (player.getResources().get(resGiven) < ratio) {
             edit.append("PLayer");
             return false;
         }
 
-        player.removeResources(resGiven, ratio);
-        player.addResources(resReceive, 1);
+        playerList.get(playerId).removeResources(resGiven, ratio);
+        playerList.get(playerId).addResources(resReceive, 1);
 
         return true;
-    } // end tradePort action method
+    }
 
     /*tradeBank() method
      *
      * Player trades with bank, gives resources and receives a resource;
      * number depends on the resource
      *
-     * TODO Implement method
      * */
+    public boolean tradeBank(int playerId, String resGiven, String resReceive, EditText edit) {
+        //Check if current player's turn and then if player has rolled dice
+        if(playerId != currentPlayerId){
+            edit.append("It is not Player " + playerId + "'s turn!");
+            return false;
     public boolean tradeBank(boolean move, EditText edit) {
 
         if (move) {
             edit.append("Player 1 traded with the Bank!\n");
             return true;
         }
-        edit.append("Player 1 does that have enough resources to trade!\n");
-        return false;
+        if(!actionPhase){
+            edit.append("Player " + playerId + " must roll dice first!");
+            return false;
+        }
+
+        //Setting ration then checking resources; if enough, we commence with trade
+        Random random = new Random();
+        int ratio = random.nextInt(1) + 2;
+
+        if(playerList.get(playerId).getResources().get(resGiven) < ratio){
+            edit.append("Player " + playerId + " does not have enough resources!");
+            return false;
+        }
+
+        playerList.get(playerId).removeResources(resGiven, ratio);
+        playerList.get(playerId).addResources(resReceive, 1);
+
+        return true;
     }
 
     /*buildRoad() method
@@ -267,13 +300,23 @@ public class GameState {
      *
      * TODO Implement method
      * */
-    public boolean buildRoad(boolean move, EditText edit, int playerId) {
-        if (checkTurn(playerId)) {
-
-            edit.append("Player " + playerId + " built a road.\n");
+    public boolean buildRoad(int startIntersectionID, int endIntersectionID, int playerId, EditText edit) {
+        if(playerId != currentPlayerId){
+            edit.append("It is not Player " + playerId + "'s turn!");
+            return false;
         }
-        edit.append("It is not " + playerId + "'s turn. Cannot build road.");
-        return false;
+        if(!actionPhase){
+            edit.append("Player " + playerId + " must roll dice first!");
+            return false;
+        }
+
+        if(!Road.hasResources(playerList.get(playerId).getResources())){
+            edit.append("Player " + playerId + " does not have enough resources!");
+        }
+
+        Road road = new Road(startIntersectionID, endIntersectionID, playerId);
+        //board.addRoad
+        return true;
     }
 
     /*buildSettlement() method
@@ -283,14 +326,23 @@ public class GameState {
      *
      * TODO Implement method
      * */
-    public boolean buildSettlement(boolean move, EditText edit, int playerId) {
-        if (checkTurn(playerId)) {
-
-            edit.append("Player " + playerId + " built a settlement.\n");
-            playerVictoryPoints[playerId] += 1; // add 1 victory point
+    public boolean buildSettlement(int intersectionID, int playerId, EditText edit) {
+        if(playerId != currentPlayerId){
+            edit.append("It is not Player " + playerId + "'s turn!");
+            return false;
         }
-        edit.append("It is not " + playerId + "'s turn. Cannot build settlement.");
-        return false;
+        if(!actionPhase){
+            edit.append("Player " + playerId + " must roll dice first!");
+            return false;
+        }
+
+        if(!Settlement.hasResources(playerList.get(playerId).getResources())){
+            edit.append("Player " + playerId + " does not have enough resources!");
+        }
+
+        Settlement settlement = new Settlement(intersectionID, playerId);
+        //board.addSettlement
+        return true;
     }
 
     /*buildCity() method
@@ -300,18 +352,23 @@ public class GameState {
      *
      * TODO Implement method
      * */
-    public boolean buildCity(boolean move, EditText edit, int playerId, int intersectionId) {
-        if (checkTurn(playerId)) {
-            if (board.isIntresectionBuildable(intersectionId)) {
-
-                edit.append("Player " + playerId + " built a City.\n");
-                // add 1 victory points because they already have 1
-                // from building a settlement if they are building a city
-                playerVictoryPoints[playerId] += 1;
-            }
+    public boolean buildCity(int intersectionID, int playerId, EditText edit) {
+        if(playerId != currentPlayerId){
+            edit.append("It is not Player " + playerId + "'s turn!");
+            return false;
         }
-        edit.append("It is not " + playerId + "'s turn. Cannot build City.");
-        return false;
+        if(!actionPhase){
+            edit.append("Player " + playerId + " must roll dice first!");
+            return false;
+        }
+
+        if(!City.hasResources(playerList.get(playerId).getResources())){
+            edit.append("Player " + playerId + " does not have enough resources!");
+        }
+
+        City city = new City(intersectionID, playerId);
+        //board.addCity
+        return true;
     }
 
     /*buyDevCard() method
@@ -321,7 +378,19 @@ public class GameState {
      *
      * TODO Implement method
      */
-    public boolean buyDevCard(boolean move, EditText edit) {
+    public boolean buyDevCard(boolean move, EditText edit, int playerId) {
+        DevelopmentCard dc = new DevelopmentCard();
+        if (playerId == currentPlayerId){
+            if (playerList.get(playerId).getResources().get("Ore") >= 1 && playerList.get(playerId).getResources().get("Sheep") >= 1 && playerList.get(playerId).getResources().get("Wheat") >= 1){
+
+            }
+            dc.build(playerList.get(playerId));
+            /*playerList.get(playerId).removeResources("Ore", 1);
+            playerList.get(playerId).removeResources("Wool", 1);
+            playerList.get(playerId).removeResources("Grain", 1);*/
+
+        }
+
         if (move) {
             edit.append("Player 3 built a Development Card!\n");
             return true;
@@ -335,9 +404,14 @@ public class GameState {
      * Player will select a development card they own and use it; gamestate will determine
      * legality and then carry out development cards function
      *
-     * TODO Implement method
      */
-    public boolean useDevCard(boolean move, EditText edit) {
+    public boolean useDevCard(boolean move, EditText edit, int playerId) {
+        DevelopmentCard dc = new DevelopmentCard();
+        if (playerId == currentPlayerId){
+            //playerList.get(playerId).useDevCard(dc.generateDevCardDeck());
+
+        }
+
         if (move) {
             edit.append("Player 3 used their Knight Card!\n");
             return true;
@@ -350,16 +424,28 @@ public class GameState {
      *
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
      *
-     * TODO Implement method
      */
-    public boolean robberDiscard(boolean move, EditText edit, int playerId) {
+    public boolean robberDiscard(boolean move, EditText edit) {
 
-        if (move) {
-            edit.append("Player 2 lost half their cards from the Robber!\n");
-            return true;
+        //go through players
+        //check if they need to discard
+        //make an array list of strings that will be discarded
+        //selectResourceCards
+        ArrayList<String> discardedCards = new ArrayList<>();
+
+        for (int n = 0; n < 4; n++){
+            int handSize = playerList.get(n).getResources().size();
+            if (handSize > 7){
+                int newHandSize = handSize / 2;
+                discardedCards = selectResourceCards(playerList.get(n), newHandSize);
+                for (int x = 0; x < discardedCards.size(); x++){
+                    playerList.get(n).removeResources(discardedCards.get(x), 1);
+                }
+            }
         }
-        edit.append("Player 2 owns 7 or less cards!\n");
-        return false;
+        edit.append("Removed resources from all players");
+        return true;
+
     }
 
     /**
@@ -375,7 +461,6 @@ public class GameState {
      * If the player has rolled a 7, player will move the robber to another Hexagon that
      * has settlements nearby
      *
-     * TODO Implement method
      */
     public boolean robberMove(boolean move, EditText edit, int hexagonId, int playerId) {
         if (checkTurn(playerId)) {
@@ -397,14 +482,18 @@ public class GameState {
      * After the player has moved the Robber, the player will choose a player to steal from and
      * receive a random card from their hand
      *
-     * TODO Implement method
      */
-    public boolean robberSteal(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 1 stole a card from Player 3!\n");
+    public boolean robberSteal(boolean move, EditText edit, int hexagonId, int playerId) {
+        if (playerId == this.currentPlayerId){
+            Random random = new Random();
+            String resource = playerList.get(random.nextInt(3)).getRandomCard();
+
+            playerList.get(playerId).addResources(resource, 1);
+            edit.append("Stolen card " + resource + " added to: " + playerList.get(playerId));
+
             return true;
         }
-        edit.append("Player 1 cannot steal a card!\n");
+        edit.append("Can't steal a card");
         return false;
     }
 

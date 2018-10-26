@@ -81,9 +81,10 @@ public class Building {
      * Once resources are taken
      *
      */
-    public void build(Player player) {
-        for (HashMap.Entry<String, Integer> entry : resourceCost.entrySet()) {
-            if (entry.getValue() < resourceCost.get(entry.getKey())) {
+    public void build(Player player)
+    {
+        for(HashMap.Entry<String, Integer> entry: resourceCost.entrySet()){
+            if(entry.getValue() < resourceCost.get(entry.getKey())){
                 player.removeResources(entry.getKey(), entry.getValue());
             }
         }
@@ -91,7 +92,7 @@ public class Building {
         //assigns the player's id the building signifying who owns it
         setOwnerId(player.getPlayerId());
         //adds the building to the player's array list of built buildings
-        //player.addBuilding(this);
+        player.addBuilding(this);
 
         //TODO: mark when a location is taken on the board (Use setIntersectionId(int intersectionId))
     }
@@ -104,9 +105,9 @@ public class Building {
      * Return true if there are enough resources; return false if otherwise
      *
      */
-    public boolean hasResources(HashMap<String, Integer> resources) {    //TODO Logic needs to be tested
-        for (HashMap.Entry<String, Integer> entry : resourceCost.entrySet()) {
-            if (entry.getValue() < resourceCost.get(entry.getKey())) {
+    public boolean hasResources(HashMap<String, Integer> resources){    //TODO Logic needs to be tested
+        for(HashMap.Entry<String, Integer> entry: resourceCost.entrySet()){
+            if(entry.getValue() < resourceCost.get(entry.getKey())){
                 return false;
             }
         }

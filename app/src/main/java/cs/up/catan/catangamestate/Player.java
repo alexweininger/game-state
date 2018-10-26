@@ -17,21 +17,18 @@ public class Player {
     private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>(); // ArrayList of the development cards the player owns
     private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
     private int armySize; // for the knight trophy and dev card
-    private final int playerId;   // player Id
-    private static int playerCount = 1; // TODO what is this???
-
+    private int playerId;   // player Id
     /**
      * Player constructor
      */
-    public Player() {
+    public Player(int id) {
         this.armySize = 0;
         this.resources.put("Brick", 1);
         this.resources.put("Ore", 1);
         this.resources.put("Sheep", 2);
         this.resources.put("Wheat", 0);
         this.resources.put("Wood", 3);
-        this.playerId = playerCount;
-        playerCount++;
+        this.playerId = id;
     }
 
     /**
@@ -44,7 +41,23 @@ public class Player {
         this.armySize = player.armySize;
         this.resources = player.resources;
         this.playerId = player.playerId;
-    } // end deepCopy player cons.
+    }
+
+    /*addBuilding
+    *
+    * Check if we can add a building to the map; returns if we cannot
+    *
+    * If we can, it will create the needed building, add it to the list of buildings that
+    * this player owns. It will then be added to the board in the specified coordinate
+    *
+    */
+    public boolean addBuilding(Building building) {
+
+        if (!building.hasResources(this.resources)) {
+            return false;
+        }
+        return true;
+    }
 
     /**
      * @return the size of the player's army
@@ -115,6 +128,7 @@ public class Player {
      * @param num amount to add
      * @return if action was possible
      */
+    /*
     public boolean useResource(String res, int num) {
         if (this.resources.containsKey(res)) {
             if (this.resources.get(res) >= num) {
@@ -124,11 +138,11 @@ public class Player {
             return false;
         }
         return false;
-    }
+    }*/
 
     /**
      * @param devCard dev card to remove
-     * @return if action was poissible
+     * @return if action was possible
      */
     public boolean useDevCard(DevelopmentCard devCard) {
         if (developmentCards.contains(devCard)) {
@@ -152,12 +166,6 @@ public class Player {
         return this.playerId;
     }
 
-    /**
-     * @return number of players
-     */
-    public static int getPlayerCount() {
-        return playerCount;
-    }
 
     /**
      * @return hashmap of resources
@@ -173,5 +181,28 @@ public class Player {
     public void setResources(String resource, int value) {
         this.resources.put(resource, value);
     }
+
+    public String getRandomCard(){
+        ArrayList<String> resourceNames = new ArrayList<>();
+        String[] baseResources = {"Brick", "Wool", "Grain", "Ore", "Wood"};
+        for (int n = 0; n < resources.size(); n++){
+            for (int x = 0; x < baseResources.length; x++) {
+                if (resources.containsKey(baseResources[n])){
+                    resourceNames.add(baseResources[n]);
+                }
+            }
+        }
+        if (resourceNames.size() == 0){
+            return "No Cards in this person's hands!";
+        }
+
+        String stolenResource = resourceNames.get((int) (Math.random() * resourceNames.size()));
+        this.removeResources(stolenResource, 1);
+        return stolenResource;
+    }
+
+
+
 }
+
 
