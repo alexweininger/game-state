@@ -13,9 +13,6 @@ import java.util.HashMap;
 public class Player {
 
     /* Player instance variables */
-    private int localScore; // score of player that accounts for the players dev cards, must greater or equal to global score
-    private int publicScore;
-  
     private HashMap<String, Integer> resources = new HashMap<>(); // k: resource id, v: resource count
     private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>(); // ArrayList of the development cards the player owns
     private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
@@ -25,8 +22,6 @@ public class Player {
      * Player constructor
      */
     public Player(int id) {
-        this.localScore = 2;
-        this.publicScore = 4;
         this.armySize = 0;
         this.resources.put("Brick", 1);
         this.resources.put("Ore", 1);
@@ -42,8 +37,6 @@ public class Player {
      * @param player -
      */
     public Player(Player player) {
-        this.publicScore = player.publicScore;
-        this.localScore = player.localScore;
         this.developmentCards = player.developmentCards;
         this.armySize = player.armySize;
         this.resources = player.resources;
@@ -88,10 +81,6 @@ public class Player {
         StringBuilder sb = new StringBuilder("");
         sb.append("Player ");
         sb.append(playerId);
-        sb.append(": \nPrivate Score = ");
-        sb.append(this.localScore);
-        sb.append("\nPublic score = ");
-        sb.append(this.publicScore);
         sb.append("\nResources = ");
         sb.append(this.resources);
         sb.append("\nDevelopment Cards = ");
@@ -171,39 +160,12 @@ public class Player {
     }
 
     /**
-     * @return the players local score
-     */
-    public int getLocalScore() {
-        return localScore;
-    }
-
-    /**
-     * @param localScore thre players local score
-     */
-    public void setLocalScore(int localScore) {
-        this.localScore = localScore;
-    }
-
-    /**
-     * @return the player's public score
-     */
-    public int getPublicScore() {
-        return publicScore;
-    }
-
-    /**
-     * @param publicScore the player's public score
-     */
-    public void setPublicScore(int publicScore) {
-        this.publicScore = publicScore;
-    }
-
-    /**
      * @return the player's id
      */
     public int getPlayerId() {
         return this.playerId;
     }
+
 
     /**
      * @return hashmap of resources
