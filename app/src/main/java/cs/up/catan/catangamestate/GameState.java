@@ -59,7 +59,11 @@ public class GameState {
         }
     } // end GameState constructor
 
-    // GameState deep copy constructor TODO
+    /**
+     * deep copy constructor
+     *
+     * @param gameState - GameState to copy
+     */
     public GameState(GameState gameState) {
         this.dice = gameState.dice;
         this.currentPlayerId = gameState.currentPlayerId;
@@ -129,30 +133,6 @@ public class GameState {
         if (this.currentLargestArmyPlayerId != -1) {
             this.playerVictoryPoints[this.currentLargestArmyPlayerId] += 2;
         }
-    }
-
-    // turn method TODO Niraj
-
-    /**
-     * within this method if they build a building we add it to the board
-     *
-     * @return
-     */
-    private boolean turnHandler() {
-        // board.add()()()
-        return false;
-
-        /*
-        1. roll dice
-
-        2. get action
-        while (!over) {
-           getAction() // get players action
-
-           3. carry out action
-        }
-        */
-
     }
 
     /**
