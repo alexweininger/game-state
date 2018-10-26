@@ -7,6 +7,8 @@ package cs.up.catan.catangamestate;
  * https://github.com/alexweininger/game-state
  **/
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,7 +16,7 @@ public class Player {
 
     /* Player instance variables */
     private HashMap<String, Integer> resources = new HashMap<>(); // k: resource id, v: resource count
-    private ArrayList<String> resourceCards = new ArrayList<>();
+    private int[] resourceCards = new int[5]; // array for number of each resource card a player has
 
     private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>(); // ArrayList of the development cards the player owns
     private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
@@ -44,6 +46,13 @@ public class Player {
         this.resources = player.getResources();
         this.availableBuildings = player.getAvailableBuildings();
         this.playerId = player.getPlayerId();
+    }
+
+    public void addResourceCard(int resourceCardId, int numToAdd) {
+        if (resourceCardId < 0 || resourceCardId >= 5) {
+            Log.d("devError", "ERROR addResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
+        }
+        this.resourceCards[resourceCardId] += numToAdd;
     }
 
     /**
