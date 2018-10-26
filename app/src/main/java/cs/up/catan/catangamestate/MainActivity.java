@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
                 editText.append(firstInstance.toString());
 
                 editText.append("--- First Instance --- \n");
-                firstInstance.rollDice(true, editText);
+                firstInstance.rollDice(4, editText);
                 firstInstance.tradePort(true, editText);
                 firstInstance.tradeBank(true, editText);
                 firstInstance.buildSettlement(true, editText);
