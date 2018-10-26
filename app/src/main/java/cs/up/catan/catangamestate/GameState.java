@@ -8,25 +8,25 @@ package cs.up.catan.catangamestate;
 import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameState {
 
     // GameState instance variables
     private Dice dice; // dice object
     private int currentDiceSum = -1;
-
     private int currentPlayerId = -1; // id of player who is the current playing player
     private boolean isActionPhase = false; // has the current player rolled the dice
 
+
     private ArrayList<Player> playerList = new ArrayList<>(); // list of players in game
-
     private Board board = new Board();
-
     private int currentLargestArmyPlayerId; // player who currently has the largest army
 
     // victory points of each player
     private int[] playerVictoryPoints = new int[4];
     private int[] playerPrivateVictoryPoints = new int[4];
+    private boolean actionPhase = false;
 
     // GameState constructor
     public GameState() {
@@ -143,8 +143,11 @@ public class GameState {
      * Method for the very first turn for each player; player will select coordinates for
      * two roads and two settlements at the beginning of the game
      *
+     *
      */
     public boolean initBuilding(boolean move, EditText edit) {
+
+
         if (move) {
             edit.append("Player 1 placed their settlements and roads!\n");
             edit.append("Player 2 placed their settlements and roads!\n");
@@ -161,32 +164,52 @@ public class GameState {
      * resources depending on settlements players own and where they're located.
      *
      * */
-    public boolean rollDice(boolean move, EditText edit) {
-        StringBuilder str = new StringBuilder();
-        if (move) {
-            this.dice.roll();
-            str.append("Player 1 rolled a ").append(this.dice.getSum()).append("\n");
-
-            return true;
+    public boolean rollDice(int playerId, EditText edit) {
+        if(playerId != currentPlayerId){
+            return false;
         }
-        str.append("It is not ").append(this.currentPlayerId).append("'s turn!\n"); // TODO
-        edit.append(str.toString());
-        return false;
+        int rollNum = dice.roll();
+        produceResources(rollNum, edit);
+        actionPhase = true;
+
+        StringBuilder str = new StringBuilder();
+        str.append("Player " + playerId + " rolled a " + rollNum + "\n");
+        edit.append(str);
+        return true;
     } // end rollDice action method
 
     /*tradePort() method
      *
      * Player trades with ports, gives resources and receives a resource;
-     * number depends on the resource
+     * number depends on the resourc
+     *
+     * TODO Implement method
      *
      * */
-    public boolean tradePort(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 1 traded with a Port!\n");
-            return true;
+    public boolean tradePort(Player player, int playerId, String resGiven, String resReceive, EditText edit) {
+
+        //Check if current player's turn and then if player has rolled dice
+        if(playerId != currentPlayerId){
+            edit.append("It is not Player " + playerId + "'s turn!");
+            return false;
         }
-        edit.append("Player 1 does that have enough resources to trade!\n");
-        return false;
+        if(!actionPhase){
+            edit.append("Player " + playerId + " must roll dice first!");
+            return false;
+        }
+
+        Random random = new Random();
+        int ratio = random.nextInt(1) + 2;
+
+        if(player.getResources().get(resGiven) < ratio){
+            edit.append("PLayer");
+            return false;
+        }
+
+        player.removeResources(resGiven, ratio);
+        player.addResources(resReceive, 1);
+
+        return true;
     } // end tradePort action method
 
     /*tradeBank() method
@@ -194,6 +217,7 @@ public class GameState {
      * Player trades with bank, gives resources and receives a resource;
      * number depends on the resource
      *
+     * TODO Implement method
      * */
     public boolean tradeBank(boolean move, EditText edit) {
         if (move) {
@@ -209,6 +233,7 @@ public class GameState {
      * Player requests to build road ands Gamestate processes requests and returns true
      * if build was successful
      *
+     * TODO Implement method
      * */
     public boolean buildRoad(boolean move, EditText edit) {
         if (move) {
@@ -224,6 +249,7 @@ public class GameState {
      * Player requests to build settlement and Gamestate processes requests and returns true
      * if build was successful
      *
+     * TODO Implement method
      * */
     public boolean buildSettlement(boolean move, EditText edit) {
         if (move) {
@@ -239,6 +265,7 @@ public class GameState {
      * Player requests to build city and Gamestate processes requests and returns true
      * if build was successful
      *
+     * TODO Implement method
      * */
     public boolean buildCity(boolean move, EditText edit) {
         if (move) {
@@ -254,6 +281,7 @@ public class GameState {
      * Player will choose "Development Card" from the build menu, confirm, and then add a
      * random development card to their development card inventory
      *
+     * TODO Implement method
      */
     public boolean buyDevCard(boolean move, EditText edit) {
         if (move) {
@@ -269,6 +297,7 @@ public class GameState {
      * Player will select a development card they own and use it; gamestate will determine
      * legality and then carry out development cards function
      *
+     * TODO Implement method
      */
     public boolean useDevCard(boolean move, EditText edit) {
         if (move) {
@@ -283,6 +312,7 @@ public class GameState {
      *
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
      *
+     * TODO Implement method
      */
     public boolean robberDiscard(boolean move, EditText edit, int playerId) {
 
@@ -307,6 +337,7 @@ public class GameState {
      * If the player has rolled a 7, player will move the robber to another Hexagon that
      * has settlements nearby
      *
+     * TODO Implement method
      */
     public boolean robberMove(boolean move, EditText edit, int hexagonId, int playerId) {
         if (checkTurn(playerId)) {
@@ -328,6 +359,7 @@ public class GameState {
      * After the player has moved the Robber, the player will choose a player to steal from and
      * receive a random card from their hand
      *
+     * TODO Implement method
      */
     public boolean robberSteal(boolean move, EditText edit) {
         if (move) {

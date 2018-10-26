@@ -20,10 +20,12 @@ public class Dice {
     /**
      * roll() - sets both dice values to random int from 1 to 6 (inclusive)
      */
-    public void roll() {
+    public int roll() {
         Random random = new Random();
         this.diceValues[0] = random.nextInt(5) + 1;
         this.diceValues[1] = random.nextInt(5) + 1;
+
+        return diceValues[0] + diceValues[1];
     }
 
     /**
