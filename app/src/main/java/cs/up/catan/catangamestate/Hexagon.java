@@ -34,8 +34,14 @@ public class Hexagon {
      */
     @Override
     public String toString() {
-        return "Hexagon{" +
-                "resourceType='" + resourceType + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder("");
+        sb.append("Hexagon{ ");
+        sb.append("resourceType: ");
+        sb.append(resourceType);
+        sb.append(", chitValue: ");
+        sb.append(chitValue);
+        sb.append("}");
+
+        return sb.toString();
     }
 }

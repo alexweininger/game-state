@@ -506,11 +506,10 @@ public class GameState {
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();
-        String str = "";
 
         result.append("GameState:\n");
         result.append("Current Player: ").append(this.currentPlayerId).append("\n");
-        result.append("GameState:\n";
+        result.append("GameState:\n");
         result.append("Current Player:");
         result.append(currentPlayerId);
         result.append("\n");
@@ -522,18 +521,35 @@ public class GameState {
         result.append("\n");
 
         for (int i = 0; i < playerList.size(); i++) {
-            result.append(playerList.get(i).toString() + " "; // TODO
-            result.append("\n\n";
+            result.append(playerList.get(i).toString());
+            result.append(" ");
+            result.append("\n");
         }
-        result.append(this.board.toString();
+        result.append(this.board.toString());
 
-        result.append("currentLargestArmyPlayerId: " + currentLargestArmyPlayerId + "\n";
-        result.append("currentLongestRoadPlayerId: " + currentLongestRoadPlayerId + "\n";
+        result.append("currentLargestArmyPlayerId: ");
+        result.append(currentLargestArmyPlayerId);
+        result.append("\n");
+        result.append("currentLongestRoadPlayerId: ");
+        result.append(currentLongestRoadPlayerId);
+        result.append("\n");
 
-        for(int i = 0; i < playerList.size(); i++
+        result.append("playerVictoryPoints:");
+        for(int i = 0; i < playerList.size(); i++)
         {
-            str +=
+            result.append(playerVictoryPoints[i]);
+            result.append(" ");
         }
-        return str;
+        result.append("\n");
+
+        result.append("playerPrivateVictoryPoints:");
+        for(int i = 0; i < playerList.size(); i++)
+        {
+            result.append(playerPrivateVictoryPoints[i]);
+            result.append(" ");
+        }
+
+        result.append("\n");
+        return result.toString();
     } // end GameState toString()
 }
