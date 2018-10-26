@@ -16,6 +16,9 @@ public class GameState {
     private Dice dice; // dice object
     private int currentDiceSum = -1;
     private int currentPlayerId = -1; // id of player who is the current playing player
+    private boolean isActionPhase = false; // has the current player rolled the dice
+
+
     private ArrayList<Player> playerList = new ArrayList<>(); // list of players in game
     private Board board = new Board();
     private int currentLargestArmyPlayerId; // player who currently has the largest army
@@ -313,7 +316,6 @@ public class GameState {
      */
     public boolean robberDiscard(boolean move, EditText edit, int playerId) {
 
-
         if (move) {
             edit.append("Player 2 lost half their cards from the Robber!\n");
             return true;
@@ -322,9 +324,15 @@ public class GameState {
         return false;
     }
 
-    /*robberMove() method
-     *
-     * must check if
+    /**
+     * @param playerId
+     * @return
+     */
+    private boolean checkTurn(int playerId) {
+        return playerId == this.currentPlayerId;
+    }
+
+    /*robberMove() method AW
      *
      * If the player has rolled a 7, player will move the robber to another Hexagon that
      * has settlements nearby
@@ -332,7 +340,7 @@ public class GameState {
      * TODO Implement method
      */
     public boolean robberMove(boolean move, EditText edit, int hexagonId, int playerId) {
-        if (playerId != currentPlayerId) {
+        if (checkTurn(playerId)) {
             if (board.moveRobber(hexagonId)) {
                 edit.append("Player " + playerId + " moved the Robber to Hexagon " + hexagonId + "!\n");
                 return true;
