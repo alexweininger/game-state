@@ -283,7 +283,9 @@ public class GameState {
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
      *
      */
-    public boolean robberDiscard(boolean move, EditText edit) {
+    public boolean robberDiscard(boolean move, EditText edit, int playerId) {
+
+
         if (move) {
             edit.append("Player 2 lost half their cards from the Robber!\n");
             return true;
@@ -300,13 +302,19 @@ public class GameState {
      * has settlements nearby
      *
      */
-    public boolean robberMove(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 1 moved the Robber to Hexagon 4!\n");
-            return true;
+    public boolean robberMove(boolean move, EditText edit, int hexagonId, int playerId) {
+        if (playerId != currentPlayerId) {
+            if (board.moveRobber(hexagonId)) {
+                edit.append("Player " + playerId + " moved the Robber to Hexagon " + hexagonId + "!\n");
+                return true;
+            }
+            edit.append("Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId + "!\n");
+            return false;
+        } else {
+            edit.append("It is not " + playerId + "'s turn. " + hexagonId + "!\n");
+            return false;
         }
-        edit.append("Player 1 cannot move the Robber there!\n");
-        return false;
+
     }
 
     /*robberSteal() method
