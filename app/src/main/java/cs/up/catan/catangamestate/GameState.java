@@ -36,6 +36,10 @@ public class GameState {
         this.playerList.add(new Player());
         this.playerList.add(new Player());
 
+        Road.roadResourcePriceMake();
+        Settlement.cityResourcePriceMake();
+        City.cityResourcePriceMake();
+
         this.board.toString();
 
         // set all vic points to 0 to start
@@ -178,7 +182,7 @@ public class GameState {
     /*tradePort() method
      *
      * Player trades with ports, gives resources and receives a resource;
-     * number depends on the resourc
+     * number depends on the resource
      *
      * TODO Implement method
      *
@@ -195,11 +199,12 @@ public class GameState {
             return false;
         }
 
+        //Setting ration then checking resources; if enough, we commence with trade
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
         if(player.getResources().get(resGiven) < ratio){
-            edit.append("PLayer");
+            edit.append("Player" + playerId + " does not have enough resources!");
             return false;
         }
 
@@ -207,22 +212,38 @@ public class GameState {
         player.addResources(resReceive, 1);
 
         return true;
-    } // end tradePort action method
+    }
 
     /*tradeBank() method
      *
      * Player trades with bank, gives resources and receives a resource;
      * number depends on the resource
      *
-     * TODO Implement method
      * */
-    public boolean tradeBank(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 1 traded with the Bank!\n");
-            return true;
+    public boolean tradeBank(Player player, int playerId, String resGiven, String resReceive, EditText edit) {
+        //Check if current player's turn and then if player has rolled dice
+        if(playerId != currentPlayerId){
+            edit.append("It is not Player " + playerId + "'s turn!");
+            return false;
         }
-        edit.append("Player 1 does that have enough resources to trade!\n");
-        return false;
+        if(!actionPhase){
+            edit.append("Player " + playerId + " must roll dice first!");
+            return false;
+        }
+
+        //Setting ration then checking resources; if enough, we commence with trade
+        Random random = new Random();
+        int ratio = random.nextInt(1) + 2;
+
+        if(player.getResources().get(resGiven) < ratio){
+            edit.append("Player " + playerId + " does not have enough resources!");
+            return false;
+        }
+
+        player.removeResources(resGiven, ratio);
+        player.addResources(resReceive, 1);
+
+        return true;
     }
 
     /*buildRoad() method
@@ -232,13 +253,23 @@ public class GameState {
      *
      * TODO Implement method
      * */
-    public boolean buildRoad(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 1 built 2 Roads!\n");
-            return true;
+    public boolean buildRoad(Player player, int startIntersectionID, int endIntersectionID, int playerId, EditText edit) {
+        if(playerId != currentPlayerId){
+            edit.append("It is not Player " + playerId + "'s turn!");
+            return false;
         }
-        edit.append("Player 1 cannot build a Road!\n");
-        return false;
+        if(!actionPhase){
+            edit.append("Player " + playerId + " must roll dice first!");
+            return false;
+        }
+
+        if(!Road.hasResources(player.getResources())){
+            edit.append("Player " + playerId + " does not have enough resources!");
+        }
+
+        Road road = new Road(startIntersectionID, endIntersectionID, playerId);
+        //board.addRoad
+        return true;
     }
 
     /*buildSettlement() method

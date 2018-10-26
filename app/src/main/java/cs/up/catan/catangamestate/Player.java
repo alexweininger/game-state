@@ -66,6 +66,8 @@ public class Player {
         if (!building.hasResources(this.resources)) {
             return false;
         }
+
+        return true;
     }
 
     /**

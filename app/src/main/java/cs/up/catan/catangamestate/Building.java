@@ -13,7 +13,7 @@ public class Building {
 
     //ensures the player has enough resources to build the requested building
     private String buildingName;
-    private HashMap<String, Integer> resourceCost = new HashMap<>();
+    private static HashMap<String, Integer> resourceCost = new HashMap<>();
     private int victoryPoints, ownerId;
 
     /** Building constructor
@@ -75,7 +75,7 @@ public class Building {
     /*build
      *
      * Build a building; overrided by subclasses to specify which resources to take. It will be
-     * Iterating through the reqResources HashMap to taking the needed values from the player
+     * Iterating through the resourceCost HashMap to taking the needed values from the player
      * resources HashMap.
      *
      * Once resources are taken
@@ -83,8 +83,8 @@ public class Building {
      */
     public void build(Player player)
     {
-        for(HashMap.Entry<String, Integer> entry: reqResources.entrySet()){
-            if(entry.getValue() < reqResources.get(entry.getKey())){
+        for(HashMap.Entry<String, Integer> entry: resourceCost.entrySet()){
+            if(entry.getValue() < resourceCost.get(entry.getKey())){
                 player.removeResources(entry.getKey(), entry.getValue());
             }
         }
@@ -99,15 +99,15 @@ public class Building {
 
     /*hasResources
      *
-     * Iterates through reqResources HashMap and checks the Key values in the resources
+     * Iterates through resourceCost HashMap and checks the Key values in the resources
      * HashMap to see if there is a sufficient amount of resources to build the called building.
      *
      * Return true if there are enough resources; return false if otherwise
      *
      */
-    public boolean hasResources(HashMap<String, Integer> resources){    //TODO Logic needs to be tested
-        for(HashMap.Entry<String, Integer> entry: reqResources.entrySet()){
-            if(entry.getValue() < reqResources.get(entry.getKey())){
+    public static boolean hasResources(HashMap<String, Integer> resources){    //TODO Logic needs to be tested
+        for(HashMap.Entry<String, Integer> entry: resourceCost.entrySet()){
+            if(entry.getValue() < resourceCost.get(entry.getKey())){
                 return false;
             }
         }

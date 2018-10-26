@@ -10,6 +10,9 @@ import java.util.HashMap;
 
 public class City extends Building {
 
+    private int intersectionID;
+    private static HashMap<String, Integer> checkResources = new HashMap<>();
+
     /**
      *
      * @param ownerId id of who owns the building
@@ -17,8 +20,6 @@ public class City extends Building {
     public City(int ownerId) {
         super("City", 1, ownerId);
         HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
-        checkResources.put("Ore", 3);
-        checkResources.put("Wheat", 2);
     }
 
     /**
@@ -32,5 +33,10 @@ public class City extends Building {
         sb.append(super.toString());
 
         return sb.toString();
+    }
+
+    public static void cityResourcePriceMake(){
+        checkResources.put("ore", 3);
+        checkResources.put("grain", 2);
     }
 }
