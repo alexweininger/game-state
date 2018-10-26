@@ -10,7 +10,7 @@ import java.util.HashMap;
 public class Road extends Building {
 
     private int startIntersectionID, endIntersectionID;
-
+    private HashMap<String, Integer> checkResources = new HashMap<>();
     /**
      *
      * @param startIntersectionID -
@@ -22,7 +22,6 @@ public class Road extends Building {
         this.startIntersectionID = startIntersectionID;
         this.endIntersectionID = endIntersectionID;
 
-        HashMap<String, Integer> checkResources = new HashMap<String, Integer>();
         checkResources.put("Brick", 1);
         checkResources.put("Wood", 1);
     }

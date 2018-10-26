@@ -8,7 +8,7 @@ package cs.up.catan.catangamestate;
  * @version: October 25th, 2018
  * https://github.com/alexweininger/game-state
  **/
-public class RoadDevCard extends DevelopmentCards {
+public class RoadDevCard extends DevelopmentCard {
 
     public RoadDevCard() {
         super("Road");
