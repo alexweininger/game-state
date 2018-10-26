@@ -8,6 +8,8 @@ package cs.up.catan.catangamestate;
 import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
 
@@ -17,9 +19,14 @@ public class GameState {
     private Dice dice; // dice object
     private int currentDiceSum = -1;
     private int currentPlayerId = -1; // id of player who is the current playing player
+    private boolean isActionPhase = false; // has the current player rolled the dice
+
+
     private ArrayList<Player> playerList = new ArrayList<>(); // list of players in game
     private Board board = new Board();
-    private int currentLargestArmyPlayerId; // player who currently has the largest army
+
+    private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
+    private int currentLongestRoadPlayerId = -1;
 
     // victory points of each player
     private int[] playerVictoryPoints = new int[4];
@@ -65,7 +72,20 @@ public class GameState {
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
     public void checkArmySize() {
-        // stuff... TODO
+        int max = -1;
+        if (this.currentLargestArmyPlayerId != -1) {
+            max = this.playerList.get(this.currentLargestArmyPlayerId).getArmySize();
+        }
+        int playerIdWithLargestArmy = -1;
+        for (int i = 0; i < 4; i++) {
+            if (this.playerList.get(i).getArmySize() > max) {
+                max = this.playerList.get(i).getArmySize();
+                playerIdWithLargestArmy = i;
+            }
+        }
+        if (max > 2) {
+            this.currentLargestArmyPlayerId = playerIdWithLargestArmy;
+        }
     }
 
     /**
@@ -74,12 +94,39 @@ public class GameState {
      * recursion???
      */
     public void checkRoadLength() {
-
+        int max = -1;
+        int playerIdWithLongestRoad = -1;
+        if (currentLongestRoadPlayerId != -1) {
+            max = playerVictoryPoints[currentLargestArmyPlayerId];
+        }
+        for (int i = 0; i < 4; i++) {
+            if (board.getPlayerRoadLength(i) > max) {
+                max = board.getPlayerRoadLength(i);
+                playerIdWithLongestRoad = i;
+            }
+        }
+        if (max > 4) {
+            this.currentLongestRoadPlayerId = playerIdWithLongestRoad;
+        }
     }
 
     // TODO move vic points to GameState
     public void updateVictoryPoints() {
+        if (this.currentLongestRoadPlayerId != -1) {
+            this.playerVictoryPoints[this.currentLongestRoadPlayerId] -= 2;
+        }
+        checkRoadLength();
+        if (this.currentLongestRoadPlayerId != -1) {
+            this.playerVictoryPoints[this.currentLongestRoadPlayerId] += 2;
+        }
 
+        if (this.currentLargestArmyPlayerId != -1) {
+            this.playerVictoryPoints[this.currentLargestArmyPlayerId] -= 2;
+        }
+        checkArmySize();
+        if (this.currentLargestArmyPlayerId != -1) {
+            this.playerVictoryPoints[this.currentLargestArmyPlayerId] += 2;
+        }
     }
 
     // turn method TODO Niraj
@@ -204,13 +251,13 @@ public class GameState {
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
-        if(playerList.get(playerId)getResources().get(resGiven) < ratio){
+        if(playerList.get(playerId).getResources().get(resGiven) < ratio){
             edit.append("Player" + playerId + " does not have enough resources!");
             return false;
         }
 
-        playerList.get(playerId)removeResources(resGiven, ratio);
-        playerList.get(playerId)addResources(resReceive, 1);
+        playerList.get(playerId).removeResources(resGiven, ratio);
+        playerList.get(playerId).addResources(resReceive, 1);
 
         return true;
     }
@@ -236,13 +283,13 @@ public class GameState {
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
-        if(playerList.get(playerId)getResources().get(resGiven) < ratio){
+        if(playerList.get(playerId).getResources().get(resGiven) < ratio){
             edit.append("Player " + playerId + " does not have enough resources!");
             return false;
         }
 
-        playerList.get(playerId)removeResources(resGiven, ratio);
-        playerList.get(playerId)addResources(resReceive, 1);
+        playerList.get(playerId).removeResources(resGiven, ratio);
+        playerList.get(playerId).addResources(resReceive, 1);
 
         return true;
     }
@@ -365,7 +412,6 @@ public class GameState {
      */
     public boolean robberDiscard(boolean move, EditText edit, int playerId) {
 
-
         if (move) {
             edit.append("Player 2 lost half their cards from the Robber!\n");
             return true;
@@ -374,9 +420,15 @@ public class GameState {
         return false;
     }
 
-    /*robberMove() method
-     *
-     * must check if
+    /**
+     * @param playerId
+     * @return
+     */
+    private boolean checkTurn(int playerId) {
+        return playerId == this.currentPlayerId;
+    }
+
+    /*robberMove() method AW
      *
      * If the player has rolled a 7, player will move the robber to another Hexagon that
      * has settlements nearby
@@ -384,7 +436,7 @@ public class GameState {
      * TODO Implement method
      */
     public boolean robberMove(boolean move, EditText edit, int hexagonId, int playerId) {
-        if (playerId != currentPlayerId) {
+        if (checkTurn(playerId)) {
             if (board.moveRobber(hexagonId)) {
                 edit.append("Player " + playerId + " moved the Robber to Hexagon " + hexagonId + "!\n");
                 return true;

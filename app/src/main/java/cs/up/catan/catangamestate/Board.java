@@ -57,6 +57,8 @@ public class Board {
     private ArrayList<Hexagon> hexagons = new ArrayList<>(); // list of resource tiles
     private Robber robber; // robber object
 
+    private ArrayList<Integer> portIntersectionLocations = new ArrayList<>(12);
+
     /**
      * defines hexagonIdRings, intersectionIdRings, and hexagonAdjacencyGraph.
      */
@@ -90,6 +92,25 @@ public class Board {
             return null;
         }
         return hexagons.get(hexagonId);
+    }
+
+    public void populatePortIntersectionIds() {
+        for (int i = 0; i < 6; i++) {
+            portIntersectionLocations.add(17 + i * 6);
+            portIntersectionLocations.add(17 + i * 6 + 1);
+        }
+    }
+
+    public boolean checkPortAdjacency(int intersectionId) {
+        return portIntersectionLocations.contains(intersectionId);
+    }
+
+    public Collection<Building> getBuildings() {
+        return buildings.values();
+    }
+
+    public void addRoad(Road road) {
+        roads.add(road);
     }
 
     /**
@@ -496,10 +517,15 @@ public class Board {
      * @return
      */
     private int getRoadLength(int intersectionId, ArrayList<Integer> checkedIntersections) {
+        checkedIntersections.add(intersectionId);
         // base case if road is dead end
         ArrayList<Integer> adjInts = getAdjacentIntersections(intersectionId);
+        for (int i = 0; i < adjInts.size(); i++) {
+            if (hasRoad(adjInts.get(i)) && !checkedIntersections.contains(adjInts.get(i))) {
+                return getRoadLength(adjInts.get(i), checkedIntersections) + 1;
+            }
+        }
         return 0;
-
     }
 
     /**
