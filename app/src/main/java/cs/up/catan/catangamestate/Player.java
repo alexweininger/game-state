@@ -92,7 +92,7 @@ public class Player {
      */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder("");
+        StringBuilder sb = new StringBuilder();
         sb.append("Player ");
         sb.append(playerId);
         sb.append("\nResources = ");
@@ -135,10 +135,7 @@ public class Player {
     }
 
     public boolean hasResources(String key, int amount) {
-        if (resources.get(key).intValue() < amount) {
-            return false;
-        }
-        return true;
+        return resources.get(key).intValue() >= amount;
     }
 
     /**
