@@ -66,6 +66,7 @@ public class Board {
         // populate ids
         populateHexagonIds();
         populateIntersectionIds();
+        populatePortIntersectionIds();
 
         // generate adj. graphs
         hGraphGeneration();
@@ -95,7 +96,7 @@ public class Board {
     }
 
     /**
-     *
+     * adds ports to the intersection and port hash map
      */
     public void populatePortIntersectionIds() {
         for (int i = 0; i < 6; i++) {
@@ -106,14 +107,14 @@ public class Board {
 
     /**
      * @param intersectionId - intersection to check for port adjacency
-     * @return -
+     * @return - if the given intersection is adjacent to a port AW
      */
     public boolean checkPortAdjacency(int intersectionId) {
         return portIntersectionLocations.contains(intersectionId);
     }
 
     /**
-     * @return ArrayList of buildings on board
+     * @return ArrayList of buildings on board AW
      */
     public ArrayList<Building> getBuildings() {
         ArrayList<Building> result = new ArrayList<>();
@@ -126,10 +127,68 @@ public class Board {
     }
 
     /**
-     * @param road
+     * @param road - road to add to the board, this is called after checks are made in the GameState class
      */
-    public void addRoad(Road road) {
+    public boolean addRoad(Road road) {
+        /* 1. check if intersections have buildings owned by other players
+         * 2. check if intersection has building or road owned by player
+         */
+
+
         roads.add(road);
+        return false;
+    }
+
+
+    /**
+     * @param intersectionId
+     * @return
+     */
+    public boolean checkIntersectionForBuilding(int intersectionId) {
+
+        return false;
+    }
+
+    /**
+     * @param intersectionId -
+     * @return -
+     */
+    public ArrayList<Integer> getIntersectionOwners(int intersectionId) {
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        if (buildings.containsKey(intersectionId)) {
+            result.add(buildings.get(intersectionId).getOwnerId());
+            return result;
+        } else if (hasRoad(intersectionId)) {
+            for (int i = 0; i < roads.size(); i++) {
+                if (roads.get(i).getEndIntersectionID() == intersectionId || roads.get(i).getStartIntersectionID() == intersectionId) {
+                    result.add(roads.get(i).getOwnerId());
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * returns whether a given player is an owner of the intersection
+     *
+     * @param intersectionId - intersection to check if playerId owns
+     * @param playerId       - playerId to check against
+     * @return
+     */
+    public boolean isIntersectionOwner(int intersectionId, int playerId) {
+        if (buildings.containsKey(intersectionId) || hasRoad(intersectionId)) {
+            if (buildings.get(intersectionId).getOwnerId() == playerId) {
+                return true;
+            }
+            for (int i = 0; i < roads.size(); i++) {
+                if (roads.get(i).getEndIntersectionID() == intersectionId || roads.get(i).getStartIntersectionID() == intersectionId) {
+                    if (roads.get(i).getOwnerId() == playerId) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -179,20 +238,6 @@ public class Board {
             Log.d("devError", "addBuilding: ERROR added a building when there was already a building here intersection id: " + intersectionId);
         }
         this.buildings.put(intersectionId, building);
-    }
-
-    /**
-     * addRoad - attempts to add a new road to the board,
-     *
-     * @param startIntersectionId -
-     * @param endIntersectionId   -
-     * @param ownerId             -
-     * @return -
-     */
-    public boolean addRoad(int startIntersectionId, int endIntersectionId, int ownerId) {
-
-        Road road = new Road(startIntersectionId, endIntersectionId, ownerId);
-        return false;
     }
 
     /**
