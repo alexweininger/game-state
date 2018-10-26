@@ -285,7 +285,6 @@ public class GameState {
      */
     public boolean robberDiscard(boolean move, EditText edit, int playerId) {
 
-
         if (move) {
             edit.append("Player 2 lost half their cards from the Robber!\n");
             return true;
@@ -294,16 +293,19 @@ public class GameState {
         return false;
     }
 
-    /*robberMove() method
-     *
-     * must check if
+    private boolean checkTurn(int playerId) {
+        return playerId == this.currentPlayerId;
+    }
+
+
+    /*robberMove() method AW
      *
      * If the player has rolled a 7, player will move the robber to another Hexagon that
      * has settlements nearby
      *
      */
     public boolean robberMove(boolean move, EditText edit, int hexagonId, int playerId) {
-        if (playerId != currentPlayerId) {
+        if (checkTurn(playerId)) {
             if (board.moveRobber(hexagonId)) {
                 edit.append("Player " + playerId + " moved the Robber to Hexagon " + hexagonId + "!\n");
                 return true;
