@@ -42,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
                 firstInstance.tradePort(0,"Wood", "Ore", editText);
                 firstInstance.tradeBank(0, "Sheep","Brick", editText);
                 firstInstance.buildSettlement(5, 0, editText);
-                firstInstance.buildCity(9, 0, editText);
-                firstInstance.buildRoad(4, 5, 0, editText);
+                firstInstance.buildCity(0, 5, editText);
+                firstInstance.buildRoad(0, 9, 0, editText);
                 //firstInstance.buyDevCard(true, editText, 0);
                 firstInstance.useDevCard(true, editText, 0);
                 firstInstance.endTurn(true, editText);

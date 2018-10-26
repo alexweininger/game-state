@@ -105,6 +105,13 @@ public class DevelopmentCard {
      */
     @Override
     public String toString() {
-        return "You played + " + name;
+        StringBuilder sb = new StringBuilder("");
+        sb.append("DevelopmentCard{");
+        sb.append("name=");
+        sb.append(name);
+        sb.append(", isPlayable=");
+        sb.append(isPlayable);
+
+        return sb.toString();
     }
 }
