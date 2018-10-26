@@ -167,7 +167,7 @@ public class Board {
      * @return
      */
     public boolean checkIntersectionForBuilding(int intersectionId) {
-
+        // TODO
         return false;
     }
 
