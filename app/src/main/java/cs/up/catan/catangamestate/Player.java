@@ -16,7 +16,6 @@ public class Player {
     private int publicScore;
     private HashMap<String, Integer> resources = new HashMap<String, Integer>(); // k: resource id, v: resource count
     private ArrayList<DevelopmentCards> developmentCards = new ArrayList<DevelopmentCards>(); // ArrayList of the development cards the player owns
-    private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
     private int armySize; // for the knight card
     private int playerId;   // player ID
     private static int playerCount = 1;
@@ -58,13 +57,12 @@ public class Player {
     * this player owns. It will then be added to the board in the specified coordinate
     *
     */
-    public boolean addBuilding(Building building)
-    {
+    public boolean addBuilding(Building building) {
 
-        if(!building.hasResources(this.resources)){
+        if (!building.hasResources(this.resources)) {
             return false;
         }
-        buidlingsBuilt.add(building);
+    }
 
     /**
      *
@@ -160,7 +158,7 @@ public class Player {
     /**
      *
      * @param devCard dev card to remove
-     * @return if action was poissible
+     * @return if action was possible
      */
     public boolean useDevCard(DevelopmentCards devCard) {
         if (developmentCards.contains(devCard)) {
