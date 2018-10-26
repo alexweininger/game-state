@@ -370,6 +370,12 @@ public class GameState {
             playerList.get(playerId).removeResources("Grain", 1);*/
 
         }
+
+        if (move) {
+            edit.append("Player 3 built a Development Card!\n");
+            return true;
+        }
+        edit.append("Player 3 cannot build a Development Card!\n");
         return false;
     }
 
