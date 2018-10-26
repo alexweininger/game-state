@@ -6,7 +6,7 @@ package cs.up.catan.catangamestate;
  * https://github.com/alexweininger/game-state
  **/
 
-public class Knight extends DevelopmentCards {
+public class Knight extends DevelopmentCard {
 
     public Knight() {
         super("Knight");

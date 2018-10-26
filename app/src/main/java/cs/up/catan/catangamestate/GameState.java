@@ -7,9 +7,7 @@ package cs.up.catan.catangamestate;
 
 import android.widget.EditText;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Random;
 
 public class GameState {
 
@@ -112,7 +110,7 @@ public class GameState {
      */
     public void produceResources(int diceSum, EditText edit) {
         ArrayList<Integer> productionHexagonIds = board.getHexagonsFromChitValue(diceSum);
-        for (Integer i: productionHexagonIds) {
+        for (Integer i : productionHexagonIds) {
             /* for each producing hexagon tile TODO
              *   1. find adjacent intersections
              *   2. check if intersections have buildings
@@ -127,6 +125,17 @@ public class GameState {
         }
     }
 
+    /**
+     * TODO HELP me do this
+     * method for when a player must select a number resource cards from their inventory
+     *
+     * @param player        - player to select cards
+     * @param numberOfCards - number of cards to select
+     * @return - array list of card types that were selected: String
+     */
+    public ArrayList<String> selectResourceCards(Player player, int numberOfCards) {
+        return null;
+    }
 
     /* initBuildings method
      *
@@ -274,7 +283,9 @@ public class GameState {
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
      *
      */
-    public boolean robberDiscard(boolean move, EditText edit) {
+    public boolean robberDiscard(boolean move, EditText edit, int playerId) {
+
+
         if (move) {
             edit.append("Player 2 lost half their cards from the Robber!\n");
             return true;
@@ -285,17 +296,25 @@ public class GameState {
 
     /*robberMove() method
      *
+     * must check if
+     *
      * If the player has rolled a 7, player will move the robber to another Hexagon that
      * has settlements nearby
      *
      */
-    public boolean robberMove(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 1 moved the Robber to Hexagon 4!\n");
-            return true;
+    public boolean robberMove(boolean move, EditText edit, int hexagonId, int playerId) {
+        if (playerId != currentPlayerId) {
+            if (board.moveRobber(hexagonId)) {
+                edit.append("Player " + playerId + " moved the Robber to Hexagon " + hexagonId + "!\n");
+                return true;
+            }
+            edit.append("Player " + playerId + "  cannot move the Robber to Hexagon " + hexagonId + "!\n");
+            return false;
+        } else {
+            edit.append("It is not " + playerId + "'s turn. " + hexagonId + "!\n");
+            return false;
         }
-        edit.append("Player 1 cannot move the Robber there!\n");
-        return false;
+
     }
 
     /*robberSteal() method
@@ -319,8 +338,30 @@ public class GameState {
 	TODO
 	 */
 
+    /**
+     * action for a player ending their turn, increments currentPlayerId. As of now does no checks. AW
+     *
+     * @param move - ???
+     * @param edit - text displayed on tablet
+     * @return boolean
+     */
+    public boolean endTurn(boolean move, EditText edit) {
 
-    // toString() TODO
+        if (move) { // if player can end turn
+            edit.append("Player " + currentPlayerId + " has ended their turn.");
+            currentPlayerId++;
+            edit.append("It is now player id: " + currentPlayerId + " turn.");
+            return true;
+        }
+        // if player cant end turn?
+        return false;
+    }
+
+    /**
+     * TODO
+     *
+     * @return String
+     */
     @Override
     public String toString() {
         StringBuilder result = new StringBuilder();

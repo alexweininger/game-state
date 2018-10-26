@@ -5,7 +5,7 @@ package cs.up.catan.catangamestate;
  * @version: October 25th, 2018
  * https://github.com/alexweininger/game-state
  **/
-public class YearOfPlenty extends DevelopmentCards {
+public class YearOfPlenty extends DevelopmentCard {
     public YearOfPlenty() {
         super("Year Of plenty");
     }

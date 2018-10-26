@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-public class DevelopmentCards {
+public class DevelopmentCard {
 
     private ArrayList<Integer> developmentCards = new ArrayList<Integer>(); // ArrayList of the development card in the deck
     private HashMap<String, Integer> resourceCost = new HashMap<>();
@@ -18,7 +18,7 @@ public class DevelopmentCards {
     private String name;
     private boolean isPlayable;
 
-    public DevelopmentCards(String name) {
+    public DevelopmentCard(String name) {
         this.name = name;
         this.isPlayable = false;
     }
@@ -59,7 +59,7 @@ public class DevelopmentCards {
     /**
      * @return the random dev card the player drew
      */
-    public DevelopmentCards getRandomCard() {
+    public DevelopmentCard getRandomCard() {
         Random random = new Random();
         int randomDevCard = random.nextInt(developmentCards.size() - 1);
         int drawnDevCard = developmentCards.get(randomDevCard);
