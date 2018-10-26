@@ -5,9 +5,11 @@ package cs.up.catan.catangamestate;
  * https://github.com/alexweininger/game-state
  **/
 
+import android.util.Log;
 import android.widget.EditText;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class GameState {
 
@@ -33,10 +35,10 @@ public class GameState {
         this.currentPlayerId = 0;
         this.currentDiceSum = 3;
 
-        this.playerList.add(new Player());
-        this.playerList.add(new Player());
-        this.playerList.add(new Player());
-        this.playerList.add(new Player());
+        this.playerList.add(new Player(0));
+        this.playerList.add(new Player(1));
+        this.playerList.add(new Player(2));
+        this.playerList.add(new Player(3));
 
         this.board.toString();
 
@@ -76,30 +78,6 @@ public class GameState {
 
     // TODO move vic points to GameState
     public void updateVictoryPoints() {
-
-    }
-
-    // turn method TODO Niraj
-
-    /**
-     * within this method if they build a building we add it to the board
-     *
-     * @return
-     */
-    private boolean turnHandler() {
-        // board.add()()()
-        return false;
-
-        /*
-        1. roll dice
-
-        2. get action
-        while (!over) {
-           getAction() // get players action
-
-           3. carry out action
-        }
-        */
 
     }
 
@@ -323,13 +301,19 @@ public class GameState {
      * receive a random card from their hand
      *
      */
-    public boolean robberSteal(boolean move, EditText edit) {
-        if (move) {
-            edit.append("Player 1 stole a card from Player 3!\n");
+    public boolean robberSteal(boolean move, EditText edit, int hexagonId, int playerId) {
+        if (playerId == this.currentPlayerId){
+            Random random = new Random();
+            String resource = playerList.get(random.nextInt(3)).getRandomCard();
+
+            playerList.get(playerId).addResources(resource, 1);
+            edit.append("Stolen card " + resource + " added to: " + playerList.get(playerId));
+
             return true;
         }
-        edit.append("Player 1 cannot steal a card!\n");
+        edit.append("Can't steal a card");
         return false;
+
     }
 
 	/*confirmAction();
