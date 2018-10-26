@@ -83,8 +83,8 @@ public class Building {
      */
     public void build(Player player)
     {
-        for(HashMap.Entry<String, Integer> entry: reqResources.entrySet()){
-            if(entry.getValue() < reqResources.get(entry.getKey())){
+        for(HashMap.Entry<String, Integer> entry: resourceCost.entrySet()){
+            if(entry.getValue() < resourceCost.get(entry.getKey())){
                 player.removeResources(entry.getKey(), entry.getValue());
             }
         }
@@ -106,8 +106,8 @@ public class Building {
      *
      */
     public boolean hasResources(HashMap<String, Integer> resources){    //TODO Logic needs to be tested
-        for(HashMap.Entry<String, Integer> entry: reqResources.entrySet()){
-            if(entry.getValue() < reqResources.get(entry.getKey())){
+        for(HashMap.Entry<String, Integer> entry: resourceCost.entrySet()){
+            if(entry.getValue() < resourceCost.get(entry.getKey())){
                 return false;
             }
         }

@@ -6,6 +6,7 @@ package cs.up.catan.catangamestate;
  **/
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 
 import java.util.ArrayList;
@@ -232,7 +233,19 @@ public class GameState {
      * random development card to their development card inventory
      *
      */
-    public boolean buyDevCard(boolean move, EditText edit) {
+    public boolean buyDevCard(boolean move, EditText edit, int playerId) {
+        DevelopmentCard dc = new DevelopmentCard();
+        if (playerId == currentPlayerId){
+            if (playerList.get(playerId).getResources().get("Ore") >= 1 && playerList.get(playerId).getResources().get("Sheep") >= 1 && playerList.get(playerId).getResources().get("Wheat") >= 1){
+
+            }
+            dc.build(playerList.get(playerId));
+            /*playerList.get(playerId).removeResources("Ore", 1);
+            playerList.get(playerId).removeResources("Wool", 1);
+            playerList.get(playerId).removeResources("Grain", 1);*/
+
+        }
+
         if (move) {
             edit.append("Player 3 built a Development Card!\n");
             return true;
@@ -247,7 +260,13 @@ public class GameState {
      * legality and then carry out development cards function
      *
      */
-    public boolean useDevCard(boolean move, EditText edit) {
+    public boolean useDevCard(boolean move, EditText edit, int playerId) {
+        DevelopmentCard dc = new DevelopmentCard();
+        if (playerId == currentPlayerId){
+            //playerList.get(playerId).useDevCard(dc.generateDevCardDeck());
+
+        }
+
         if (move) {
             edit.append("Player 3 used their Knight Card!\n");
             return true;
@@ -261,17 +280,28 @@ public class GameState {
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
      *
      */
-    public boolean robberDiscard(boolean move, EditText edit, int playerId) {
+    public boolean robberDiscard(boolean move, EditText edit) {
 
+        //go through players
+        //check if they need to discard
+        //make an array list of strings that will be discarded
+        //selectResourceCards
+        ArrayList<String> discardedCards = new ArrayList<>();
 
-        if (move) {
-            edit.append("Player 2 lost half their cards from the Robber!\n");
-            return true;
+        for (int n = 0; n < 4; n++){
+            int handSize = playerList.get(n).getResources().size();
+            if (handSize > 7){
+                int newHandSize = handSize / 2;
+                discardedCards = selectResourceCards(playerList.get(n), newHandSize);
+                for (int x = 0; x < discardedCards.size(); x++){
+                    playerList.get(n).removeResources(discardedCards.get(x), 1);
+                }
+            }
         }
-        edit.append("Player 2 owns 7 or less cards!\n");
-        return false;
-    }
+        edit.append("Removed resources from all players");
+        return true;
 
+    }
     /*robberMove() method
      *
      * must check if
