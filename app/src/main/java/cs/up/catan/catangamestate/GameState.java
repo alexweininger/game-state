@@ -26,7 +26,6 @@ public class GameState {
 
     private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
     private int currentLongestRoadPlayerId = -1;
-    private int currentLargestArmyPlayerId; // player who currently has the largest army
 
     // victory points of each player
     private int[] playerVictoryPoints = new int[4];
