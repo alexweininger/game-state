@@ -739,7 +739,7 @@ public class Board {
     public String toString() {
         StringBuilder str = new StringBuilder();
 
-        str.append("\nHexagon IDs:\n");
+        str.append("Hexagon IDs:\n");
         str.append(listToString(this.hexagonIdRings));
         str.append("Intersection IDs:\n");
         str.append(listToString(this.intersectionIdRings));
