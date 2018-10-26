@@ -490,6 +490,11 @@ public class Board {
         return count;
     }
 
+    /**
+     * @param intersectionId
+     * @param checkedIntersections
+     * @return
+     */
     private int getRoadLength(int intersectionId, ArrayList<Integer> checkedIntersections) {
         // base case if road is dead end
         ArrayList<Integer> adjInts = getAdjacentIntersections(intersectionId);
@@ -497,7 +502,16 @@ public class Board {
 
     }
 
+    /**
+     * @param intersectionId -
+     * @return returns if road is connected to given intersection
+     */
     public boolean hasRoad(int intersectionId) {
+        for (int i = 0; i < this.roads.size(); i++) {
+            if (this.roads.get(i).getEndIntersectionID() == intersectionId || this.roads.get(i).getEndIntersectionID() == intersectionId) {
+                return true;
+            }
+        }
         return false;
     }
 
