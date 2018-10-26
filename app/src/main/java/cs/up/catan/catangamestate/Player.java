@@ -16,7 +16,6 @@ public class Player {
     private int publicScore;
     private HashMap<String, Integer> resources = new HashMap<String, Integer>(); // k: resource id, v: resource count
     private ArrayList<DevelopmentCards> developmentCards = new ArrayList<DevelopmentCards>(); // ArrayList of the development cards the player owns
-    private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
     private int armySize; // for the knight card
     private int playerId;   // player ID
     private static int playerCount = 1;
@@ -48,7 +47,22 @@ public class Player {
         this.armySize = player.armySize;
         this.resources = player.resources;
         this.playerId = player.playerId;
-    } // end deepCopy player cons.
+    }
+
+    /*addBuilding
+    *
+    * Check if we can add a building to the map; returns if we cannot
+    *
+    * If we can, it will create the needed building, add it to the list of buildings that
+    * this player owns. It will then be added to the board in the specified coordinate
+    *
+    */
+    public boolean addBuilding(Building building) {
+
+        if (!building.hasResources(this.resources)) {
+            return false;
+        }
+    }
 
     /**
      *
@@ -144,7 +158,7 @@ public class Player {
     /**
      *
      * @param devCard dev card to remove
-     * @return if action was poissible
+     * @return if action was possible
      */
     public boolean useDevCard(DevelopmentCards devCard) {
         if (developmentCards.contains(devCard)) {
