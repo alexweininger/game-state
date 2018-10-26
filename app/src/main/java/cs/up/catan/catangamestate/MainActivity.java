@@ -33,11 +33,11 @@ public class MainActivity extends AppCompatActivity {
                 GameState firstInstance = new GameState();
                 GameState secondInstance = new GameState(firstInstance);
 
-                editText.setText("\n");
-                editText.append("--- First Instance --- \n");
+                editText.setText("");
+                editText.append("--- First Instance --- \n\n");
                 editText.append(firstInstance.toString());
 
-                editText.append("--- First Instance --- \n");
+                editText.append("\n--- First Instance --- \n\n");
                 firstInstance.rollDice(0, editText);
                 firstInstance.tradePort(0,"Wood", "Ore", editText);
                 firstInstance.tradeBank(0, "Sheep","Brick", editText);
@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 firstInstance.endTurn(true, editText);
 
                 editText.append("\n");
-                editText.append("--- First Instance --- \n");
+                editText.append("\n--- First Instance --- \n\n");
                 editText.append(firstInstance.toString());
 
                 editText.append("\n");
@@ -59,10 +59,10 @@ public class MainActivity extends AppCompatActivity {
                 GameState fourthInstance = new GameState(thirdInstance);
 
                 editText.append("\n");
-                editText.append("--- Second Instance --- \n");
+                editText.append("\n--- Second Instance --- \n\n");
                 editText.append(secondInstance.toString());
                 editText.append("\n\n");
-                editText.append("--- Fourth Instance --- \n");
+                editText.append("\n--- Fourth Instance --- \n\n");
                 editText.append(fourthInstance.toString());
             }
         });

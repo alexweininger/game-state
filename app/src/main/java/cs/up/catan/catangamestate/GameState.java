@@ -428,7 +428,7 @@ public class GameState {
                 }
             }
         }
-        edit.append("Removed resources from all players");
+        edit.append("Removed half of all resources from players with more than 7 cards\n");
         return true;
 
     }
