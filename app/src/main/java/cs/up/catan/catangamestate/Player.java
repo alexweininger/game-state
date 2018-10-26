@@ -25,7 +25,7 @@ public class Player {
         this.armySize = 0;
         this.resources.put("Brick", 20);
         this.resources.put("Ore", 20);
-        this.resources.put("Sheep", 20);
+        this.resources.put("Wool", 20);
         this.resources.put("Wheat", 20);
         this.resources.put("Wood", 20);
         this.playerId = id;
@@ -37,10 +37,11 @@ public class Player {
      * @param player -
      */
     public Player(Player player) {
-        this.developmentCards = player.developmentCards;
-        this.armySize = player.armySize;
-        this.resources = player.resources;
-        this.playerId = player.playerId;
+        this.developmentCards = player.getDevelopmentCards();
+        this.armySize = player.getArmySize();
+        this.resources = player.getResources();
+        this.availableBuildings = player.getAvailableBuildings();
+        this.playerId = player.getPlayerId();
     }
 
     /**
@@ -174,6 +175,22 @@ public class Player {
      */
     public void setResources(String resource, int value) {
         this.resources.put(resource, value);
+    }
+
+    public ArrayList<DevelopmentCard> getDevelopmentCards() {
+        return developmentCards;
+    }
+
+    public void setDevelopmentCards(ArrayList<DevelopmentCard> developmentCards) {
+        this.developmentCards = developmentCards;
+    }
+
+    public HashMap<String, Integer> getAvailableBuildings() {
+        return availableBuildings;
+    }
+
+    public void setAvailableBuildings(HashMap<String, Integer> availableBuildings) {
+        this.availableBuildings = availableBuildings;
     }
 
     public String getRandomCard(){
