@@ -60,8 +60,33 @@ public class Player {
         if (resourceCardId < 0 || resourceCardId >= 5) {
             Log.d("devError", "ERROR addResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
         } else {
-            Log.d("devInfo", "INFO addResourceCard: added resourceCardId: " + resourceCardId + " to playerId: " + this.playerId + " resourceCards.");
+            Log.d("devInfo", "INFO addResourceCard: added numToAdd: " + numToAdd + " resourceCardId: " + resourceCardId + " to playerId: " + this.playerId + " resourceCards.");
             this.resourceCards[resourceCardId] += numToAdd;
+        }
+    }
+
+    /**
+     * error checking:
+     * - error checks for valid resourceCardId
+     * - error checks for preventing negative resource card counts
+     *
+     * @param resourceCardId - id of resource card to remove from players inventory
+     * @param numToRemove    - number of resource cards of this type to remove
+     * @return - if numToRemove resource card(s) have been removed from the players inventory
+     */
+    public boolean removeResourceCard(int resourceCardId, int numToRemove) {
+        if (resourceCardId < 0 || resourceCardId >= 5) { // check for valid resourceCardId
+            Log.d("devError", "ERROR removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
+            return false; // did not remove resource cards to players inventory
+        } else {
+            if (this.resourceCards[resourceCardId] >= numToRemove) { // check to prevent negative card counts
+                Log.d("devInfo", "INFO removeResourceCard: removed numToRemove: " + numToRemove + " resourceCardId: " + resourceCardId + " from playerId: " + this.playerId + " resourceCards.");
+                this.resourceCards[resourceCardId] -= numToRemove; // remove cards
+                return true; // removed cards to players inventory
+            } else {
+                Log.d("devError", "ERROR removeResourceCard: cannot remove numToRemove: " + numToRemove + " resourceCardId: " + resourceCardId + " from playerId: " + this.playerId + ". Player currently has " + this.resourceCards[resourceCardId] + " cards of this resource.");
+                return false; // did not remove resource cards to players inventory
+            }
         }
     }
 
