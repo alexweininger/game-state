@@ -1,15 +1,21 @@
 package cs.up.catan.catangamestate;
 /**
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
- * @version: October 10th, 2018
+ * @version: October 25th, 2018
  * https://github.com/alexweininger/game-state
+ *
+ * GameState contains the overall data and actions pertaining to the Settlers of Catan game.
+ *
+ * Main classes that are part of the GameState data, are the Board class which contains all
+ * information about the current board. This includes adjacency maps and the robbers hexagon location.
+ * Other smaller classes are the Dice class, Player class, DevelopmentCard class, and the classes that
+ * are used within those classes.
  **/
 
 import android.widget.EditText;
 
+
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.Random;
 
 public class GameState {
@@ -209,7 +215,7 @@ public class GameState {
      *
      * */
     public boolean rollDice(int playerId, EditText edit) {
-        if(playerId != currentPlayerId){
+        if (playerId != currentPlayerId || isActionPhase) {
             return false;
         }
         int rollNum = dice.roll();
@@ -264,6 +270,7 @@ public class GameState {
      * TODO Implement method
      * */
     public boolean tradeBank(boolean move, EditText edit) {
+
         if (move) {
             edit.append("Player 1 traded with the Bank!\n");
             return true;
@@ -375,8 +382,8 @@ public class GameState {
     }
 
     /**
-     * @param playerId
-     * @return
+     * @param playerId - to check if its their turn
+     * @return whether or not its the given players turn
      */
     private boolean checkTurn(int playerId) {
         return playerId == this.currentPlayerId;
@@ -420,25 +427,19 @@ public class GameState {
         return false;
     }
 
-	/*confirmAction();
-	    --Gamestate will ask player to confirm action; based on player's decision, gamestate decides
-	    --On next steps
-	TODO
-	 */
-
     /**
      * action for a player ending their turn, increments currentPlayerId. As of now does no checks. AW
      *
-     * @param move - ???
+     * @param move -
      * @param edit - text displayed on tablet
-     * @return boolean
+     * @return boolean - if move has been successfully carried out
      */
-    public boolean endTurn(boolean move, EditText edit) {
-
+    public boolean endTurn(boolean move, EditText edit, int playerId) {
         if (move) { // if player can end turn
             edit.append("Player " + currentPlayerId + " has ended their turn.");
             currentPlayerId++;
             edit.append("It is now player id: " + currentPlayerId + " turn.");
+            this.isActionPhase = false;
             return true;
         }
         // if player cant end turn?
