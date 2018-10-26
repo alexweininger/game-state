@@ -7,7 +7,6 @@ package cs.up.catan.catangamestate;
  * https://github.com/alexweininger/game-state
  **/
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
