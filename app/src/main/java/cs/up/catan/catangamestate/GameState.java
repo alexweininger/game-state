@@ -481,7 +481,7 @@ public class GameState {
      * receive a random card from their hand
      *
      */
-    public boolean robberSteal(boolean move, EditText edit, int hexagonId, int playerId) {
+    public boolean robberSteal(int playerId, EditText edit, int hexagonId) {
         if (playerId == this.currentPlayerId){
             Random random = new Random();
             String resource = playerList.get(random.nextInt(3)).getRandomCard();
