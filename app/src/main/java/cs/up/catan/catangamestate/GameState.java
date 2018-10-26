@@ -16,6 +16,7 @@ public class GameState {
     private int currentDiceSum = -1;
 
     private int currentPlayerId = -1; // id of player who is the current playing player
+    private boolean isActionPhase = false; // has the current player rolled the dice
 
     private ArrayList<Player> playerList = new ArrayList<>(); // list of players in game
 
@@ -293,10 +294,13 @@ public class GameState {
         return false;
     }
 
+    /**
+     * @param playerId
+     * @return
+     */
     private boolean checkTurn(int playerId) {
         return playerId == this.currentPlayerId;
     }
-
 
     /*robberMove() method AW
      *
