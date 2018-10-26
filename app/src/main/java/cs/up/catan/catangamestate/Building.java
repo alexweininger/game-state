@@ -13,7 +13,7 @@ public class Building {
 
     //ensures the player has enough resources to build the requested building
     private String buildingName;
-    private HashMap<String, Integer> resourceCost = new HashMap<>();
+    private static HashMap<String, Integer> resourceCost = new HashMap<>();
     private int victoryPoints, ownerId;
 
     /** Building constructor
@@ -105,8 +105,8 @@ public class Building {
      * Return true if there are enough resources; return false if otherwise
      *
      */
-    public boolean hasResources(HashMap<String, Integer> resources){    //TODO Logic needs to be tested
-        for(HashMap.Entry<String, Integer> entry: resourceCost.entrySet()){
+    public static boolean hasResources(HashMap<String, Integer> resources){    //TODO Logic needs to be tested
+        for(HashMap.Entry<String, Integer> entry: resources.entrySet()){
             if(entry.getValue() < resourceCost.get(entry.getKey())){
                 return false;
             }
