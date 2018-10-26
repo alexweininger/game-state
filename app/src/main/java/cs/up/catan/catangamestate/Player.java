@@ -7,6 +7,7 @@ package cs.up.catan.catangamestate;
  * https://github.com/alexweininger/game-state
  **/
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,6 +15,8 @@ public class Player {
 
     /* Player instance variables */
     private HashMap<String, Integer> resources = new HashMap<>(); // k: resource id, v: resource count
+    private ArrayList<String> resourceCards = new ArrayList<>();
+
     private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>(); // ArrayList of the development cards the player owns
     private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
     private int armySize; // for the knight trophy and dev card
@@ -34,7 +37,7 @@ public class Player {
     /**
      * deepCopy constructor
      *
-     * @param player -
+     * @param player - Player object to copy
      */
     public Player(Player player) {
         this.developmentCards = player.getDevelopmentCards();
