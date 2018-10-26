@@ -311,7 +311,7 @@ public class GameState {
             return false;
         }
 
-        if(!Road.hasResources(playerList.get(playerId)getResources())){
+        if(!Road.hasResources(playerList.get(playerId).getResources())){
             edit.append("Player " + playerId + " does not have enough resources!");
         }
 
@@ -337,7 +337,7 @@ public class GameState {
             return false;
         }
 
-        if(!Settlement.hasResources(playerList.get(playerId)getResources())){
+        if(!Settlement.hasResources(playerList.get(playerId).getResources())){
             edit.append("Player " + playerId + " does not have enough resources!");
         }
 
@@ -363,7 +363,7 @@ public class GameState {
             return false;
         }
 
-        if(!City.hasResources(playerList.get(playerId)getResources())){
+        if(!City.hasResources(playerList.get(playerId).getResources())){
             edit.append("Player " + playerId + " does not have enough resources!");
         }
 
