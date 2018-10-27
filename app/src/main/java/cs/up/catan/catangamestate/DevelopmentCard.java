@@ -8,6 +8,7 @@ package cs.up.catan.catangamestate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.Scanner;
 
 public class DevelopmentCard {
 
