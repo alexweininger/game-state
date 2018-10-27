@@ -9,11 +9,12 @@ package cs.up.catan.catangamestate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Player {
 
     /* Player instance variables */
-    private HashMap<String, Integer> resources = new HashMap<>(); // k: resource id, v: resource count
+    private List<String> resources = new ArrayList<>(); // k: resource id, v: resource count
     private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>(); // ArrayList of the development cards the player owns
     private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
     private int armySize; // for the knight trophy and dev card
@@ -23,11 +24,11 @@ public class Player {
      */
     public Player(int id) {
         this.armySize = 0;
-        this.resources.put("Brick", 20);
-        this.resources.put("Ore", 20);
-        this.resources.put("Wool", 20);
-        this.resources.put("Wheat", 20);
-        this.resources.put("Wood", 20);
+        this.resources.add("Brick");
+        this.resources.add("Ore");
+        this.resources.add("Wool");
+        this.resources.add("Wheat");
+        this.resources.add("Wood");
         this.playerId = id;
     }
 
@@ -85,8 +86,8 @@ public class Player {
      * @return if action was possible
      */
     public boolean addResources(String res, int num) {
-        if (this.resources.containsKey(res)) {
-            this.resources.put(res, this.resources.get(res) + num);
+        if (!this.resources.contains(res)) {
+            this.resources.add(res);
             return true;
         }
         return false;
@@ -98,15 +99,15 @@ public class Player {
      * @return if action was possible
      */
     public boolean removeResources(String res, int num) {
-        if (this.resources.containsKey(res)) {
-            this.resources.put(res, this.resources.get(res) - num);
+        if (this.resources.contains(res)) {
+            this.resources.remove(res);
             return true;
         }
         return false;
     }
 
     public boolean hasResources(String key, int amount){
-        if(resources.get(key).intValue() < amount) {
+        if(!resources.contains(key)) {
             return false;
         }
         return true;
@@ -165,7 +166,7 @@ public class Player {
     /**
      * @return hashmap of resources
      */
-    public HashMap<String, Integer> getResources() {
+    public List<String> getResources() {
         return resources;
     }
 
@@ -174,7 +175,7 @@ public class Player {
      * @param value    amount of resource
      */
     public void setResources(String resource, int value) {
-        this.resources.put(resource, value);
+        this.resources.add(resource);
     }
 
     public ArrayList<DevelopmentCard> getDevelopmentCards() {
@@ -198,7 +199,7 @@ public class Player {
         String[] baseResources = {"Brick", "Wool", "Grain", "Ore", "Wood"};
         for (int n = 0; n < resources.size(); n++){
             for (int x = 0; x < baseResources.length; x++) {
-                if (resources.containsKey(baseResources[n])){
+                if (resources.contains(baseResources[n])){
                     resourceNames.add(baseResources[n]);
                 }
             }
