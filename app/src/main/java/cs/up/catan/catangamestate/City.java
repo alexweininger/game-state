@@ -1,6 +1,7 @@
 package cs.up.catan.catangamestate;
 
 import java.util.HashMap;
+import java.util.Scanner;
 
 /**
  * @author: Alex Weininger, Andrew Lang, Daniel Borg, Niraj Mali
