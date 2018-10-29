@@ -13,25 +13,23 @@ import java.util.Random;
 
 public class GameState {
 
-    // GameState instance variables
     private Dice dice; // dice object
-    private int currentDiceSum = -1;
-    private int currentPlayerId = -1; // id of player who is the current playing player
-    private boolean isActionPhase = false; // has the current player rolled the dice
+    private Board board = new Board(); // board object
 
-
-    private ArrayList<Player> playerList = new ArrayList<>(); // list of players in game
-    private Board board = new Board();
-
-    private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
-    private int currentLongestRoadPlayerId = -1;
+    private ArrayList<Player> playerList = new ArrayList<>(); // list of player objects
 
     // victory points of each player
     private int[] playerVictoryPoints = new int[4];
-    private int[] playerPrivateVictoryPoints = new int[4];
+    private int[] playerPrivateVictoryPoints = new int[4]; // private victory points
 
-    // GameState constructor
-    public GameState() {
+    private int currentDiceSum;
+    private int currentPlayerId; // id of player who is the current playing player
+    private boolean isActionPhase = false; // has the current player rolled the dice
+    private int currentLargestArmyPlayerId = -1; // player who currently has the largest army
+    private int currentLongestRoadPlayerId = -1;
+
+
+    GameState() { // GameState constructor
         this.dice = new Dice();
         this.currentPlayerId = 0;
         this.currentDiceSum = 3;
@@ -54,12 +52,13 @@ public class GameState {
         }
     } // end GameState constructor
 
-    /** TODO use deep copies of other classes
+    /**
+     * TODO use deep copies of other classes
      * GameState deep copy constructor
      *
      * @param gameState - GameState object to make a copy of
      */
-    public GameState(GameState gameState) {
+    GameState(GameState gameState) {
         this.dice = gameState.dice;
         this.currentPlayerId = gameState.currentPlayerId;
         this.currentDiceSum = gameState.currentDiceSum;
@@ -83,7 +82,7 @@ public class GameState {
     /**
      * checkArmySize - after each turn checks who has the largest army (amount of played knight cards) with a minimum of 3 knight cards played.
      */
-    public void checkArmySize() {
+    private void checkArmySize() {
         int max = -1;
         if (this.currentLargestArmyPlayerId != -1) {
             max = this.playerList.get(this.currentLargestArmyPlayerId).getArmySize();
@@ -105,7 +104,7 @@ public class GameState {
      * probably just calls a method in board?
      * recursion???
      */
-    public void checkRoadLength() {
+    private void checkRoadLength() {
         int max = -1;
         int playerIdWithLongestRoad = -1;
         if (currentLongestRoadPlayerId != -1) {
@@ -122,8 +121,7 @@ public class GameState {
         }
     }
 
-    // TODO move vic points to GameState
-    public void updateVictoryPoints() {
+    private void updateVictoryPoints() {
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] -= 2;
         }
@@ -146,7 +144,7 @@ public class GameState {
      *
      * @param diceSum - dice sum
      */
-    public void produceResources(int diceSum, EditText edit) {
+    private void produceResources(int diceSum, EditText edit) {
         ArrayList<Integer> productionHexagonIds = board.getHexagonsFromChitValue(diceSum);
         for (Integer i : productionHexagonIds) {
             /* for each producing hexagon tile TODO
@@ -171,7 +169,7 @@ public class GameState {
      * @param numberOfCards - number of cards to select
      * @return - array list of card types that were selected: String
      */
-    public ArrayList<String> selectResourceCards(Player player, int numberOfCards) {
+    private ArrayList<String> selectResourceCards(Player player, int numberOfCards) {
         return null;
     }
 
@@ -183,8 +181,6 @@ public class GameState {
      *
      */
     public boolean initBuilding(boolean move, EditText edit) {
-
-
         if (move) {
             edit.append("Player 1 placed their settlements and roads!\n");
             edit.append("Player 2 placed their settlements and roads!\n");
@@ -195,12 +191,13 @@ public class GameState {
         return false;
     } // end initBuilding action method
 
-    /*rollDice() method
+    /**
+     * Player sends action to game state and game state return number with resources depending on settlements players own and where they're located.
      *
-     * Player sends action to game state and game state return number with
-     * resources depending on settlements players own and where they're located.
-     *
-     * */
+     * @param playerId
+     * @param edit
+     * @return
+     */
     public boolean rollDice(int playerId, EditText edit) {
         if (playerId != currentPlayerId) {
             return false;
@@ -215,16 +212,20 @@ public class GameState {
         return true;
     } // end rollDice action method
 
-    /*tradePort() method
-     *
+    /**
      * Player trades with ports, gives resources and receives a resource;
      * number depends on the resource
-     *
      * error checking:
      * - checks if it is given players turn
      * - checks if it is the action phase of the turn
      * - checks if the player has enough resources to trade
-     * */
+     *
+     * @param playerId
+     * @param givenResourceId
+     * @param receivedResourceId
+     * @param edit
+     * @return
+     */
     public boolean tradePort(int playerId, int givenResourceId, int receivedResourceId, EditText edit) {
         // check if current player's turn and then if player has rolled dice
         if (playerId != this.currentPlayerId) {
@@ -254,12 +255,15 @@ public class GameState {
         return true;
     }
 
-    /*tradeBank() method
+    /**
+     * Player trades with bank, gives resources and receives a resource; number depends on the resource
      *
-     * Player trades with bank, gives resources and receives a resource;
-     * number depends on the resource
-     *
-     * */
+     * @param playerId
+     * @param resGiven
+     * @param resReceive
+     * @param edit
+     * @return
+     */
     public boolean tradeBank(int playerId, String resGiven, String resReceive, EditText edit) {
         //Check if current player's turn and then if player has rolled dice
         if (playerId != this.currentPlayerId) {
@@ -287,13 +291,15 @@ public class GameState {
         return true;
     }
 
-    /*buildRoad() method
+    /**
+     * Player requests to build road ands Gamestate processes requests and returns true if build was successful
      *
-     * Player requests to build road ands Gamestate processes requests and returns true
-     * if build was successful
-     *
-     * TODO Implement method
-     * */
+     * @param playerId            - player building a road
+     * @param startIntersectionID
+     * @param endIntersectionID
+     * @param edit
+     * @return
+     */
     public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID, EditText edit) {
         if (playerId != this.currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
@@ -317,13 +323,14 @@ public class GameState {
         return true;
     }
 
-    /*buildSettlement() method
+    /**
+     * Player requests to build settlement and Gamestate processes requests and returns true if build was successful
      *
-     * Player requests to build settlement and Gamestate processes requests and returns true
-     * if build was successful
-     *
-     * TODO Implement method
-     * */
+     * @param playerId       - player building a settlement
+     * @param intersectionID
+     * @param edit
+     * @return
+     */
     public boolean buildSettlement(int playerId, int intersectionID, EditText edit) {
         if (playerId != this.currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
@@ -346,13 +353,14 @@ public class GameState {
         return true;
     }
 
-    /*buildCity() method
+    /**
+     * Player requests to build city and Gamestate processes requests and returns true if build was successful
      *
-     * Player requests to build city and Gamestate processes requests and returns true
-     * if build was successful
-     *
-     * TODO Implement method
-     * */
+     * @param playerId       - player building a city
+     * @param intersectionID
+     * @param edit
+     * @return
+     */
     public boolean buildCity(int playerId, int intersectionID, EditText edit) {
         if (playerId != this.currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
@@ -374,12 +382,13 @@ public class GameState {
         return true;
     }
 
-    /*buyDevCard() method
+    /**
+     * TODO needs to take a dev card id as parameter and buy that specific card
+     * Player will choose "Development Card" from the build menu, confirm, and then add a random development card to their development card inventory
      *
-     * Player will choose "Development Card" from the build menu, confirm, and then add a
-     * random development card to their development card inventory
-     *
-     * TODO Implement method
+     * @param playerId - player who is requesting to buy dev card
+     * @param edit     -
+     * @return - if dev card was purchased or not
      */
     public boolean buyDevCard(int playerId, EditText edit) {
         DevelopmentCard dc = new DevelopmentCard();
@@ -396,11 +405,14 @@ public class GameState {
         return false;
     }
 
-    /*useDevCard() method
+    /**
+     * TODO needs to take a dev card id as parameter and use that specific card
+     * Player will select a development card they own and use it; gamestate will determine legality and then carry out development cards function
      *
-     * Player will select a development card they own and use it; gamestate will determine
-     * legality and then carry out development cards function
-     *
+     * @param move
+     * @param edit
+     * @param playerId
+     * @return
      */
     public boolean useDevCard(boolean move, EditText edit, int playerId) {
         DevelopmentCard dc = new DevelopmentCard();
@@ -417,10 +429,12 @@ public class GameState {
         return false;
     }
 
-    /*robberDiscard() method
-     *
+    /**
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
      *
+     * @param move
+     * @param edit
+     * @return
      */
     public boolean robberDiscard(boolean move, EditText edit) {
 
@@ -442,7 +456,6 @@ public class GameState {
         }
         edit.append("Removed half of all resources from players with more than 7 cards\n");
         return true;
-
     }
 
     /**
@@ -507,7 +520,8 @@ public class GameState {
 	 */
 
     /**
-     * action for a player ending their turn, increments currentPlayerId. As of now does no checks. AW
+     * TODO needs to take a player id as a parameter and end that players turn also error checking
+     * action for a player ending their turn, increments currentPlayerId. As of now does no checks.
      *
      * @param move - ???
      * @param edit - text displayed on tablet
@@ -527,7 +541,7 @@ public class GameState {
     }
 
     /**
-     * TODO
+     * TODO update???
      *
      * @return String
      */
@@ -557,7 +571,7 @@ public class GameState {
         result.append("currentLongestRoadPlayerId: " + this.currentLongestRoadPlayerId + "\n\n");
 
         for (int i = 0; i < this.playerList.size(); i++) {
-
+            // TODO ???
         }
         str = result.toString();
         return str;
