@@ -265,7 +265,7 @@ public class GameState {
      * number depends on the resource
      *
      * */
-    public boolean tradeBank(int playerId, String resGiven, String resReceive, EditText edit) {
+    public boolean tradeBank(int playerId, int givenResourceId, int receivedResourceId, EditText edit) {
         //Check if current player's turn and then if player has rolled dice
         if (playerId != this.currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
@@ -280,15 +280,15 @@ public class GameState {
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
-        if (this.playerList.get(playerId).getResources().get(resGiven) < ratio) {
+        if (this.playerList.get(playerId).getResources().get(givenResourceId) < ratio) {
             edit.append("Player " + playerId + " does not have enough resources!\n");
             return false;
         }
 
-        this.playerList.get(playerId).removeResources(resGiven, ratio);
-        this.playerList.get(playerId).addResources(resReceive, 1);
+        this.playerList.get(playerId).removeResourceCard(givenResourceId, ratio);
+        this.playerList.get(playerId).addResourceCard(receivedResourceId, 1);
 
-        edit.append("Player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with the Bank!\n");
+        edit.append("Player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + givenResourceId + " with the Bank!\n");
         return true;
     }
 
@@ -407,14 +407,14 @@ public class GameState {
      * legality and then carry out development cards function
      *
      */
-    public boolean useDevCard(boolean move, EditText edit, int playerId) {
+    public boolean useDevCard(int playerId, EditText edit) {
         DevelopmentCard dc = new DevelopmentCard();
         if (playerId == this.currentPlayerId) {
             //playerList.get(playerId).useDevCard(dc.generateDevCardDeck());
 
         }
 
-        if (move) {
+        if (true) {
             edit.append("Player 3 used their Knight Card!\n");
             return true;
         }
@@ -427,7 +427,7 @@ public class GameState {
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
      *
      */
-    public boolean robberDiscard(boolean move, EditText edit) {
+    public boolean robberDiscard(EditText edit) {
 
         //go through players
         //check if they need to discard
@@ -467,7 +467,7 @@ public class GameState {
      * @param playerId
      * @return
      */
-    public boolean robberMove(boolean move, EditText edit, int hexagonId, int playerId) {
+    public boolean robberMove(int playerId, int hexagonId, EditText edit) {
         if (checkTurn(playerId)) {
             if (this.board.moveRobber(hexagonId)) {
                 edit.append("Player " + playerId + " moved the Robber to Hexagon " + hexagonId + "!\n");
@@ -491,7 +491,7 @@ public class GameState {
      * @param playerId
      * @return
      */
-    public boolean robberSteal(boolean move, EditText edit, int hexagonId, int playerId) {
+    public boolean robberSteal(int playerId, int hexagonId, EditText edit) {
         if (playerId == this.currentPlayerId) {
             Random random = new Random();
             String resource = this.playerList.get(random.nextInt(3)).getRandomCard();
@@ -518,9 +518,9 @@ public class GameState {
      * @param edit - text displayed on tablet
      * @return boolean
      */
-    public boolean endTurn(boolean move, EditText edit) {
+    public boolean endTurn(int playerId, EditText edit) {
 
-        if (move) { // if player can end turn
+        if (playerId == currentPlayerId) { // if player can end turn
             edit.append("Player " + this.currentPlayerId + " has ended their turn.");
             this.currentPlayerId++;
             edit.append("It is now player id: " + this.currentPlayerId + " turn.");
