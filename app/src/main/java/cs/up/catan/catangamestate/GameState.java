@@ -54,7 +54,6 @@ public class GameState {
 
     /**
      * TODO use deep copies of other classes
-     * GameState deep copy constructor
      *
      * @param gameState - GameState object to make a copy of
      */
@@ -98,8 +97,7 @@ public class GameState {
     }
 
     /**
-     * checkRoadLength - after each turn check if any player has longest road, with a min of 5 road segments
-     * probably just calls a method in board?
+     * checkRoadLength - after each turn check if any player has longest road, with a min of 5 road segments probably just calls a method in board?
      * recursion???
      */
     private void checkRoadLength() {
