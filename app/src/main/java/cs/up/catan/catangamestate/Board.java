@@ -76,6 +76,9 @@ public class Board {
         generateIntToHexMap();
         generateHexToIntMap();
 
+        // generate hex tiles
+        populateHexagonList();
+
         Log.d("devInfo", "INFO: int to hex map: " + this.intToHexIdMap.toString());
         Log.d("devInfo", "INFO: hex to int map" + this.hexToIntIdMap.toString());
 
@@ -461,7 +464,7 @@ public class Board {
     private void populateHexagonList() {
         int[] resourceTypeCount = {4, 3, 3, 3, 4};
         int[] chitValuesCount = {0, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
-        String[] resources = {"Brick", "Wool", "Grain", "Ore", "Wood"};
+        int[] resources = {0, 1, 2, 3, 4};
         for (int i = 0; i < 18; i++) {
             int max = resourceTypeCount.length - 1;
             Random random = new Random();
