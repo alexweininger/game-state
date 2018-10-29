@@ -85,6 +85,14 @@ public class Board {
     } // end Board constructor
 
     /**
+     * @param intersectionId
+     * @return
+     */
+    public Building getBuildingAtIntersection(int intersectionId) {
+        return this.buildings.get(intersectionId);
+    }
+
+    /**
      * @param b - board to copy
      */
     Board(Board b) {

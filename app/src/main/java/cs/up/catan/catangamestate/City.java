@@ -12,6 +12,7 @@ public class City extends Building {
 
     private int intersectionID;
     private static HashMap<String, Integer> checkResources = new HashMap<>();
+    private int productionNumber = 2;
 
     /**
      *
@@ -39,5 +40,13 @@ public class City extends Building {
     public static void cityResourcePriceMake(){
         checkResources.put("ore", 3);
         checkResources.put("grain", 2);
+    }
+
+    public int getProductionNumber() {
+        return productionNumber;
+    }
+
+    public void setProductionNumber(int productionNumber) {
+        this.productionNumber = productionNumber;
     }
 }

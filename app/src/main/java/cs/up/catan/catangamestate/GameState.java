@@ -75,8 +75,6 @@ public class GameState {
             this.playerVictoryPoints[i] = gameState.playerVictoryPoints[i];
             this.playerPrivateVictoryPoints[i] = gameState.playerPrivateVictoryPoints[i];
         }
-
-
     } // end deep copy constructor
 
     /**
@@ -121,6 +119,9 @@ public class GameState {
         }
     }
 
+    /**
+     *
+     */
     private void updateVictoryPoints() {
         if (this.currentLongestRoadPlayerId != -1) {
             this.playerVictoryPoints[this.currentLongestRoadPlayerId] -= 2;
@@ -140,24 +141,32 @@ public class GameState {
     }
 
     /**
-     * AW
+     * handles resource production AW
      *
      * @param diceSum - dice sum
      */
     private void produceResources(int diceSum, EditText edit) {
         ArrayList<Integer> productionHexagonIds = board.getHexagonsFromChitValue(diceSum);
+        Log.d("devInfo", "INFO: produceResources - hexagons with chit value " + diceSum + ": " + productionHexagonIds.toString());
         for (Integer i : productionHexagonIds) {
-            /* for each producing hexagon tile TODO
-             *   1. find adjacent intersections
-             *   2. check if intersections have buildings
-             *   3. give the owner of each building the corresponding
-             *       amount of the hexagon resource type
-             */
             Hexagon hex = board.getHexagonFromId(i);
-            edit.append("producing " + hex.getResourceType());
+            edit.append("producing " + hex.getResourceId());
+            Log.d("devInfo", "INFO: produceResources - hexagon " + i + " producing " + hex.getResourceId());
 
-            ArrayList<Integer> receivingPlayerIds = new ArrayList<>();
+            ArrayList<Integer> receivingIntersections = this.board.getAdjacentIntersections(i); // intersections adjacent to producing hexagon tile
 
+            for (Integer intersectionId : receivingIntersections) {
+                Building b = this.board.getBuildingAtIntersection(intersectionId);
+                if (null != b) {
+                    if (b.getBuildingName().equals("City")) {
+                        this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), 2);
+                        edit.append("giving 2 resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
+                    } else {
+                        this.playerList.get(b.getOwnerId()).addResourceCard(hex.getResourceId(), 1);
+                        edit.append("giving 1 resources of type: " + hex.getResourceId() + " to player " + b.getOwnerId());
+                    }
+                }
+            }
         }
     }
 
