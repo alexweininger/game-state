@@ -1,7 +1,7 @@
 package cs.up.catan.catangamestate;
 
 public class Hexagon {
-    private String resourceType;
+    private int resourceId;
     private int chitValue;
 
     /**
@@ -10,16 +10,17 @@ public class Hexagon {
      * @param resourceType - resourceType type of hexagon
      * @param chitValue    - dice value of hexagon
      */
-    public Hexagon(String resourceType, int chitValue) {
-        this.resourceType = resourceType;
+    public Hexagon(int resourceType, int chitValue) {
+        this.resourceId = resourceType;
         this.chitValue = chitValue;
     }
 
-    /**
-     * @return
-     */
-    public String getResourceType() {
-        return resourceType;
+    public int getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(int resourceId) {
+        this.resourceId = resourceId;
     }
 
     /**
@@ -37,7 +38,7 @@ public class Hexagon {
         StringBuilder sb = new StringBuilder("");
         sb.append("Hexagon{ ");
         sb.append("resourceType: ");
-        sb.append(resourceType);
+        sb.append(resourceId);
         sb.append(", chitValue: ");
         sb.append(chitValue);
         sb.append("}");
