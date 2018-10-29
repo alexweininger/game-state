@@ -59,7 +59,7 @@ public class GameState {
         }
     } // end GameState constructor
 
-    /**
+    /** TODO use deep copies of other classes
      * GameState deep copy constructor
      *
      * @param gameState - GameState object to make a copy of
@@ -69,7 +69,7 @@ public class GameState {
         this.currentPlayerId = gameState.currentPlayerId;
         this.currentDiceSum = gameState.currentDiceSum;
         this.isActionPhase = gameState.isActionPhase;
-        this.board = gameState.board;
+        this.board = new Board(this.board);
         this.currentLongestRoadPlayerId = gameState.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = gameState.currentLargestArmyPlayerId;
 
