@@ -39,8 +39,8 @@ public class MainActivity extends AppCompatActivity {
 
                 editText.append("\n--- First Instance --- \n\n");
                 firstInstance.rollDice(0, editText);
-                firstInstance.tradePort(0,"Wood", "Ore", editText);
-                firstInstance.tradeBank(0, "Wool","Brick", editText);
+                //firstInstance.tradePort(0,"Wood", "Ore", editText);
+                //firstInstance.tradeBank(0, "Wool","Brick", editText);
                 firstInstance.buildSettlement(0, 0, editText);
                 firstInstance.buildCity(0, 5, editText);
                 firstInstance.buildRoad(0, 9, 0, editText);
