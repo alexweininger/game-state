@@ -17,14 +17,16 @@ public class Player {
     /* Player instance variables */
     private HashMap<String, Integer> resources = new HashMap<>(); // k: resource id, v: resource count
 
-    /* resourceCard index values: 0 = Brick 1 = Ore 2 = Wool 3 = Wheat 4 = Wood */
+    // resourceCard index values: 0 = Brick 1 = Ore 2 = Wool 3 = Wheat 4 = Wood
     private int[] resourceCards = new int[5]; // array for number of each resource card a player has
+
+    // array for relating resource card names to resource card ids in the resourceCards array above
     private String[] resourceCardIds = {"Brick", "Ore", "Wool", "Wheat", "Wood"};
 
     private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>(); // ArrayList of the development cards the player owns
-    private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
-    private int armySize; // for the knight trophy and dev card
-    private int playerId;   // player Id
+    private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available TODO change data type to better one
+    private int armySize; // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
+    private int playerId;   // playerId
 
     /**
      * Player constructor
