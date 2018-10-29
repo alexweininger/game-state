@@ -34,7 +34,6 @@ public class GameState {
     // victory points of each player
     private int[] playerVictoryPoints = new int[4];
     private int[] playerPrivateVictoryPoints = new int[4];
-    private boolean actionPhase = false;
 
     // GameState constructor
     public GameState() {
@@ -73,7 +72,6 @@ public class GameState {
         this.board = gameState.board;
         this.currentLongestRoadPlayerId = gameState.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = gameState.currentLargestArmyPlayerId;
-        this.actionPhase = gameState.actionPhase;
 
         for (int i = 0; i < gameState.playerList.size(); i++) {
             this.playerList.add(new Player(gameState.playerList.get(i)));
@@ -214,7 +212,7 @@ public class GameState {
         }
         int rollNum = dice.roll();
         produceResources(rollNum, edit);
-        actionPhase = true;
+        isActionPhase = true;
 
         StringBuilder str = new StringBuilder();
         str.append("Player " + playerId + " rolled a " + rollNum + "\n");
@@ -239,7 +237,7 @@ public class GameState {
             return false;
         }
         // check if the turn is in the action phase
-        if (!this.actionPhase) {
+        if (!this.isActionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
@@ -273,7 +271,7 @@ public class GameState {
             edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
-        if (!this.actionPhase) {
+        if (!this.isActionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
@@ -306,7 +304,7 @@ public class GameState {
             edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
-        if (!this.actionPhase) {
+        if (!this.isActionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
@@ -336,7 +334,7 @@ public class GameState {
             edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
-        if (!this.actionPhase) {
+        if (!this.isActionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
@@ -365,7 +363,7 @@ public class GameState {
             edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
-        if (!this.actionPhase) {
+        if (!this.isActionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
