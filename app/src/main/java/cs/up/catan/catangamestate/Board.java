@@ -12,7 +12,6 @@ package cs.up.catan.catangamestate;
 
 import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -59,9 +58,6 @@ public class Board {
 
     private ArrayList<Integer> portIntersectionLocations = new ArrayList<>(12);
 
-    /**
-     * defines hexagonIdRings, intersectionIdRings, and hexagonAdjacencyGraph.
-     */
     Board() {
         // populate ids
         populateHexagonIds();
@@ -69,13 +65,19 @@ public class Board {
         populatePortIntersectionIds();
 
         // generate adj. graphs
-        hGraphGeneration();
-        iGraphGeneration();
+        generateHexagonGraph();
+        generateIntersectionGraph();
 
         // print graphs
         printGraph(hGraph);
         printGraph(iGraph);
-        // generateHexToIntIdMap();
+
+        // generate maps
+        generateIntToHexMap();
+        generateHexToIntMap();
+
+        Log.d("devInfo", "INFO: int to hex map: " + this.intToHexIdMap.toString());
+        Log.d("devInfo", "INFO: hex to int map" + this.hexToIntIdMap.toString());
 
         int desertTileId = 0;
         robber = new Robber(desertTileId);
@@ -83,11 +85,9 @@ public class Board {
     } // end Board constructor
 
     /**
-     * board deep copy constructor
-     *
      * @param b - board to copy
      */
-    public Board(Board b) {
+    Board(Board b) {
         this.hexagonIdRings = b.getHexagonIdRings();
         this.intersectionIdRings = b.getIntersectionIdRings();
         this.hGraph = b.gethGraph();
@@ -99,6 +99,389 @@ public class Board {
         this.hexagons = b.getHexagons();
         this.robber = new Robber(b.getRobber());
         this.portIntersectionLocations = b.getPortIntersectionLocations();
+    } // end Board deep copy constructor
+
+    /**
+     * populating hexagonIdRings with hex IDs (0-18, 19 hexagons)
+     */
+    private void populateHexagonIds() {
+        int id = 0;
+        for (int i = 0; i < 3; i++) {
+            this.hexagonIdRings.add(new ArrayList<Integer>());
+            if (0 == i) {
+                this.hexagonIdRings.get(i).add(0);
+                id++;
+            } else {
+                for (int j = 0; j < i * 6; j++) {
+                    this.hexagonIdRings.get(i).add(id);
+                    id++;
+                }
+            }
+        }
+    }
+
+    /**
+     * populating intersectionIdRings with intersection IDs (0-53, 54 intersections)
+     */
+    private void populateIntersectionIds() {
+        int id = 0;
+        for (int i = 0; i < 3; i++) {
+            this.intersectionIdRings.add(new ArrayList<Integer>());
+            for (int j = 0; j < ((2 * i) + 1) * 6; j++) {
+                this.intersectionIdRings.get(i).add(id);
+                id++;
+            }
+        }
+    }
+
+    /**
+     * generateHexagonGraph
+     */
+    private void generateHexagonGraph() {
+        // set all values in the 2d array to false
+        for (int i = 0; i < 2; i++) { // rings
+            for (int j = 0; j < this.hexagonIdRings.get(i).size(); j++) { // cols
+                this.hGraph[i][hexagonIdRings.get(i).get(j)] = false;
+            }
+        }
+        for (int col = 0; col < 6; col++) {
+            hGraph[0][col] = true;
+        }
+        for (int i = 0; i < 2; i++) { // rings (rows)
+            for (int j = 0; j < this.hexagonIdRings.get(i).size(); j++) { // cols
+                // i and j are only 0 once and never are 0 again 0, 0 = center
+                /*
+                 * for each hexagon in hexagonIdRings:
+                 *   1. check the next hexagon in the same ring
+                 *     a. make sure that this 'wraps' around at the end using %
+                 *   2 look at the two adjacent hexagons in the next ring
+                 *     a. corner vs. non-corner hexagons = if j % i == 0
+                 *     b. sextants (0-5), calculated with sextant = j / i;
+                 */
+                int sextant = -1;
+                boolean corner = true;
+                if (i == 0) {
+                    sextant = j;
+                    corner = false;
+                } else {
+                    sextant = j / i;
+                    corner = j % i == 0;
+                }
+
+                this.hGraph[getHexagonId(i, j)][getHexagonId(i + 1, j + sextant)] = true;
+                this.hGraph[getHexagonId(i, j)][getHexagonId(i + 1, j + sextant + 1)] = true;
+
+                if (corner) {
+                    int size = hexagonIdRings.get(i + 1).size();
+                    int nextIndex = ((j - 1 + sextant) % size);
+                    if (nextIndex < 12 && nextIndex >= 0) {
+                        hGraph[getHexagonId(i, j)][getHexagonId(i + 1, nextIndex)] = true;
+                    } else {
+                        // Log.d("dev", "id value wrapped: " + (Math.abs(j - 1 + sextant) % size));
+                        hGraph[getHexagonId(i, j)][getHexagonId(i + 1, size - Math.abs(j - 1 + sextant) % size)] = true;
+                    }
+                }
+            }
+        }
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < hexagonIdRings.get(i).size(); j++) {
+                hGraph[getHexagonId(i, j)][getHexagonId(i, j)] = true;
+                int newIndex = j + 1;
+                int newIndexBack = j - 1;
+
+                if (newIndex >= hexagonIdRings.get(i).size()) {
+                    newIndex = newIndex % hexagonIdRings.get(i).size();
+                }
+                if (newIndexBack < 0) {
+                    newIndexBack = hexagonIdRings.get(i).size() - Math.abs(newIndexBack);
+                }
+                hGraph[getHexagonId(i, j)][getHexagonId(i, newIndex)] = true;
+                hGraph[getHexagonId(i, j)][getHexagonId(i, newIndexBack)] = true;
+            }
+        }
+
+        for (int i = 0; i < hGraph.length; i++) {
+            for (int j = 0; j < hGraph[i].length; j++) {
+                hGraph[j][i] = hGraph[i][j];
+            }
+        }
+    } // end generateHexagonGraph
+
+    /**
+     * generates the intersection adjacency graph
+     */
+    private void generateIntersectionGraph() {
+        // set all values in the 2d array to false
+        for (int i = 0; i < 2; i++) { // rings
+            for (int j = 0; j < this.intersectionIdRings.get(i).size(); j++) { // ids
+                this.iGraph[i][intersectionIdRings.get(i).get(j)] = false;
+            }
+        }
+        for (int i = 0; i < 3; i++) { //rings 0-2
+            boolean hasNextLink = true; // is it looking to the next ring or prev ring
+            int skipCount = 2; // # of intersections to skip to switch hasNext
+            for (int j = 0; j < intersectionIdRings.get(i).size(); j++) { //columns starts at 1 and ends at 0 (wrapped by 1)
+
+                int size = intersectionIdRings.get(i).size();
+                int col = j % size; // wrap if needs to be 0
+                int ringIndexDiff = -1;
+
+                if (i == 1) {
+                    if (skipCount == 0) {
+                        hasNextLink = false;
+                        skipCount = 2;
+                    } else {
+                        hasNextLink = true;
+                        skipCount--;
+                    }
+                    col = (j + 1) % size;
+                }
+
+                if (i == 2) hasNextLink = false;
+
+                int nextIntersection = (col + 1) % size;
+                iGraph[getIntersectionId(i, col)][getIntersectionId(i, nextIntersection)] = true;
+
+                Log.d("dev", "skip: " + skipCount);
+                if (hasNextLink) {
+                    Log.d("dev", "nextLink: i: " + i + " col: " + col + " skip: " + skipCount);
+                    if (col + ringIndexDiff == -1) {
+                        iGraph[getIntersectionId(i, col)][getIntersectionId(i + 1, 15)] = true;
+                    } else {
+                        iGraph[getIntersectionId(i, col)][getIntersectionId(i + 1, col + ringIndexDiff)] = true;
+                    }
+                }
+            }
+        }
+    } // end generateIntersectionGraph method
+
+    /**
+     * generates the hexagon to integer map from the integer to hexagon map
+     */
+    private void generateHexToIntMap() {
+        for (int i = 0; i < 19; i++) {
+            this.hexToIntIdMap.add(new ArrayList<Integer>(6));
+        }
+        for (int i = 0; i < intToHexIdMap.size(); i++) {
+            for (int j = 0; j < intToHexIdMap.get(i).size(); j++) {
+                this.hexToIntIdMap.get(this.intToHexIdMap.get(i).get(j)).add(i);
+            }
+        }
+    }
+
+    /**
+     * manually generates the integer to hexagon map
+     */
+    private void generateIntToHexMap() {
+        for (int i = 0; i < 54; i++) {
+            intToHexIdMap.add(new ArrayList<Integer>(3));
+        }
+        intToHexIdMap.get(0).add(0); // inner ring of intersections (ring 0)
+        intToHexIdMap.get(0).add(1);
+        intToHexIdMap.get(0).add(2);
+
+        intToHexIdMap.get(1).add(0);
+        intToHexIdMap.get(1).add(2);
+        intToHexIdMap.get(1).add(3);
+
+        intToHexIdMap.get(2).add(0);
+        intToHexIdMap.get(2).add(3);
+        intToHexIdMap.get(2).add(4);
+
+        intToHexIdMap.get(3).add(4);
+        intToHexIdMap.get(3).add(5);
+        intToHexIdMap.get(3).add(0);
+
+        intToHexIdMap.get(4).add(0);
+        intToHexIdMap.get(4).add(5);
+        intToHexIdMap.get(4).add(6);
+
+        intToHexIdMap.get(5).add(0);
+        intToHexIdMap.get(5).add(1);
+        intToHexIdMap.get(5).add(6);
+
+        intToHexIdMap.get(6).add(1); // middle ring of intersections (ring 1)
+        intToHexIdMap.get(6).add(2);
+        intToHexIdMap.get(6).add(8);
+
+        intToHexIdMap.get(7).add(2);
+        intToHexIdMap.get(7).add(8);
+        intToHexIdMap.get(7).add(9);
+
+        intToHexIdMap.get(8).add(2);
+        intToHexIdMap.get(8).add(10);
+        intToHexIdMap.get(8).add(9);
+
+        intToHexIdMap.get(9).add(2);
+        intToHexIdMap.get(9).add(3);
+        intToHexIdMap.get(9).add(10);
+
+        intToHexIdMap.get(10).add(3);
+        intToHexIdMap.get(10).add(11);
+        intToHexIdMap.get(10).add(10);
+
+        intToHexIdMap.get(11).add(3);
+        intToHexIdMap.get(11).add(12);
+        intToHexIdMap.get(11).add(11);
+
+        intToHexIdMap.get(12).add(3);
+        intToHexIdMap.get(12).add(4);
+        intToHexIdMap.get(12).add(12);
+
+        intToHexIdMap.get(13).add(4);
+        intToHexIdMap.get(13).add(12);
+        intToHexIdMap.get(13).add(13);
+
+        intToHexIdMap.get(14).add(4);
+        intToHexIdMap.get(14).add(13);
+        intToHexIdMap.get(14).add(14);
+
+        intToHexIdMap.get(15).add(4);
+        intToHexIdMap.get(15).add(5);
+        intToHexIdMap.get(15).add(14);
+
+        intToHexIdMap.get(16).add(5);
+        intToHexIdMap.get(16).add(14);
+        intToHexIdMap.get(16).add(15);
+
+        intToHexIdMap.get(17).add(5);
+        intToHexIdMap.get(17).add(15);
+        intToHexIdMap.get(17).add(16);
+
+        intToHexIdMap.get(18).add(5);
+        intToHexIdMap.get(18).add(6);
+        intToHexIdMap.get(18).add(16);
+
+        intToHexIdMap.get(19).add(6);
+        intToHexIdMap.get(19).add(16);
+        intToHexIdMap.get(19).add(17);
+
+        intToHexIdMap.get(20).add(6);
+        intToHexIdMap.get(20).add(17);
+        intToHexIdMap.get(20).add(18);
+
+        intToHexIdMap.get(21).add(6);
+        intToHexIdMap.get(21).add(1);
+        intToHexIdMap.get(21).add(18);
+
+        intToHexIdMap.get(22).add(1);
+        intToHexIdMap.get(22).add(18);
+        intToHexIdMap.get(22).add(7);
+
+        intToHexIdMap.get(23).add(1);
+        intToHexIdMap.get(23).add(7);
+        intToHexIdMap.get(23).add(8);
+
+        intToHexIdMap.get(24).add(7); // outer ring of intersections (ring 2)
+        intToHexIdMap.get(24).add(8); // side 1
+
+        intToHexIdMap.get(25).add(8);
+
+        intToHexIdMap.get(26).add(8);
+        intToHexIdMap.get(26).add(9);
+
+        intToHexIdMap.get(27).add(9);
+
+        intToHexIdMap.get(28).add(9);
+
+        intToHexIdMap.get(29).add(9); // side 2
+        intToHexIdMap.get(29).add(10);
+
+        intToHexIdMap.get(30).add(10);
+
+        intToHexIdMap.get(31).add(10);
+        intToHexIdMap.get(31).add(11);
+
+        intToHexIdMap.get(32).add(11);
+
+        intToHexIdMap.get(33).add(11);
+
+        intToHexIdMap.get(34).add(11); // side 3
+        intToHexIdMap.get(34).add(12);
+
+        intToHexIdMap.get(35).add(12);
+
+        intToHexIdMap.get(36).add(12);
+        intToHexIdMap.get(36).add(13);
+
+        intToHexIdMap.get(37).add(13);
+
+        intToHexIdMap.get(38).add(13);
+
+        intToHexIdMap.get(39).add(13); // side 4
+        intToHexIdMap.get(39).add(14);
+
+        intToHexIdMap.get(40).add(14);
+
+        intToHexIdMap.get(41).add(14);
+        intToHexIdMap.get(41).add(15);
+
+        intToHexIdMap.get(42).add(15);
+
+        intToHexIdMap.get(43).add(15);
+
+        intToHexIdMap.get(44).add(15); // side 5
+        intToHexIdMap.get(44).add(16);
+
+        intToHexIdMap.get(45).add(16);
+
+        intToHexIdMap.get(46).add(16);
+        intToHexIdMap.get(46).add(17);
+
+        intToHexIdMap.get(47).add(17);
+
+        intToHexIdMap.get(48).add(17);
+
+        intToHexIdMap.get(49).add(17); // side 6
+        intToHexIdMap.get(49).add(18);
+
+        intToHexIdMap.get(50).add(18);
+
+        intToHexIdMap.get(51).add(18);
+        intToHexIdMap.get(51).add(7);
+
+        intToHexIdMap.get(52).add(7);
+
+        intToHexIdMap.get(53).add(7);
+    }
+
+    /**
+     * builds the ArrayList of Hexagon objects, creating the correct amount of each resource tile,
+     * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
+     */
+    private void populateHexagonList() {
+        int[] resourceTypeCount = {4, 3, 3, 3, 4};
+        int[] chitValuesCount = {0, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
+        String[] resources = {"Brick", "Wool", "Grain", "Ore", "Wood"};
+        for (int i = 0; i < 18; i++) {
+            int max = resourceTypeCount.length - 1;
+            Random random = new Random();
+            int randomResourceType = random.nextInt((max) + 1);
+            while (resourceTypeCount[randomResourceType] < 0) {
+                randomResourceType = random.nextInt((max) + 1);
+            }
+            max = chitValuesCount.length - 1;
+            int randomChitValue = random.nextInt((max) + 1);
+            while (chitValuesCount[randomChitValue] < 0) {
+                randomChitValue = random.nextInt((max) + 1);
+            }
+
+
+            hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
+            resourceTypeCount[randomResourceType]--;
+        }
+    }
+
+    /**
+     * TODO remove and fix
+     * adds ports to the intersection and port hash map
+     */
+    private void populatePortIntersectionIds() {
+        for (int i = 0; i < 6; i++) {
+            portIntersectionLocations.add(17 + i * 6);
+            portIntersectionLocations.add(17 + i * 6 + 1);
+        }
     }
 
     /**
@@ -106,22 +489,13 @@ public class Board {
      * @return Hexagon
      */
     Hexagon getHexagonFromId(int hexagonId) {
-        if (hexagonId < 0 || hexagonId >= hexagons.size()) { // error checking
+        if (hexagonId < 0 || hexagonId >= this.hexagons.size()) { // error checking
             Log.d("devError", "getHexagonFromId: ERROR cannot get hexagon with id: " + hexagonId + ". Does not exists in ArrayList hexagons.");
             return null;
         }
-        return hexagons.get(hexagonId);
+        return this.hexagons.get(hexagonId);
     }
 
-    /**
-     * adds ports to the intersection and port hash map
-     */
-    public void populatePortIntersectionIds() {
-        for (int i = 0; i < 6; i++) {
-            portIntersectionLocations.add(17 + i * 6);
-            portIntersectionLocations.add(17 + i * 6 + 1);
-        }
-    }
 
     /**
      * @param intersectionId - intersection to check for port adjacency
@@ -131,9 +505,6 @@ public class Board {
         return portIntersectionLocations.contains(intersectionId);
     }
 
-    public HashMap<Integer, Building> getBuildings() {
-        return buildings;
-    }
 
     /**
      * @return ArrayList of buildings on board AW
@@ -262,33 +633,6 @@ public class Board {
         this.buildings.put(intersectionId, building);
     }
 
-    /**
-     * populateHexagonList - AW
-     * builds the ArrayList of Hexagon objects, creating the correct amount of each resource tile,
-     * randomly assigning them to locations. Also randomly gives Hexagon a chit value.
-     */
-    public void populateHexagonList() {
-        int[] resourceTypeCount = {4, 3, 3, 3, 4};
-        int[] chitValuesCount = {0, 0, 1, 2, 2, 2, 2, 0, 2, 2, 2, 2, 1};
-        String[] resources = {"Brick", "Wool", "Grain", "Ore", "Wood"};
-        for (int i = 0; i < 18; i++) {
-            int max = resourceTypeCount.length - 1;
-            Random random = new Random();
-            int randomResourceType = random.nextInt((max) + 1);
-            while (resourceTypeCount[randomResourceType] < 0) {
-                randomResourceType = random.nextInt((max) + 1);
-            }
-            max = chitValuesCount.length - 1;
-            int randomChitValue = random.nextInt((max) + 1);
-            while (chitValuesCount[randomChitValue] < 0) {
-                randomChitValue = random.nextInt((max) + 1);
-            }
-
-
-            hexagons.add(new Hexagon(resources[randomResourceType], randomChitValue));
-            resourceTypeCount[randomResourceType]--;
-        }
-    }
 
     /**
      * isIntersectionBuildable
@@ -302,6 +646,7 @@ public class Board {
 
 
     /**
+     * TODO TEST
      * getAdjacentIntersections
      *
      * @param intersectionId - given intersection i (0-53)
@@ -322,7 +667,7 @@ public class Board {
     }
 
     /**
-     * getAdjacentHexagons
+     * TODO TEST
      *
      * @param hexagonId - hexagon id that you want to get adjacency of
      * @return ArrayList<Integer> - list of adj. hex id's
@@ -342,48 +687,16 @@ public class Board {
     }
 
     /**
-     * generateHexToIntIdMap
-     * generates hexagon to int id map TODO
-     */
-    private void generateHexToIntIdMap() {
-        for (int i = 0; i < 19; i++) {
-            hexToIntIdMap.add(new ArrayList<Integer>());
-        }
-        for (int i = 0; i < 54; i++) {
-            intToHexIdMap.add(new ArrayList<Integer>());
-        }
-
-        for (int i = 0; i < 3; i++) { // rings
-            for (int j = 0; j < hexagonIdRings.get(i).size(); j++) { // j = hex id
-                int hexId = getHexagonId(i, j);
-                boolean corner = false;
-                corner = j % i == 0;
-                if (corner) {
-                    // 2 prev 4 next
-                    hexToIntIdMap.get(hexId).add(getIntersectionId(i - 1, j));
-                    hexToIntIdMap.get(hexId).add(getIntersectionId(i - 1, j + 1));
-                    hexToIntIdMap.get(hexId).add(getIntersectionId(i, j));
-                    hexToIntIdMap.get(hexId).add(getIntersectionId(i, j - 1));
-                    hexToIntIdMap.get(hexId).add(getIntersectionId(i, j - 2));
-                    hexToIntIdMap.get(hexId).add(getIntersectionId(i, j - 3));
-                } else {
-                    // 3 prev 3 next
-                }
-
-            }
-        }
-    }
-
-    /**
-     * generateIntToHexIdMap TODO
-     */
-    private void generateIntToHexIdMap() {
-
-    }
-
-    /**
-     * intersectionAdjCheck
+     * TODO used for resource production
      *
+     * @param hexagonId - hexagon id
+     * @return - array list of intersection ids that are adjacent to the given hexagon
+     */
+    public ArrayList<Integer> getIntersectoinsAdjToHexagon(int hexagonId) {
+        return this.hexToIntIdMap.get(hexagonId);
+    }
+
+    /**
      * @param intId1 - intersection id
      * @param intId2 - intersection id
      * @return - boolean adjacency
@@ -393,8 +706,6 @@ public class Board {
     }
 
     /**
-     * checkHexagonAdjacency
-     *
      * @param hexId1 -
      * @param hexId2 -
      * @return - boolean
@@ -403,118 +714,8 @@ public class Board {
         return (hGraph[hexId1][hexId2] || hGraph[hexId2][hexId1]);
     }
 
-    /**
-     * populateHexagonIds
-     * populating hexagonIdRings with hex IDs (0-18, 19 hexagons)
-     */
-    private void populateHexagonIds() {
-        int id = 0;
-        for (int i = 0; i < 3; i++) {
-            this.hexagonIdRings.add(new ArrayList<Integer>());
-            if (0 == i) {
-                this.hexagonIdRings.get(i).add(0);
-                id++;
-            } else {
-                for (int j = 0; j < i * 6; j++) {
-                    this.hexagonIdRings.get(i).add(id);
-                    id++;
-                }
-            }
-        }
-    }
 
     /**
-     * populateIntersectionIds
-     * populating intersectionIdRings with intersection IDs (0-53, 54 intersections)
-     */
-    private void populateIntersectionIds() {
-        int id = 0;
-        for (int i = 0; i < 3; i++) {
-            this.intersectionIdRings.add(new ArrayList<Integer>());
-            for (int j = 0; j < ((2 * i) + 1) * 6; j++) {
-                this.intersectionIdRings.get(i).add(id);
-                id++;
-            }
-        }
-    }
-
-    /**
-     * hGraphGeneration
-     */
-    private void hGraphGeneration() {
-        // set all values in the 2d array to false
-        for (int i = 0; i < 2; i++) { // rings
-            for (int j = 0; j < this.hexagonIdRings.get(i).size(); j++) { // cols
-                this.hGraph[i][hexagonIdRings.get(i).get(j)] = false;
-            }
-        }
-        for (int col = 0; col < 6; col++) {
-            hGraph[0][col] = true;
-        }
-        for (int i = 0; i < 2; i++) { // rings (rows)
-            for (int j = 0; j < this.hexagonIdRings.get(i).size(); j++) { // cols
-                // i and j are only 0 once and never are 0 again 0, 0 = center
-                /*
-                 * for each hexagon in hexagonIdRings:
-                 *   1. check the next hexagon in the same ring
-                 *     a. make sure that this 'wraps' around at the end using %
-                 *   2 look at the two adjacent hexagons in the next ring
-                 *     a. corner vs. non-corner hexagons = if j % i == 0
-                 *     b. sextants (0-5), calculated with sextant = j / i;
-                 */
-                int sextant = -1;
-                boolean corner = true;
-                if (i == 0) {
-                    sextant = j;
-                    corner = false;
-                } else {
-                    sextant = j / i;
-                    corner = j % i == 0;
-                }
-
-                this.hGraph[getHexagonId(i, j)][getHexagonId(i + 1, j + sextant)] = true;
-                this.hGraph[getHexagonId(i, j)][getHexagonId(i + 1, j + sextant + 1)] = true;
-
-                if (corner) {
-                    int size = hexagonIdRings.get(i + 1).size();
-                    int nextIndex = ((j - 1 + sextant) % size);
-                    if (nextIndex < 12 && nextIndex >= 0) {
-                        hGraph[getHexagonId(i, j)][getHexagonId(i + 1, nextIndex)] = true;
-                    } else {
-                        // Log.d("dev", "id value wrapped: " + (Math.abs(j - 1 + sextant) % size));
-                        hGraph[getHexagonId(i, j)][getHexagonId(i + 1, size - Math.abs(j - 1 + sextant) % size)] = true;
-                    }
-                }
-            }
-        }
-
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < hexagonIdRings.get(i).size(); j++) {
-                hGraph[getHexagonId(i, j)][getHexagonId(i, j)] = true;
-                int newIndex = j + 1;
-                int newIndexBack = j - 1;
-
-                if (newIndex >= hexagonIdRings.get(i).size()) {
-                    newIndex = newIndex % hexagonIdRings.get(i).size();
-                }
-                if (newIndexBack < 0) {
-                    newIndexBack = hexagonIdRings.get(i).size() - Math.abs(newIndexBack);
-                }
-                hGraph[getHexagonId(i, j)][getHexagonId(i, newIndex)] = true;
-                hGraph[getHexagonId(i, j)][getHexagonId(i, newIndexBack)] = true;
-            }
-        }
-
-        for (int i = 0; i < hGraph.length; i++) {
-            for (int j = 0; j < hGraph[i].length; j++) {
-                hGraph[j][i] = hGraph[i][j];
-            }
-        }
-    } // end hGraphGeneration
-
-    /**
-     * getIntersectionId
-     *
      * @param ring - ring of intersection
      * @param col  - column within ring of intersection
      * @return - int intersection id
@@ -523,58 +724,8 @@ public class Board {
         return intersectionIdRings.get(ring).get(col);
     }
 
-    /**
-     * iGraphGeneration
-     * generates the intersection adjacency graph
-     */
-    private void iGraphGeneration() {
-        // set all values in the 2d array to false
-        for (int i = 0; i < 2; i++) { // rings
-            for (int j = 0; j < this.intersectionIdRings.get(i).size(); j++) { // ids
-                this.iGraph[i][intersectionIdRings.get(i).get(j)] = false;
-            }
-        }
-        for (int i = 0; i < 3; i++) { //rings 0-2
-            boolean hasNextLink = true; // is it looking to the next ring or prev ring
-            int skipCount = 2; // # of intersections to skip to switch hasNext
-            for (int j = 0; j < intersectionIdRings.get(i).size(); j++) { //columns starts at 1 and ends at 0 (wrapped by 1)
-
-                int size = intersectionIdRings.get(i).size();
-                int col = j % size; // wrap if needs to be 0
-                int ringIndexDiff = -1;
-
-                if (i == 1) {
-                    if (skipCount == 0) {
-                        hasNextLink = false;
-                        skipCount = 2;
-                    } else {
-                        hasNextLink = true;
-                        skipCount--;
-                    }
-                    col = (j + 1) % size;
-                }
-
-                if (i == 2) hasNextLink = false;
-
-                int nextIntersection = (col + 1) % size;
-                iGraph[getIntersectionId(i, col)][getIntersectionId(i, nextIntersection)] = true;
-
-                Log.d("dev", "skip: " + skipCount);
-                if (hasNextLink) {
-                    Log.d("dev", "nextLink: i: " + i + " col: " + col + " skip: " + skipCount);
-                    if (col + ringIndexDiff == -1) {
-                        iGraph[getIntersectionId(i, col)][getIntersectionId(i + 1, 15)] = true;
-                    } else {
-                        iGraph[getIntersectionId(i, col)][getIntersectionId(i + 1, col + ringIndexDiff)] = true;
-                    }
-                }
-            }
-        }
-    } // end iGraphGeneration
 
     /**
-     * getHexagonId
-     *
      * @param ring - hexagon ring (0-2)
      * @param col  - column within hexagon ring
      * @return - int hexagon id
@@ -647,11 +798,9 @@ public class Board {
         return hGraph;
     }
 
-
     public boolean[][] getiGraph() {
         return iGraph;
     }
-
 
     public ArrayList<ArrayList<Integer>> getHexToIntIdMap() {
         return hexToIntIdMap;
@@ -661,29 +810,28 @@ public class Board {
         return intToHexIdMap;
     }
 
-
-
     public ArrayList<Road> getRoads() {
         return roads;
     }
 
 
     public ArrayList<Hexagon> getHexagons() {
-        return hexagons;
+        return this.hexagons;
     }
 
     private Robber getRobber() {
-        return robber;
+        return this.robber;
     }
 
+    public HashMap<Integer, Building> getBuildings() {
+        return this.buildings;
+    }
 
     protected ArrayList<Integer> getPortIntersectionLocations() {
-        return portIntersectionLocations;
+        return this.portIntersectionLocations;
     }
 
     /**
-     * printGraph
-     *
      * @param arr - graph array 2d boolean array
      */
     private void printGraph(boolean arr[][]) {
@@ -701,8 +849,6 @@ public class Board {
     } // end printGraph
 
     /**
-     * toString method
-     *
      * @return String
      */
     @Override
@@ -718,8 +864,6 @@ public class Board {
     } // end toString()
 
     /**
-     * listToString - converts list to a string for printing
-     *
      * @param list - list to convert
      * @return - String
      */
