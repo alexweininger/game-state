@@ -7,6 +7,8 @@ package cs.up.catan.catangamestate;
  * https://github.com/alexweininger/game-state
  **/
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -14,14 +16,26 @@ public class Player {
 
     /* Player instance variables */
     private HashMap<String, Integer> resources = new HashMap<>(); // k: resource id, v: resource count
+
+    // resourceCard index values: 0 = Brick 1 = Ore 2 = Wool 3 = Wheat 4 = Wood
+    private int[] resourceCards = new int[5]; // array for number of each resource card a player has
+
+    // array for relating resource card names to resource card ids in the resourceCards array above
+    private String[] resourceCardIds = {"Brick", "Ore", "Wool", "Wheat", "Wood"};
+
     private ArrayList<DevelopmentCard> developmentCards = new ArrayList<>(); // ArrayList of the development cards the player owns
-    private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available
-    private int armySize; // for the knight trophy and dev card
-    private int playerId;   // player Id
+    private HashMap<String, Integer> availableBuildings = new HashMap<>(); // // k: resource id, v: buildings available TODO change data type to better one
+    private int armySize; // determined by how many knight dev cards the player has played, used for determining who currently has the largest army trophy
+    private int playerId;   // playerId
+
     /**
      * Player constructor
      */
-    public Player(int id) {
+    Player(int id) {
+        // initialize all resource card counts to 0
+        for (int i = 0; i < this.resourceCards.length; i++) {
+            this.resourceCards[i] = 0;
+        }
         this.armySize = 0;
         this.resources.put("Brick", 20);
         this.resources.put("Ore", 20);
@@ -34,14 +48,75 @@ public class Player {
     /**
      * deepCopy constructor
      *
-     * @param player -
+     * @param player - Player object to copy
      */
-    public Player(Player player) {
+    Player(Player player) {
         this.developmentCards = player.getDevelopmentCards();
         this.armySize = player.getArmySize();
         this.resources = player.getResources();
         this.availableBuildings = player.getAvailableBuildings();
         this.playerId = player.getPlayerId();
+        this.resourceCards = player.getResourceCards();
+    }
+
+    /**
+     * error checking:
+     * - checks for valid resourceCardId
+     *
+     * @param resourceCardId - index value of resource to add (0-4) defined above
+     * @param numToAdd       - number of resource cards of this type to add to the players inventory AW
+     */
+    public void addResourceCard(int resourceCardId, int numToAdd) {
+        if (resourceCardId < 0 || resourceCardId >= 5) { // check for a valid resourceCardId
+            Log.d("devError", "ERROR addResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
+        } else {
+            Log.d("devInfo", "INFO addResourceCard: added numToAdd: " + numToAdd + " resourceCardId: " + resourceCardId + " to playerId: " + this.playerId + " resourceCards.");
+            this.resourceCards[resourceCardId] += numToAdd; // increase count of the resource card
+        }
+    }
+
+    /**
+     * error checking:
+     * - error checks for valid resourceCardId
+     * - error checks for preventing negative resource card counts
+     *
+     * @param resourceCardId - id of resource card to remove from players inventory
+     * @param numToRemove    - number of resource cards of this type to remove
+     * @return - if numToRemove resource card(s) have been removed from the players inventory
+     */
+    public boolean removeResourceCard(int resourceCardId, int numToRemove) {
+        if (resourceCardId < 0 || resourceCardId >= 5) { // check for valid resourceCardId
+            Log.d("devError", "ERROR removeResourceCard: given resourceCardId: " + resourceCardId + " is invalid. Must be an integer (0-4).");
+            return false; // did not remove resource cards to players inventory
+        } else {
+            if (this.resourceCards[resourceCardId] >= numToRemove) { // check to prevent negative card counts
+                Log.d("devInfo", "INFO removeResourceCard: removed numToRemove: " + numToRemove + " resourceCardId: " + resourceCardId + " from playerId: " + this.playerId + " resourceCards.");
+                this.resourceCards[resourceCardId] -= numToRemove; // remove cards
+                return true; // removed cards to players inventory
+            } else {
+                Log.d("devError", "ERROR removeResourceCard: cannot remove numToRemove: " + numToRemove + " resourceCardId: " + resourceCardId + " from playerId: " + this.playerId + ". Player currently has " + this.resourceCards[resourceCardId] + " cards of this resource.");
+                return false; // did not remove resource cards to players inventory
+            }
+        }
+    }
+
+    /**
+     * @return String showing the number of each resource card the player has
+     */
+    public String printResourceCards() {
+        StringBuilder str = new StringBuilder();
+        for (int i = 0; i < this.resourceCards.length; i++) {
+            str.append(this.resourceCardIds[i]).append(": ").append(this.resourceCards[i]).append(", ");
+        }
+        return str.toString();
+    }
+
+    public int[] getResourceCards() {
+        return this.resourceCards;
+    }
+
+    public void setResourceCards(int[] resourceCards) {
+        this.resourceCards = resourceCards;
     }
 
     /**
@@ -58,26 +133,6 @@ public class Player {
         this.armySize = armySize;
     }
 
-    /**
-     * @return string representation of a Player
-     */
-    @Override
-    public String toString() {
-        StringBuilder sb = new StringBuilder("");
-        sb.append("Player ");
-        sb.append(playerId);
-        sb.append("\nResources = ");
-        sb.append(this.resources);
-        sb.append("\nDevelopment Cards = ");
-        sb.append(this.developmentCards);
-        sb.append("\navailableBuildings = ");
-        sb.append(availableBuildings);
-        sb.append("\narmySize = ");
-        sb.append(armySize);
-        sb.append("\n");
-
-        return sb.toString();
-    }
 
     /**
      * @param res name of resource
@@ -105,12 +160,10 @@ public class Player {
         return false;
     }
 
-    public boolean hasResources(String key, int amount){
-        if(resources.get(key).intValue() < amount) {
-            return false;
-        }
-        return true;
+    public boolean hasResources(String key, int amount) {
+        return resources.get(key).intValue() >= amount;
     }
+
     /**
      * @param devCard dev card to add
      */
@@ -193,27 +246,43 @@ public class Player {
         this.availableBuildings = availableBuildings;
     }
 
-    public String getRandomCard(){
+    public String getRandomCard() {
         ArrayList<String> resourceNames = new ArrayList<>();
         String[] baseResources = {"Brick", "Wool", "Grain", "Ore", "Wood"};
-        for (int n = 0; n < resources.size(); n++){
+        for (int n = 0; n < resources.size(); n++) {
             for (int x = 0; x < baseResources.length; x++) {
-                if (resources.containsKey(baseResources[n])){
+                if (resources.containsKey(baseResources[n])) {
                     resourceNames.add(baseResources[n]);
                 }
             }
         }
-        if (resourceNames.size() == 0){
+        if (resourceNames.size() == 0) {
             return "No Cards in this person's hands!";
         }
-
         String stolenResource = resourceNames.get((int) (Math.random() * resourceNames.size()));
         this.removeResources(stolenResource, 1);
         return stolenResource;
     }
 
-
-
+    /**
+     * @return string representation of a Player
+     */
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Player ");
+        sb.append(playerId);
+        sb.append("\nResources = ");
+        sb.append(this.resources);
+        sb.append("\nDevelopment Cards = ");
+        sb.append(this.developmentCards);
+        sb.append("\navailableBuildings = ");
+        sb.append(availableBuildings);
+        sb.append("\narmySize = ");
+        sb.append(armySize);
+        sb.append("\n");
+        return sb.toString();
+    }
 }
 
 

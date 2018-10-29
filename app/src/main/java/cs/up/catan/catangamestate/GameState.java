@@ -34,11 +34,10 @@ public class GameState {
     // victory points of each player
     private int[] playerVictoryPoints = new int[4];
     private int[] playerPrivateVictoryPoints = new int[4];
-    private boolean actionPhase = false;
 
     // GameState constructor
     public GameState() {
-        this.dice = new Dice(); 
+        this.dice = new Dice();
         this.currentPlayerId = 0;
         this.currentDiceSum = 3;
 
@@ -60,7 +59,11 @@ public class GameState {
         }
     } // end GameState constructor
 
-    // GameState deep copy constructor
+    /**
+     * GameState deep copy constructor
+     *
+     * @param gameState - GameState object to make a copy of
+     */
     public GameState(GameState gameState) {
         this.dice = gameState.dice;
         this.currentPlayerId = gameState.currentPlayerId;
@@ -69,14 +72,12 @@ public class GameState {
         this.board = gameState.board;
         this.currentLongestRoadPlayerId = gameState.currentLongestRoadPlayerId;
         this.currentLargestArmyPlayerId = gameState.currentLargestArmyPlayerId;
-        this.actionPhase = gameState.actionPhase;
 
         for (int i = 0; i < gameState.playerList.size(); i++) {
             this.playerList.add(new Player(gameState.playerList.get(i)));
         }
 
-        for(int i = 0; i < gameState.playerVictoryPoints.length; i++)
-        {
+        for (int i = 0; i < gameState.playerVictoryPoints.length; i++) {
             this.playerVictoryPoints[i] = gameState.playerVictoryPoints[i];
             this.playerPrivateVictoryPoints[i] = gameState.playerPrivateVictoryPoints[i];
         }
@@ -206,12 +207,12 @@ public class GameState {
      *
      * */
     public boolean rollDice(int playerId, EditText edit) {
-        if(playerId != currentPlayerId){
+        if (playerId != currentPlayerId) {
             return false;
         }
         int rollNum = dice.roll();
         produceResources(rollNum, edit);
-        actionPhase = true;
+        isActionPhase = true;
 
         StringBuilder str = new StringBuilder();
         str.append("Player " + playerId + " rolled a " + rollNum + "\n");
@@ -224,34 +225,37 @@ public class GameState {
      * Player trades with ports, gives resources and receives a resource;
      * number depends on the resource
      *
-     * TODO Implement method
-     *
+     * error checking:
+     * - checks if it is given players turn
+     * - checks if it is the action phase of the turn
+     * - checks if the player has enough resources to trade
      * */
-    public boolean tradePort(int playerId, String resGiven, String resReceive, EditText edit) {
-
-        //Check if current player's turn and then if player has rolled dice
-        if(playerId != currentPlayerId){
+    public boolean tradePort(int playerId, int givenResourceId, int receivedResourceId, EditText edit) {
+        // check if current player's turn and then if player has rolled dice
+        if (playerId != this.currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
-        if(!actionPhase){
+        // check if the turn is in the action phase
+        if (!this.isActionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
 
-        //Setting ration then checking resources; if enough, we commence with trade
+        // creating a random trade ratio
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
-        if(playerList.get(playerId).getResources().get(resGiven) < ratio){
+        // check if player has enough resources to complete trade
+        if (this.playerList.get(playerId).getResourceCards()[givenResourceId] < ratio) {
             edit.append("Player" + playerId + " does not have enough resources!\n");
             return false;
         }
 
-        playerList.get(playerId).removeResources(resGiven, ratio);
-        playerList.get(playerId).addResources(resReceive, 1);
+        this.playerList.get(playerId).removeResourceCard(givenResourceId, ratio);
+        this.playerList.get(playerId).addResourceCard(receivedResourceId, 1);
 
-        edit.append("Player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with a Port!\n");
+        edit.append("Player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + receivedResourceId + " with a Port!\n");
         return true;
     }
 
@@ -263,11 +267,11 @@ public class GameState {
      * */
     public boolean tradeBank(int playerId, String resGiven, String resReceive, EditText edit) {
         //Check if current player's turn and then if player has rolled dice
-        if(playerId != currentPlayerId){
+        if (playerId != this.currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
-        if(!actionPhase){
+        if (!this.isActionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
@@ -276,13 +280,13 @@ public class GameState {
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
-        if(playerList.get(playerId).getResources().get(resGiven) < ratio){
+        if (this.playerList.get(playerId).getResources().get(resGiven) < ratio) {
             edit.append("Player " + playerId + " does not have enough resources!\n");
             return false;
         }
 
-        playerList.get(playerId).removeResources(resGiven, ratio);
-        playerList.get(playerId).addResources(resReceive, 1);
+        this.playerList.get(playerId).removeResources(resGiven, ratio);
+        this.playerList.get(playerId).addResources(resReceive, 1);
 
         edit.append("Player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with the Bank!\n");
         return true;
@@ -296,16 +300,16 @@ public class GameState {
      * TODO Implement method
      * */
     public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID, EditText edit) {
-        if(playerId != currentPlayerId){
+        if (playerId != this.currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
-        if(!actionPhase){
+        if (!this.isActionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
 
-        if(playerList.get(playerId).getResources().get("Brick") < 1 && playerList.get(playerId).getResources().get("Wood") < 1){
+        if (this.playerList.get(playerId).getResources().get("Brick") < 1 && this.playerList.get(playerId).getResources().get("Wood") < 1) {
             edit.append("Player " + playerId + " does not have enough resources!\n");
         }
 
@@ -326,17 +330,17 @@ public class GameState {
      * TODO Implement method
      * */
     public boolean buildSettlement(int playerId, int intersectionID, EditText edit) {
-        if(playerId != currentPlayerId){
+        if (playerId != this.currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
-        if(!actionPhase){
+        if (!this.isActionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
 
-        if(playerList.get(playerId).getResources().get("Brick") == 1 && playerList.get(playerId).getResources().get("Grain") == 1
-                && playerList.get(playerId).getResources().get("Wood") == 1 && playerList.get(playerId).getResources().get("Wool") == 1){
+        if (this.playerList.get(playerId).getResources().get("Brick") == 1 && this.playerList.get(playerId).getResources().get("Grain") == 1
+                && this.playerList.get(playerId).getResources().get("Wood") == 1 && this.playerList.get(playerId).getResources().get("Wool") == 1) {
             edit.append("Player " + playerId + " does not have enough resources!\n");
         }
 
@@ -355,16 +359,16 @@ public class GameState {
      * TODO Implement method
      * */
     public boolean buildCity(int playerId, int intersectionID, EditText edit) {
-        if(playerId != currentPlayerId){
+        if (playerId != this.currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
-        if(!actionPhase){
+        if (!this.isActionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
 
-        if(playerList.get(playerId).getResources().get("Ore") == 3 && playerList.get(playerId).getResources().get("Grain") == 2){
+        if (this.playerList.get(playerId).getResources().get("Ore") == 3 && this.playerList.get(playerId).getResources().get("Grain") == 2) {
             edit.append("Player " + playerId + " does not have enough resources!\n");
         }
 
@@ -384,9 +388,9 @@ public class GameState {
      */
     public boolean buyDevCard(int playerId, EditText edit) {
         DevelopmentCard dc = new DevelopmentCard();
-        if (playerId == currentPlayerId){
-            if (playerList.get(playerId).getResources().get("Ore") >= 1 && playerList.get(playerId).getResources().get("Sheep") >= 1 && playerList.get(playerId).getResources().get("Wheat") >= 1){
-                dc.build(playerList.get(playerId));
+        if (playerId == this.currentPlayerId) {
+            if (this.playerList.get(playerId).getResources().get("Ore") >= 1 && this.playerList.get(playerId).getResources().get("Sheep") >= 1 && this.playerList.get(playerId).getResources().get("Wheat") >= 1) {
+                dc.build(this.playerList.get(playerId));
                 return true;
             }
             /*playerList.get(playerId).removeResources("Ore", 1);
@@ -405,7 +409,7 @@ public class GameState {
      */
     public boolean useDevCard(boolean move, EditText edit, int playerId) {
         DevelopmentCard dc = new DevelopmentCard();
-        if (playerId == currentPlayerId){
+        if (playerId == this.currentPlayerId) {
             //playerList.get(playerId).useDevCard(dc.generateDevCardDeck());
 
         }
@@ -431,13 +435,13 @@ public class GameState {
         //selectResourceCards
         ArrayList<String> discardedCards = new ArrayList<>();
 
-        for (int n = 0; n < 4; n++){
-            int handSize = playerList.get(n).getResources().size();
-            if (handSize > 7){
+        for (int n = 0; n < 4; n++) {
+            int handSize = this.playerList.get(n).getResources().size();
+            if (handSize > 7) {
                 int newHandSize = handSize / 2;
-                discardedCards = selectResourceCards(playerList.get(n), newHandSize);
-                for (int x = 0; x < discardedCards.size(); x++){
-                    playerList.get(n).removeResources(discardedCards.get(x), 1);
+                discardedCards = selectResourceCards(this.playerList.get(n), newHandSize);
+                for (int x = 0; x < discardedCards.size(); x++) {
+                    this.playerList.get(n).removeResources(discardedCards.get(x), 1);
                 }
             }
         }
@@ -447,22 +451,25 @@ public class GameState {
     }
 
     /**
-     * @param playerId
-     * @return
+     * @param playerId - id to check
+     * @return - if it is that players turn or not
      */
     private boolean checkTurn(int playerId) {
         return playerId == this.currentPlayerId;
     }
 
-    /*robberMove() method AW
+    /**
+     * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby
      *
-     * If the player has rolled a 7, player will move the robber to another Hexagon that
-     * has settlements nearby
-     *
+     * @param move
+     * @param edit
+     * @param hexagonId
+     * @param playerId
+     * @return
      */
     public boolean robberMove(boolean move, EditText edit, int hexagonId, int playerId) {
         if (checkTurn(playerId)) {
-            if (board.moveRobber(hexagonId)) {
+            if (this.board.moveRobber(hexagonId)) {
                 edit.append("Player " + playerId + " moved the Robber to Hexagon " + hexagonId + "!\n");
                 return true;
             }
@@ -475,19 +482,22 @@ public class GameState {
 
     }
 
-    /*robberSteal() method
+    /**
+     * After the player has moved the Robber, the player will choose a player to steal from and receive a random card from their hand
      *
-     * After the player has moved the Robber, the player will choose a player to steal from and
-     * receive a random card from their hand
-     *
+     * @param move
+     * @param edit
+     * @param hexagonId
+     * @param playerId
+     * @return
      */
-    public boolean robberSteal(int playerId, EditText edit, int hexagonId) {
-        if (playerId == this.currentPlayerId){
+    public boolean robberSteal(boolean move, EditText edit, int hexagonId, int playerId) {
+        if (playerId == this.currentPlayerId) {
             Random random = new Random();
-            String resource = playerList.get(random.nextInt(3)).getRandomCard();
+            String resource = this.playerList.get(random.nextInt(3)).getRandomCard();
 
-            playerList.get(playerId).addResources(resource, 1);
-            edit.append("Stolen card " + resource + " added to: " + playerList.get(playerId));
+            this.playerList.get(playerId).addResources(resource, 1);
+            edit.append("Stolen card " + resource + " added to: " + this.playerList.get(playerId));
 
             return true;
         }
@@ -511,9 +521,9 @@ public class GameState {
     public boolean endTurn(boolean move, EditText edit) {
 
         if (move) { // if player can end turn
-            edit.append("Player " + currentPlayerId + " has ended their turn.");
-            currentPlayerId++;
-            edit.append("It is now player id: " + currentPlayerId + " turn.");
+            edit.append("Player " + this.currentPlayerId + " has ended their turn.");
+            this.currentPlayerId++;
+            edit.append("It is now player id: " + this.currentPlayerId + " turn.");
             updateVictoryPoints();
             return true;
         }
@@ -533,26 +543,25 @@ public class GameState {
 
         result.append("GameState:\n");
         result.append("Current Player: ").append(this.currentPlayerId).append("\n");
-        result.append(currentPlayerId);
+        result.append(this.currentPlayerId);
         result.append("\n");
         result.append("Current Dice Sum: ");
-        result.append(currentDiceSum);
+        result.append(this.currentDiceSum);
         result.append("\n");
         result.append("isActionPhase: ");
-        result.append(isActionPhase);
+        result.append(this.isActionPhase);
         result.append("\n");
 
-        for (int i = 0; i < playerList.size(); i++) {
-            result.append(playerList.get(i).toString() + " "); // TODO
+        for (int i = 0; i < this.playerList.size(); i++) {
+            result.append(this.playerList.get(i).toString() + " "); // TODO
             result.append("\n\n");
         }
         result.append(this.board.toString());
 
-        result.append("currentLargestArmyPlayerId: " + currentLargestArmyPlayerId + "\n");
-        result.append("currentLongestRoadPlayerId: " + currentLongestRoadPlayerId + "\n\n");
+        result.append("currentLargestArmyPlayerId: " + this.currentLargestArmyPlayerId + "\n");
+        result.append("currentLongestRoadPlayerId: " + this.currentLongestRoadPlayerId + "\n\n");
 
-        for(int i = 0; i < playerList.size(); i++)
-        {
+        for (int i = 0; i < this.playerList.size(); i++) {
 
         }
         str = result.toString();
