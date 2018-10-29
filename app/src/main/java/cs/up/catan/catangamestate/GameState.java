@@ -79,8 +79,7 @@ public class GameState {
             this.playerList.add(new Player(gameState.playerList.get(i)));
         }
 
-        for(int i = 0; i < gameState.playerVictoryPoints.length; i++)
-        {
+        for (int i = 0; i < gameState.playerVictoryPoints.length; i++) {
             this.playerVictoryPoints[i] = gameState.playerVictoryPoints[i];
             this.playerPrivateVictoryPoints[i] = gameState.playerPrivateVictoryPoints[i];
         }
@@ -210,7 +209,7 @@ public class GameState {
      *
      * */
     public boolean rollDice(int playerId, EditText edit) {
-        if(playerId != currentPlayerId){
+        if (playerId != currentPlayerId) {
             return false;
         }
         int rollNum = dice.roll();
@@ -228,34 +227,37 @@ public class GameState {
      * Player trades with ports, gives resources and receives a resource;
      * number depends on the resource
      *
-     * TODO Implement method
-     *
+     * error checking:
+     * - checks if it is given players turn
+     * - checks if it is the action phase of the turn
+     * - checks if the player has enough resources to trade
      * */
-    public boolean tradePort(int playerId, String resGiven, String resReceive, EditText edit) {
-
-        //Check if current player's turn and then if player has rolled dice
-        if(playerId != currentPlayerId){
+    public boolean tradePort(int playerId, int givenResourceId, int receivedResourceId, EditText edit) {
+        // check if current player's turn and then if player has rolled dice
+        if (playerId != currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
-        if(!actionPhase){
+        // check if the turn is in the action phase
+        if (!actionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
 
-        //Setting ration then checking resources; if enough, we commence with trade
+        // creating a random trade ratio
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
-        if(playerList.get(playerId).getResources().get(resGiven) < ratio){
+        // check if player has enough resources to complete trade
+        if (playerList.get(playerId).getResourceCards()[givenResourceId] < ratio) {
             edit.append("Player" + playerId + " does not have enough resources!\n");
             return false;
         }
 
-        playerList.get(playerId).removeResources(resGiven, ratio);
-        playerList.get(playerId).addResources(resReceive, 1);
+        playerList.get(playerId).removeResourceCard(givenResourceId, ratio);
+        playerList.get(playerId).addResourceCard(receivedResourceId, 1);
 
-        edit.append("Player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with a Port!\n");
+        edit.append("Player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + receivedResourceId + " with a Port!\n");
         return true;
     }
 
@@ -267,11 +269,11 @@ public class GameState {
      * */
     public boolean tradeBank(int playerId, String resGiven, String resReceive, EditText edit) {
         //Check if current player's turn and then if player has rolled dice
-        if(playerId != currentPlayerId){
+        if (playerId != currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
-        if(!actionPhase){
+        if (!actionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
@@ -280,7 +282,7 @@ public class GameState {
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
-        if(playerList.get(playerId).getResources().get(resGiven) < ratio){
+        if (playerList.get(playerId).getResources().get(resGiven) < ratio) {
             edit.append("Player " + playerId + " does not have enough resources!\n");
             return false;
         }
@@ -300,16 +302,16 @@ public class GameState {
      * TODO Implement method
      * */
     public boolean buildRoad(int playerId, int startIntersectionID, int endIntersectionID, EditText edit) {
-        if(playerId != currentPlayerId){
+        if (playerId != currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
-        if(!actionPhase){
+        if (!actionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
 
-        if(playerList.get(playerId).getResources().get("Brick") < 1 && playerList.get(playerId).getResources().get("Wood") < 1){
+        if (playerList.get(playerId).getResources().get("Brick") < 1 && playerList.get(playerId).getResources().get("Wood") < 1) {
             edit.append("Player " + playerId + " does not have enough resources!\n");
         }
 
@@ -330,17 +332,17 @@ public class GameState {
      * TODO Implement method
      * */
     public boolean buildSettlement(int playerId, int intersectionID, EditText edit) {
-        if(playerId != currentPlayerId){
+        if (playerId != currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
-        if(!actionPhase){
+        if (!actionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
 
-        if(playerList.get(playerId).getResources().get("Brick") == 1 && playerList.get(playerId).getResources().get("Grain") == 1
-                && playerList.get(playerId).getResources().get("Wood") == 1 && playerList.get(playerId).getResources().get("Wool") == 1){
+        if (playerList.get(playerId).getResources().get("Brick") == 1 && playerList.get(playerId).getResources().get("Grain") == 1
+                && playerList.get(playerId).getResources().get("Wood") == 1 && playerList.get(playerId).getResources().get("Wool") == 1) {
             edit.append("Player " + playerId + " does not have enough resources!\n");
         }
 
@@ -359,16 +361,16 @@ public class GameState {
      * TODO Implement method
      * */
     public boolean buildCity(int playerId, int intersectionID, EditText edit) {
-        if(playerId != currentPlayerId){
+        if (playerId != currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
             return false;
         }
-        if(!actionPhase){
+        if (!actionPhase) {
             edit.append("Player " + playerId + " must roll dice first!\n");
             return false;
         }
 
-        if(playerList.get(playerId).getResources().get("Ore") == 3 && playerList.get(playerId).getResources().get("Grain") == 2){
+        if (playerList.get(playerId).getResources().get("Ore") == 3 && playerList.get(playerId).getResources().get("Grain") == 2) {
             edit.append("Player " + playerId + " does not have enough resources!\n");
         }
 
@@ -388,8 +390,8 @@ public class GameState {
      */
     public boolean buyDevCard(int playerId, EditText edit) {
         DevelopmentCard dc = new DevelopmentCard();
-        if (playerId == currentPlayerId){
-            if (playerList.get(playerId).getResources().get("Ore") >= 1 && playerList.get(playerId).getResources().get("Sheep") >= 1 && playerList.get(playerId).getResources().get("Wheat") >= 1){
+        if (playerId == currentPlayerId) {
+            if (playerList.get(playerId).getResources().get("Ore") >= 1 && playerList.get(playerId).getResources().get("Sheep") >= 1 && playerList.get(playerId).getResources().get("Wheat") >= 1) {
                 dc.build(playerList.get(playerId));
                 return true;
             }
@@ -409,7 +411,7 @@ public class GameState {
      */
     public boolean useDevCard(boolean move, EditText edit, int playerId) {
         DevelopmentCard dc = new DevelopmentCard();
-        if (playerId == currentPlayerId){
+        if (playerId == currentPlayerId) {
             //playerList.get(playerId).useDevCard(dc.generateDevCardDeck());
 
         }
@@ -435,12 +437,12 @@ public class GameState {
         //selectResourceCards
         ArrayList<String> discardedCards = new ArrayList<>();
 
-        for (int n = 0; n < 4; n++){
+        for (int n = 0; n < 4; n++) {
             int handSize = playerList.get(n).getResources().size();
-            if (handSize > 7){
+            if (handSize > 7) {
                 int newHandSize = handSize / 2;
                 discardedCards = selectResourceCards(playerList.get(n), newHandSize);
-                for (int x = 0; x < discardedCards.size(); x++){
+                for (int x = 0; x < discardedCards.size(); x++) {
                     playerList.get(n).removeResources(discardedCards.get(x), 1);
                 }
             }
@@ -486,7 +488,7 @@ public class GameState {
      *
      */
     public boolean robberSteal(boolean move, EditText edit, int hexagonId, int playerId) {
-        if (playerId == this.currentPlayerId){
+        if (playerId == this.currentPlayerId) {
             Random random = new Random();
             String resource = playerList.get(random.nextInt(3)).getRandomCard();
 
@@ -555,8 +557,7 @@ public class GameState {
         result.append("currentLargestArmyPlayerId: " + currentLargestArmyPlayerId + "\n");
         result.append("currentLongestRoadPlayerId: " + currentLongestRoadPlayerId + "\n\n");
 
-        for(int i = 0; i < playerList.size(); i++)
-        {
+        for (int i = 0; i < playerList.size(); i++) {
 
         }
         str = result.toString();
