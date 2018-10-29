@@ -240,6 +240,10 @@ public class GameState {
         return true;
     } // end rollDice action method
 
+    private boolean valPlId(int playerId) {
+        return playerId > -1 && playerId < 4;
+    }
+
     /**
      * Player trades with ports, gives resources and receives a resource;
      * number depends on the resource
@@ -288,16 +292,12 @@ public class GameState {
         return true;
     }
 
-    private boolean valPlId(int playerId) {
-        return playerId > -1 && playerId < 4;
-    }
-
     /**
      * Player trades with bank, gives resources and receives a resource; number depends on the resource
      *
      * @param playerId
-     * @param resGiven
-     * @param resReceive
+     * @param givenResourceId
+     * @param receivedResourceId
      * @param edit
      * @return
      */
@@ -466,10 +466,9 @@ public class GameState {
      * TODO needs to take a dev card id as parameter and use that specific card
      * Player will select a development card they own and use it; gamestate will determine legality and then carry out development cards function
      *
-     * @param move
-     * @param edit
-     * @param playerId
-     * @return
+     * Player will select a development card they own and use it; gamestate will determine
+     * legality and then carry out development cards function
+     *
      */
     public boolean useDevCard(boolean move, EditText edit, int playerId) {
         if (!valPlId(playerId)) {
@@ -496,7 +495,6 @@ public class GameState {
     /**
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
      *
-     * @param move
      * @param edit
      * @return
      */
@@ -650,7 +648,7 @@ public class GameState {
         result.append("currentLongestRoadPlayerId: " + this.currentLongestRoadPlayerId + "\n\n");
 
         for (int i = 0; i < this.playerList.size(); i++) {
-            // TODO ???
+
         }
         str = result.toString();
         return str;
