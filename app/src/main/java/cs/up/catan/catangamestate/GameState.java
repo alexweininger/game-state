@@ -451,18 +451,21 @@ public class GameState {
     }
 
     /**
-     * @param playerId
-     * @return
+     * @param playerId - id to check
+     * @return - if it is that players turn or not
      */
     private boolean checkTurn(int playerId) {
         return playerId == this.currentPlayerId;
     }
 
-    /*robberMove() method AW
+    /**
+     * If the player has rolled a 7, player will move the robber to another Hexagon that has settlements nearby
      *
-     * If the player has rolled a 7, player will move the robber to another Hexagon that
-     * has settlements nearby
-     *
+     * @param move
+     * @param edit
+     * @param hexagonId
+     * @param playerId
+     * @return
      */
     public boolean robberMove(boolean move, EditText edit, int hexagonId, int playerId) {
         if (checkTurn(playerId)) {
@@ -479,11 +482,14 @@ public class GameState {
 
     }
 
-    /*robberSteal() method
+    /**
+     * After the player has moved the Robber, the player will choose a player to steal from and receive a random card from their hand
      *
-     * After the player has moved the Robber, the player will choose a player to steal from and
-     * receive a random card from their hand
-     *
+     * @param move
+     * @param edit
+     * @param hexagonId
+     * @param playerId
+     * @return
      */
     public boolean robberSteal(boolean move, EditText edit, int hexagonId, int playerId) {
         if (playerId == this.currentPlayerId) {
