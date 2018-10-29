@@ -51,11 +51,11 @@ public class DevelopmentCard {
      * @param player player who is building a dev card
      */
     public void build(Player player) {
-        player.removeResources("Ore", 1);
-        player.removeResources("Sheep", 1);
-        player.removeResources("Wheat", 1);
+        player.removeResourceCard(1, 1);
+        player.removeResourceCard(2, 1);
+        player.removeResourceCard(3, 1);
 
-        //adds the building to the player's array list of built buildings
+        //adds the building to the player's array list of built buildings TODO
         player.addDevCard(getRandomCard());
     }
 
