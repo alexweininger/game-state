@@ -38,7 +38,7 @@ public class GameState {
 
     // GameState constructor
     public GameState() {
-        this.dice = new Dice();
+        this.dice = new Dice(); 
         this.currentPlayerId = 0;
         this.currentDiceSum = 3;
 
