@@ -167,7 +167,7 @@ public class Board {
      * @return
      */
     public boolean checkIntersectionForBuilding(int intersectionId) {
-
+        // TODO
         return false;
     }
 
@@ -647,68 +647,38 @@ public class Board {
         return hGraph;
     }
 
-    public void sethGraph(boolean[][] hGraph) {
-        this.hGraph = hGraph;
-    }
 
     public boolean[][] getiGraph() {
         return iGraph;
     }
 
-    public void setiGraph(boolean[][] iGraph) {
-        this.iGraph = iGraph;
-    }
 
     public ArrayList<ArrayList<Integer>> getHexToIntIdMap() {
         return hexToIntIdMap;
-    }
-
-    public void setHexToIntIdMap(ArrayList<ArrayList<Integer>> hexToIntIdMap) {
-        this.hexToIntIdMap = hexToIntIdMap;
     }
 
     public ArrayList<ArrayList<Integer>> getIntToHexIdMap() {
         return intToHexIdMap;
     }
 
-    public void setIntToHexIdMap(ArrayList<ArrayList<Integer>> intToHexIdMap) {
-        this.intToHexIdMap = intToHexIdMap;
-    }
 
-    public void setBuildings(HashMap<Integer, Building> buildings) {
-        this.buildings = buildings;
-    }
 
     public ArrayList<Road> getRoads() {
         return roads;
     }
 
-    public void setRoads(ArrayList<Road> roads) {
-        this.roads = roads;
-    }
 
     public ArrayList<Hexagon> getHexagons() {
         return hexagons;
     }
 
-    public void setHexagons(ArrayList<Hexagon> hexagons) {
-        this.hexagons = hexagons;
-    }
-
-    public Robber getRobber() {
+    private Robber getRobber() {
         return robber;
     }
 
-    public void setRobber(Robber robber) {
-        this.robber = robber;
-    }
 
-    public ArrayList<Integer> getPortIntersectionLocations() {
+    protected ArrayList<Integer> getPortIntersectionLocations() {
         return portIntersectionLocations;
-    }
-
-    public void setPortIntersectionLocations(ArrayList<Integer> portIntersectionLocations) {
-        this.portIntersectionLocations = portIntersectionLocations;
     }
 
     /**
