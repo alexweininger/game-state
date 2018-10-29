@@ -112,7 +112,7 @@ public class Player {
     }
 
     public int[] getResourceCards() {
-        return resourceCards;
+        return this.resourceCards;
     }
 
     public void setResourceCards(int[] resourceCards) {
