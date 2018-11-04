@@ -238,6 +238,10 @@ public class GameState {
         return true;
     } // end rollDice action method
 
+    private boolean valPlId(int playerId) {
+        return playerId > -1 && playerId < 4;
+    }
+
     /**
      * Player trades with ports, gives resources and receives a resource;
      * number depends on the resource
@@ -286,24 +290,16 @@ public class GameState {
         return true;
     }
 
-    private boolean valPlId(int playerId) {
-        return playerId > -1 && playerId < 4;
-    }
-
     /**
      * Player trades with bank, gives resources and receives a resource; number depends on the resource
      *
      * @param playerId
-     * @param resGiven
-     * @param resReceive
+     * @param givenResourceId
+     * @param receivedResourceId
      * @param edit
      * @return
      */
-    public boolean tradeBank(int playerId, String resGiven, String resReceive, EditText edit) {
-        if (!valPlId(playerId)) {
-            Log.d("devError", "ERROR: tradeBank - invalid player id: " + playerId);
-            return false;
-        }
+    public boolean tradeBank(int playerId, int givenResourceId, int receivedResourceId, EditText edit) {
         //Check if current player's turn and then if player has rolled dice
         if (playerId != this.currentPlayerId) {
             edit.append("It is not Player " + playerId + "'s turn!\n");
@@ -319,15 +315,15 @@ public class GameState {
         Random random = new Random();
         int ratio = random.nextInt(1) + 2;
 
-        if (this.playerList.get(playerId).getResources().get(resGiven) < ratio) {
+        if (this.playerList.get(playerId).getResources().get(givenResourceId) < ratio) {
             edit.append("Player " + playerId + " does not have enough resources!\n");
             return false;
         }
 
-        this.playerList.get(playerId).removeResources(resGiven, ratio);
-        this.playerList.get(playerId).addResources(resReceive, 1);
+        this.playerList.get(playerId).removeResourceCard(givenResourceId, ratio);
+        this.playerList.get(playerId).addResourceCard(receivedResourceId, 1);
 
-        edit.append("Player " + playerId + " traded " + ratio + " " + resGiven + " for a " + resReceive + " with the Bank!\n");
+        edit.append("Player " + playerId + " traded " + ratio + " " + givenResourceId + " for a " + givenResourceId + " with the Bank!\n");
         return true;
     }
 
@@ -468,10 +464,9 @@ public class GameState {
      * TODO needs to take a dev card id as parameter and use that specific card
      * Player will select a development card they own and use it; gamestate will determine legality and then carry out development cards function
      *
-     * @param move
-     * @param edit
-     * @param playerId
-     * @return
+     * Player will select a development card they own and use it; gamestate will determine
+     * legality and then carry out development cards function
+     *
      */
     public boolean useDevCard(boolean move, EditText edit, int playerId) {
         if (!valPlId(playerId)) {
@@ -487,7 +482,7 @@ public class GameState {
 
         }
 
-        if (move) {
+        if (true) {
             edit.append("Player 3 used their Knight Card!\n");
             return true;
         }
@@ -498,11 +493,10 @@ public class GameState {
     /**
      * Player chooses cards to discard if they own more than 7 cards and robber is activated
      *
-     * @param move
      * @param edit
      * @return
      */
-    public boolean robberDiscard(boolean move, EditText edit) {
+    public boolean robberDiscard(EditText edit) {
 
         //go through players
         //check if they need to discard
@@ -652,7 +646,7 @@ public class GameState {
         result.append("currentLongestRoadPlayerId: " + this.currentLongestRoadPlayerId + "\n\n");
 
         for (int i = 0; i < this.playerList.size(); i++) {
-            // TODO ???
+
         }
         str = result.toString();
         return str;
