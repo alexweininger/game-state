@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 firstInstance.robberDiscard(true, editText);
                 //firstInstance.buyDevCard(true, editText, 0);
                 firstInstance.useDevCard(true, editText, 0);
-                firstInstance.endTurn(true, editText);
+                firstInstance.endTurn(0, true, editText);
 
                 editText.append("\n");
                 editText.append("\n--- First Instance --- \n\n");
